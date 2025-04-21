@@ -13,11 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/1.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Levels/WPB_MainMenu.uasset" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +60,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "UnrealLogSettings",
+    "settings.editor.selected.configurable": "UnrealLinkOptionsId",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -178,8 +175,26 @@
       <workItem from="1745006444651" duration="1503000" />
       <workItem from="1745009005774" duration="628000" />
       <workItem from="1745086167153" duration="2905000" />
-      <workItem from="1745226498134" duration="776000" />
+      <workItem from="1745226498134" duration="6784000" />
+      <workItem from="1745261506144" duration="330000" />
     </task>
+    <task id="LOCAL-00001" summary="update 1.0.1&#10;creating a clear folder structure on the stage">
+      <option name="closed" value="true" />
+      <created>1745227748103</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745227748103</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update 1.0.2&#10;creating a clear folder structure on the stage">
+      <option name="closed" value="true" />
+      <created>1745227779780</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745227779780</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,6 +204,9 @@
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="update 1.0.1&#10;creating a clear folder structure on the stage" />
+    <MESSAGE value="update 1.0.2&#10;creating a clear folder structure on the stage" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 1.0.2&#10;creating a clear folder structure on the stage" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

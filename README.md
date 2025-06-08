@@ -3,7 +3,7 @@
 _Игровой проект с фокусом на систематизацию разработки_
 
 ---
-
+#Miro https://miro.com/welcomeonboard/QVc4NmRsSEdSM0dLWDVnZDZKRGZMdll5OXJqdEdOU01RUFBiQkZiVGw2b0o0di91NGFvaEh0L3Q3RzVxWXBvdkttVC84UFZvbWpJaWhqL3lTUUVaNEhXdDl6dmZFNFNjWm9FWWxOK1VEQklwYjhzRWM2MkhxMGtaeWppMzVhSWFhWWluRVAxeXRuUUgwWDl3Mk1qRGVRPT0hdjE=?share_link_id=771227404236
 ## 📌 Основные правила
 - **Главная ветка** `main`  
   ▶️ Коммиты только от меня  

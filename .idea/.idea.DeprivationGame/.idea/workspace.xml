@@ -19,20 +19,190 @@
     <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_BackWheel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_BackWheel.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_Car.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_Car.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_FrontWheel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_FrontWheel.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Doors/BP_Door3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/GM_LevelOneGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/GM_LevelOneGameMode.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BluePrints/HG_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/HG_PlayerController.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_Interaction.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_Interaction.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_Menu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_Menu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_PlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Interfaces/BPI_VehicleInteraction.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsWidgets/WBP_GameSettings.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsWidgets/WBP_GameSettings.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsWidgets/WBP_HeaderSettings.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsWidgets/WBP_HeaderSettings.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WBP_BaseWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WBP_BaseWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WBP_Proof.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WBP_Proof.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WPB_Navigation.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WPB_Navigation.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernew.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernew_Font.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernewbold.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernewbold_Font.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernewbolditalic.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernewbolditalic_Font.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernewitalic.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Fonts/Courier_New/couriernewitalic_Font.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas4/Atlas4_NormalMap.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas4/atlas4.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas4/atlas4_Armh.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas4/atlas4_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas5/Atlas5.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas5/atlas5_ARMH.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas5/atlas5_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/Atlas5/atlas5_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/House.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/House/atlas4.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IA_Accelerate.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IA_Brake.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IA_EnterExitVehicle.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IA_Steer.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IMC_Vehicle.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Levels/1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE_PhysicsAsset.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE_PhysicsAsset.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE_Skeleton.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DeprivationGame.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DeprivationGame.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DeprivationGame.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/DeprivationGame.uproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/DeprivationGame.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/DeprivationGame.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/DeprivationGame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/DeprivationGame.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Levels/MainMenuLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/MainMenuLevel.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PostProcessingShade/PosterizingPixelation.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_DefaultMaterial_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_DefaultMaterial_Emissive.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_DefaultMaterial_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_DefaultMaterial_OcclusionRoughnessMetallic.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_003.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_007.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_018.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_021.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_022.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_023.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_029.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_033.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Deprivation_Props_cube_044.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props/1/Props1.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Glass.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/NotMainProducts.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/ProductsReady.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_002.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_003.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_004.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_005.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_006.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_007.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_008.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_009.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_010.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_011.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_012.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_013.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_014.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_015.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_016.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_017.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_018.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_019.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_020.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_021.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_022.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_023.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_024.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_025.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_026.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_027.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_028.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_029.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_030.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_031.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_032.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_033.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_034.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_035.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_036.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_037.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_038.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_039.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_040.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_041.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_042.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_043.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_044.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_045.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_046.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_047.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_048.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_049.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_050.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_051.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_052.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_053.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_054.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_055.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_056.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_057.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/productsNotMain_Low_058.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/products_bake_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/Products/NotMain/products_bake_OcclusionRoughnessMetallic.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_Glass_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_Glass_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_Glass_OcclusionRoughnessMetallic.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_audi_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_audi_Emissive.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_audi_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Audi_audi_OcclusionRoughnessMetallic.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/Glass.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/audi/material/audi.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/PropsMain/mesh/AudiUE_PhysicsAsset.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_DefaultMaterial_BaseColor_1001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_DefaultMaterial_Emissive_1001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_DefaultMaterial_Normal_1001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_DefaultMaterial_OcclusionRoughnessMetallic_1001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_003.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_007.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_018.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_021.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_022.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_023.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_029.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_033.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/Deprivation_Props_cube_044.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Props_pack_1/PROPS_PACK_1.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/VertexSnappingFunction/MF_VertexSnapping.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/VertexSnappingFunction/MPC_GlbalParams.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/DourHouse_DoorBalcon.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/DourHouse_DoorBasezatichka.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/DourHouse_DoorSpalna.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/doors_Door_MainEnter.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/doors_doorToilet_Exit_Man.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/doors_doorToilet_Exit_Women.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/doors/doors_door_Toilet.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/PropsInMagazin_Casir_Bydka.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/PropsInMagazin_Holodilnik_Gazirovka.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/PropsInMagazin_Holodilnik_Producti.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/PropsInMagazin_Polka_Main.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/PropsInMagazin_Polka_Stena.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/atlas3.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/atlas3_Armh.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/atlas3_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/atlas3_Emission.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/PropsInMagazin/atlas3_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas1/atlas_Armh.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas1/atlas_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas1/atlas_Emission.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas1/atlas_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas1/zapravkaAtlas.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas2/atlas2.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas2/atlas2_ARMH.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas2/atlas2_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas2/atlas2_Emissiv.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/atlas2/atlas2_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/glass/glass.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/magaz/magazinMesh/Zapravka.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/test/NewMaterial.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/test/asphalt_Armh.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/test/asphalt_basecolor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/test/asphalt_normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Vehicle/DeprivationCar.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Vehicle/DeprivationCar.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +228,8 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/ChaosWheeledVehicleMovementComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/ChaosVehicleMovementComponent.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/ChaosWheeledVehicleMovementComponent.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/WheeledVehiclePawn.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/AutomationTool/Gauntlet/Platform/Windows/Gauntlet.WindowsPGO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Build/Platform/Mac/ApplePlatformSDK.cs" root0="FORCE_HIGHLIGHTING" />
@@ -105,7 +276,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;code&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/laptop/Documents/Unreal Projects/DeprivationGame&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -336,6 +507,15 @@
       <workItem from="1750530630395" duration="539000" />
       <workItem from="1750532076895" duration="1411000" />
       <workItem from="1750575453119" duration="977000" />
+      <workItem from="1750765588268" duration="2914000" />
+      <workItem from="1750775188884" duration="5981000" />
+      <workItem from="1750862526948" duration="39000" />
+      <workItem from="1750950203442" duration="2634000" />
+      <workItem from="1750958680198" duration="188000" />
+      <workItem from="1750963845883" duration="129000" />
+      <workItem from="1750971262344" duration="162000" />
+      <workItem from="1750971469115" duration="638000" />
+      <workItem from="1750972195968" duration="565000" />
     </task>
     <task id="LOCAL-00001" summary="update 1.0.1&#10;creating a clear folder structure on the stage">
       <option name="closed" value="true" />
@@ -361,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745267562158</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="merge code branch">
+      <option name="closed" value="true" />
+      <created>1750686498812</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1750686498813</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -388,7 +576,9 @@
     <MESSAGE value="update 1.0.1&#10;creating a clear folder structure on the stage" />
     <MESSAGE value="update 1.0.2&#10;creating a clear folder structure on the stage" />
     <MESSAGE value="update 1.0.3&#10;create main menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="update 1.0.3&#10;create main menu" />
+    <MESSAGE value="1.0.5 creating main menu and car class + FPS Character" />
+    <MESSAGE value="merge code branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge code branch" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

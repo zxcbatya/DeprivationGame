@@ -17,16 +17,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EDrunkState.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EDrunkState.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/HG_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/HG_PlayerController.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WPB_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/WPB_MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_BackWheel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_BackWheel.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_Car.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_Car.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_FrontWheel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_FrontWheel.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffects.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffects.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffectsStateThree.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffectsStateTwo.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_MainPlayerWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_MainPlayerWidget.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Levels/1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/1.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,6 +349,9 @@
       <workItem from="1751114135112" duration="8058000" />
       <workItem from="1751136753281" duration="2497000" />
       <workItem from="1751175911977" duration="597000" />
+      <workItem from="1751182174544" duration="1825000" />
+      <workItem from="1751405833837" duration="4172000" />
+      <workItem from="1751490091065" duration="2300000" />
     </task>
     <task id="LOCAL-00001" summary="update 1.0.1&#10;creating a clear folder structure on the stage">
       <option name="closed" value="true" />
@@ -387,7 +393,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750973043078</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Update 1.0.7 creating DrunkSystem">
+      <option name="closed" value="true" />
+      <created>1751182370992</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1751182370992</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -417,7 +431,8 @@
     <MESSAGE value="1.0.5 creating main menu and car class + FPS Character" />
     <MESSAGE value="merge code branch" />
     <MESSAGE value="update 1.0.6 creating car sukaaaa daaaa ebana vehicle workkk!!!!! !!!!!!!!!!!!!!!!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="update 1.0.6 creating car sukaaaa daaaa ebana vehicle workkk!!!!! !!!!!!!!!!!!!!!!!!" />
+    <MESSAGE value="Update 1.0.7 creating DrunkSystem" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update 1.0.7 creating DrunkSystem" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

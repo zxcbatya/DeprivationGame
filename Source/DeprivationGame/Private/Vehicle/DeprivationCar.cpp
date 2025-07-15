@@ -94,6 +94,7 @@ void ADeprivationCar::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::HandbrakePressed);
 		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::HandbrakeReleased);
 	}
+	
 }
 
 void ADeprivationCar::Tick(float DeltaTime)
@@ -103,81 +104,57 @@ void ADeprivationCar::Tick(float DeltaTime)
 
 void ADeprivationCar::Accelerate(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		float ThrottleValue = Value.Get<float>();
 		VehicleMovement->SetThrottleInput(ThrottleValue);
-		UE_LOG(LogDeprivationCar, Warning, TEXT("Accelerate: ThrottleValue = %f"), ThrottleValue);
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Green, FString::Printf(TEXT("Accelerate: %f"), ThrottleValue));
-		}
 	}
 }
 
 void ADeprivationCar::StopAccelerate()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetThrottleInput(0.0f);
-		UE_LOG(LogDeprivationCar, Warning, TEXT("StopAccelerate"));
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Red, TEXT("StopAccelerate"));
-		}
 	}
 }
 
 void ADeprivationCar::Steer(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		float SteerValue = Value.Get<float>();
 		VehicleMovement->SetSteeringInput(SteerValue);
-		UE_LOG(LogDeprivationCar, Warning, TEXT("Steer: SteerValue = %f"), SteerValue);
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Blue, FString::Printf(TEXT("Steer: %f"), SteerValue));
-		}
 	}
 }
 
 void ADeprivationCar::StopSteer()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetSteeringInput(0.0f);
-		UE_LOG(LogDeprivationCar, Warning, TEXT("StopSteer"));
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Red, TEXT("StopSteer"));
-		}
 	}
 }
 
 void ADeprivationCar::HandbrakePressed()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(true);
-		UE_LOG(LogDeprivationCar, Warning, TEXT("HandbrakePressed"));
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Yellow, TEXT("HandbrakePressed"));
-		}
 	}
 }
 
 void ADeprivationCar::HandbrakeReleased()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(false);
-		UE_LOG(LogDeprivationCar, Warning, TEXT("HandbrakeReleased"));
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Yellow, TEXT("HandbrakeReleased"));
-		}
 	}
 }
 

@@ -7,4 +7,3 @@ enum class EFatigueState:uint8
 	Tired UMETA(DisplayName = "Tired"),
 	Exhausted UMETA(DisplayName = "Exhausted")
 };
-Ы

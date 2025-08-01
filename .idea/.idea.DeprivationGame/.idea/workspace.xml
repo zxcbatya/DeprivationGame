@@ -16,21 +16,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_BackWheel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_BackWheel.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_Car.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_Car.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Car/BP_FrontWheel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Car/BP_FrontWheel.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffects.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffects.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffectsStateThree.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_DrunkEffectsStateTwo.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_MainPlayerWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/PlayerWidgets/WBP_MainPlayerWidget.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.h" afterDir="false" />
-    </list>
+    <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -352,6 +338,7 @@
       <workItem from="1751182174544" duration="1825000" />
       <workItem from="1751405833837" duration="4172000" />
       <workItem from="1751490091065" duration="2300000" />
+      <workItem from="1752596734485" duration="221000" />
     </task>
     <task id="LOCAL-00001" summary="update 1.0.1&#10;creating a clear folder structure on the stage">
       <option name="closed" value="true" />
@@ -401,7 +388,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751182370992</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Update 1.0.8 up System widget and create struct">
+      <option name="closed" value="true" />
+      <created>1752596863757</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1752596863757</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +427,8 @@
     <MESSAGE value="merge code branch" />
     <MESSAGE value="update 1.0.6 creating car sukaaaa daaaa ebana vehicle workkk!!!!! !!!!!!!!!!!!!!!!!!" />
     <MESSAGE value="Update 1.0.7 creating DrunkSystem" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update 1.0.7 creating DrunkSystem" />
+    <MESSAGE value="Update 1.0.8 up System widget and create struct" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update 1.0.8 up System widget and create struct" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

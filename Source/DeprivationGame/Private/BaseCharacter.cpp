@@ -12,13 +12,35 @@ void ABaseCharacter::BeginPlay()
 
 void ABaseCharacter::SetFatigueState(EFatigueState NewState)
 {
-	EFatigueState CurrentFatigueState = {};
-	if (CurrentFatigueState == NewState) return; 
+	EFatigueState CurrentFatigueState = {}; // Это неправильно - нужно использовать член класса
+	if (TiredState == NewState) return; 
     
-	CurrentFatigueState = NewState;
+	TiredState = NewState;
     
-	OnFatigueStateChanged(CurrentFatigueState);
+	OnFatigueStateChanged(TiredState);
 }
+
+void ABaseCharacter::SetDrunkState(EDrunkState NewState)
+{
+	if (DrunkState == NewState) return;
+    
+	DrunkState = NewState;
+    
+	OnDrunkStateChanged(DrunkState);
+}
+
+void ABaseCharacter::OnFatigueStateChanged(EFatigueState State)
+{
+	// Здесь можно добавить логику для изменения состояния усталости
+	// Например, изменение материалов, звуков и т.д.
+}
+
+void ABaseCharacter::OnDrunkStateChanged(EDrunkState State)
+{
+	// Здесь можно добавить логику для изменения состояния опьянения
+	// Например, изменение материалов, звуков и т.д.
+}
+
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

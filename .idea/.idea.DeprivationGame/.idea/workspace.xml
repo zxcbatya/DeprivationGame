@@ -7,6 +7,8 @@
     <projectFile profileName="EpicGames.AspNet">../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.AspNet/EpicGames.AspNet.csproj</projectFile>
     <projectFile kind="Docker">../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Perforce.Fixture/EpicGames.Perforce.Fixture.csproj</projectFile>
     <projectFile>../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/UnrealBuildTool/UnrealBuildTool.csproj</projectFile>
+    <projectFile kind="Docker">../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Perforce.Fixture/EpicGames.Perforce.Fixture.csproj</projectFile>
+    <projectFile kind="Docker">$PROJECT_DIR$/../../../../Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Perforce.Fixture/EpicGames.Perforce.Fixture.csproj</projectFile>
     <projectFile>Intermediate/ProjectFiles/DeprivationGame.vcxproj</projectFile>
     <projectFile>Intermediate/ProjectFiles/DotNetPerforceLib.vcxproj</projectFile>
     <projectFile>Intermediate/ProjectFiles/EventLoopUnitTests.vcxproj</projectFile>
@@ -18,155 +20,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/GM_LevelOneGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/GM_LevelOneGameMode.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/HG_PlayerController.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/Root/WBP_BaseWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/Root/WBP_BaseWidget.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/AuxiliaryWidgets/WBP_SettingsSwitcher.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/AuxiliaryWidgets/WBP_SettingsSwitcher.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WBP_GraphicsSettings.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WBP_GraphicsSettings.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WPB_SettingsMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WPB_SettingsMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/System/HG_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/System/HG_PlayerController.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_DefaultMaterial_BaseColor.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_DefaultMaterial_Emissive.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_DefaultMaterial_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_DefaultMaterial_OcclusionRoughnessMetallic.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_003.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_007.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_018.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_021.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_022.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_023.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_029.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_033.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Deprivation_Props_cube_044.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props/1/Props1.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_DefaultMaterial_BaseColor_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_DefaultMaterial_Emissive_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_DefaultMaterial_Normal_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_DefaultMaterial_OcclusionRoughnessMetallic_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_003.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_007.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_018.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_021.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_022.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_023.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_029.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_033.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/Deprivation_Props_cube_044.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/Props_pack_1/PROPS_PACK_1.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/Glass.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_bark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_calitka.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_floor.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_main_vnesh.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_main_vnutr.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_roof_doska.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_roof_metal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_stolb.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_win.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/House_win_ram.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_Doska_dark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_Doska_floor.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_Doska_orange.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_Doska_white.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_Kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_Roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/M_bark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/bark_willow_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/bark_willow_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/bark_willow_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/box_profile_metal_sheet_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/box_profile_metal_sheet_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/box_profile_metal_sheet_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/diffuz_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/laminate_floor_02_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/laminate_floor_02_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/laminate_floor_02_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/normal_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/roughnes_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/wood_planks_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/wood_planks_diff_dark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/wood_planks_diff_white.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/wood_planks_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/House/wood_planks_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/TEX_PROPS_3_KITCHEN_001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/TEX_PROPS_3_KITCHEN_BaseColor_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/TEX_PROPS_3_KITCHEN_Emission_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/TEX_PROPS_3_KITCHEN_Metallic.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/TEX_PROPS_3_KITCHEN_Normal_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/TEX_PROPS_3_KITCHEN_Roughness_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/PROPS_3/props_3_UE.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/DefaultMaterial_BaseColor_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/DefaultMaterial_Emission_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/DefaultMaterial_Metallic.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/DefaultMaterial_Normal_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/DefaultMaterial_Roughness_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_003.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_007.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_018.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_021.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_022.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_023.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_029.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_033.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/Deprivation_Props1_cube_044.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props/PROPS_PACK_1_001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_070.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_075.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_077.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_078.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_090.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_094.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/Deprivation_Props_2_ue_Cube_106.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/PropsHouse2.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/PropsHouse2_Base_color_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/PropsHouse2_Metallic.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/PropsHouse2_Normal_DirectX.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/Props_2/PropsHouse2_Roughness_1001.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Brick_kamen.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Doski_dlinn.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Doski_dlinn2.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Doski_fullDark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Doski_melkie.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Doski_svet.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/Doski_torec.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/doska_roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/metal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Material/plastik_black.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Brick_kamen_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Brick_kamen_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_dark_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_dlinn2_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_dlinn2_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_dlinn_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_dlinn_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_fullDark_diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_fullDark_normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_melkie_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_melkie_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_svet_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_svet_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/Texture/Doski_torec_diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_Brick_kamen.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_Doski_dlinn.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_Doski_fullDark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_Doski_svet1.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_base.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_doska_roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_floor_vnesh.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_floor_vnutr.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_glass.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_metal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_plastik.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/bana/bana_roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/material_water/water.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/material_water/water_ambient.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/material_water/water_displacement.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SANIA_GUNARI/material_water/water_normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EDrunkState.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EDrunkState.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/DeprivationGame/Public/Enums/EFatigueState.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,26 +47,10 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/ChaosVehicleMovementComponent.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/ChaosWheeledVehicleMovementComponent.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Plugins/Experimental/ChaosVehiclesPlugin/Source/ChaosVehicles/Public/WheeledVehiclePawn.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/AutomationTool/Gauntlet/Platform/Windows/Gauntlet.WindowsPGO.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Build/Platform/Mac/ApplePlatformSDK.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Horde.Tests/EpicGames.Horde.Tests.csproj" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Horde/EpicGames.Horde.csproj" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/UnrealBuildTool/UnrealBuildTool.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/UnrealBuildTool/UnrealBuildTool.csproj" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Core/Public/Experimental/ConcurrentLinearAllocator.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/CoreUObject/Public/UObject/UObjectBaseUtility.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Classes/GameFramework/Actor.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Classes/GameFramework/Pawn.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Classes/GameFramework/PlayerController.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Classes/Vehicles/TireType.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Experimental/Chaos/Public/Chaos/AABBTree.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DeprivationGame/DeprivationGame.Build.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DeprivationGame/DeprivationGame.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DeprivationGame/Private/BaseCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/laptop/Desktop/DeprivationGame/Source/DeprivationGame/Private/BaseCharacter.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DeprivationGame/Private/Interfaces/IBPI_VehicleInteract.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DeprivationGame/Private/Vehicle/DeprivationCar.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/DeprivationGame/Public/BaseCharacter.h" root0="FORCE_HIGHLIGHTING" />
@@ -377,6 +216,17 @@
           <option name="containerName" value="epicgames.perforce.fixture" />
           <option name="contextFolderPath" value="C:\Users\laptop\Documents\Unreal Projects\DeprivationGame\DeprivationGame" />
           <option name="sourceFilePath" value="../../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Perforce.Fixture/Dockerfile" />
+        </settings>
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="EpicGames.Perforce.Fixture/Dockerfile (2)" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="containerName" value="epicgames.perforce.fixture" />
+          <option name="contextFolderPath" value="C:\Users\laptop\Desktop\DeprivationGame" />
+          <option name="sourceFilePath" value="../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Programs/Shared/EpicGames.Perforce.Fixture/Dockerfile" />
         </settings>
       </deployment>
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
@@ -570,8 +420,18 @@
     <option name="clearOnStart" value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="29af4642-4fbe-4a1c-be6d-8d976150113c" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="29af4642-4fbe-4a1c-be6d-8d976150113c">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State />

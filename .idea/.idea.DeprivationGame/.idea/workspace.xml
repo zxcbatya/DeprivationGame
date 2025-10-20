@@ -20,8 +20,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WBP_GraphicsSettings.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WBP_GraphicsSettings.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WPB_SettingsMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/SettingsMenu/WPB_SettingsMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Player/BP_FirstPersonCharacter.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +43,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:zxcbatya/DeprivationGame.git&quot;,
-    &quot;accountId&quot;: &quot;057b0c6f-7f8a-4c9c-97ef-3f61cc0cbbb8&quot;
+    &quot;url&quot;: &quot;https://github.com/zxcbatya/DeprivationGame.git&quot;,
+    &quot;accountId&quot;: &quot;5dae3c29-6dc3-4832-be11-8760df9d2030&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -89,7 +90,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;UnrealLinkOptionsId&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -343,6 +344,7 @@
       <workItem from="1754066027557" duration="219000" />
       <workItem from="1755104314075" duration="182000" />
       <workItem from="1755105071795" duration="361000" />
+      <workItem from="1760906965765" duration="4268000" />
     </task>
     <task id="LOCAL-00001" summary="update 1.0.1&#10;creating a clear folder structure on the stage">
       <option name="closed" value="true" />
@@ -408,7 +410,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754066072672</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fix commit">
+      <option name="closed" value="true" />
+      <created>1760566246239</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1760566246239</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,7 +461,8 @@
     <MESSAGE value="Update 1.0.7 creating DrunkSystem" />
     <MESSAGE value="Update 1.0.8 up System widget and create struct" />
     <MESSAGE value="Update 1.0.9 creating a switcher widget, refining the UI, adding models" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update 1.0.9 creating a switcher widget, refining the UI, adding models" />
+    <MESSAGE value="fix commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix commit" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

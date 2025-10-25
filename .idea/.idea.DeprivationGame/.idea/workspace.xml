@@ -19,125 +19,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9971fc97-780f-4278-bb8a-900965495072" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DeprivationGame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/MainMenu/WPB_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/MainMenu/WPB_MainMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/Root/WBP_Button.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BluePrints/Menu/MainMenu/Root/WBP_Button.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/MainMenuLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/MainMenuLevel.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localisation/DT_Localisation.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localisation/DT_Localisation.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/Glass.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_bark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_calitka.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_floor.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_main_vnesh.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_main_vnutr.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_roof_doska.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_roof_metal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_stolb.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_win.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/House_win_ram.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_Doska_dark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_Doska_floor.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_Doska_orange.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_Doska_white.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_Kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_Roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/M_bark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/bark_willow_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/bark_willow_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/bark_willow_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/box_profile_metal_sheet_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/box_profile_metal_sheet_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/box_profile_metal_sheet_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/diffuz_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/laminate_floor_02_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/laminate_floor_02_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/laminate_floor_02_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/normal_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/roughnes_kamin.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/wood_planks_diff_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/wood_planks_diff_dark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/wood_planks_diff_white.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/wood_planks_nor_gl_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/House/wood_planks_rough_1k.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Brick_kamen.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Doski_dlinn.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Doski_dlinn2.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Doski_fullDark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Doski_melkie.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Doski_svet.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/Doski_torec.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/doska_roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/metal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Material/plastik_black.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Brick_kamen_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Brick_kamen_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_dark_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_dlinn2_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_dlinn2_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_dlinn_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_dlinn_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_fullDark_diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_fullDark_normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_melkie_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_melkie_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_svet_Diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_svet_Normal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/Texture/Doski_torec_diff.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_Brick_kamen.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_Doski_dlinn.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_Doski_fullDark.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_Doski_svet1.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_base.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_doska_roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_floor_vnesh.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_floor_vnutr.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_glass.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_metal.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_plastik.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/bana/bana_roof.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Material/MA_LarchProps.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/vegetation/tree/Material/MA_LarchProps.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_01_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_02_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_03_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_04_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_05_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_06_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_07_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_GroundTwig_01_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_GroundTwig_02_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_GroundTwig_03_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Larch_GroundTwig_04_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_01_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_02_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_03_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_04_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_05_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_06_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_07_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_08_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_GroundTwig_01_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_GroundTwig_02_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_GroundTwig_03_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Pine_GroundTwig_04_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_01_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_02_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_03_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_04_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_05_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_06_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_07_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_08_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_GroundTwig_01_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_GroundTwig_02_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_GroundTwig_03_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/Spruce_GroundTwig_04_FoliageType.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/static/Larch_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/vegetation/tree/Mesh/static/Larch_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DeprivationGame.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DeprivationGame.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DeprivationGame.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/DeprivationGame.uproject" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +63,7 @@
 }</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="Toolset" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,

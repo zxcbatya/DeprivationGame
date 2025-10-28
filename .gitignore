@@ -71,3 +71,9 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# IDE specific files
+.idea/
+*.iml
+*.ipr
+*.iws

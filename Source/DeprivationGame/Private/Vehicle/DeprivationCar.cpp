@@ -81,20 +81,37 @@ void ADeprivationCar::BeginPlay()
 	Super::BeginPlay();
 }
 
-void ADeprivationCar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ADeprivationCar::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	if (UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Accelerate);
-		EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopAccelerate);
-
-		EnhancedInput->BindAction(SteerAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Steer);
-		EnhancedInput->BindAction(SteerAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopSteer);
-
-		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::HandbrakePressed);
-		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::HandbrakeReleased);
+		if (ExitAction)
+		{
+			EnhancedInputComponent->BindAction(ExitAction, ETriggerEvent::Started, this, &ADeprivationCar::ExitVehicle);
+		}
+		
+		// Привязка действий для управления автомобилем
+		if (AccelerateAction)
+		{
+			EnhancedInputComponent->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &ADeprivationCar::OnAccelerate);
+		}
+		
+		if (BrakeAction)
+		{
+			EnhancedInputComponent->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::OnBrake);
+		}
+		
+		if (SteerAction)
+		{
+			EnhancedInputComponent->BindAction(SteerAction, ETriggerEvent::Triggered, this, &ADeprivationCar::OnSteer);
+		}
+		
+		if (HandbrakeAction)
+		{
+			EnhancedInputComponent->BindAction(HandbrakeAction, ETriggerEvent::Started, this, &ADeprivationCar::OnHandbrakePressed);
+			EnhancedInputComponent->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::OnHandbrakeReleased);
+		}
 	}
-	
 }
 
 void ADeprivationCar::Tick(float DeltaTime)
@@ -102,57 +119,42 @@ void ADeprivationCar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ADeprivationCar::Accelerate(const FInputActionValue& Value)
+// Функции управления автомобилем
+void ADeprivationCar::OnAccelerate(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
-		GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
-		float ThrottleValue = Value.Get<float>();
-		VehicleMovement->SetThrottleInput(ThrottleValue);
+		VehicleMovement->SetThrottleInput(Value.Get<float>());
 	}
 }
 
-void ADeprivationCar::StopAccelerate()
+void ADeprivationCar::OnBrake(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
-		GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
-		VehicleMovement->SetThrottleInput(0.0f);
+		VehicleMovement->SetBrakeInput(Value.Get<float>());
 	}
 }
 
-void ADeprivationCar::Steer(const FInputActionValue& Value)
+void ADeprivationCar::OnSteer(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
-		GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
-		float SteerValue = Value.Get<float>();
-		VehicleMovement->SetSteeringInput(SteerValue);
+		VehicleMovement->SetSteeringInput(Value.Get<float>());
 	}
 }
 
-void ADeprivationCar::StopSteer()
+void ADeprivationCar::OnHandbrakePressed(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
-		GetVehicleMovement()))
-	{
-		VehicleMovement->SetSteeringInput(0.0f);
-	}
-}
-
-void ADeprivationCar::HandbrakePressed()
-{
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
-		GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(true);
 	}
 }
 
-void ADeprivationCar::HandbrakeReleased()
+void ADeprivationCar::OnHandbrakeReleased(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
-		GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(false);
 	}

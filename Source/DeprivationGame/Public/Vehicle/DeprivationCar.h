@@ -22,8 +22,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputMappingContext* VehicleMappingContext;
 
@@ -39,37 +37,44 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* ExitAction;
 
+	// Adding Brake Action for reverse gear functionality
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* BrakeAction;
 
 public:
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void Accelerate(const FInputActionValue& Value);
+
+	void StopAccelerate();
+
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void Steer(const FInputActionValue& Value);
+
+	void StopSteer();
+
+	void HandbrakePressed();
+	void HandbrakeReleased();
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void EnterVehicle(APawn* Pawn);
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void ExitVehicle();
-	
-	// Функции управления автомобилем
-	UFUNCTION()
-	void OnAccelerate(const FInputActionValue& Value);
-	
-	UFUNCTION()
-	void OnBrake(const FInputActionValue& Value);
-	
-	UFUNCTION()
-	void OnSteer(const FInputActionValue& Value);
-	
-	UFUNCTION()
-	void OnHandbrakePressed(const FInputActionValue& Value);
-	
-	UFUNCTION()
-	void OnHandbrakeReleased(const FInputActionValue& Value);
+
+	// Adding brake functions for reverse gear
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void Brake(const FInputActionValue& Value);
+
+	void StopBrake();
 
 private:
 	APawn* CurrentDriver = nullptr;
-	FVector ActorPosition;
+
+	// Adding flag to prevent immediate exit after entry
+	bool bCanExitVehicle = true;
 
 	UPROPERTY()
 	TObjectPtr<UBoxComponent> TriggerBox; 

@@ -12,7 +12,6 @@ void ABaseCharacter::BeginPlay()
 
 void ABaseCharacter::SetFatigueState(EFatigueState NewState)
 {
-	EFatigueState CurrentFatigueState = {}; // Это неправильно - нужно использовать член класса
 	if (TiredState == NewState) return; 
     
 	TiredState = NewState;

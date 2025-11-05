@@ -17,13 +17,16 @@ DEFINE_LOG_CATEGORY(LogDeprivationCar);
 ADeprivationCar::ADeprivationCar()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	GetMesh()->SetCenterOfMass(FVector(0.f, 0.f, 20.f));
+	GetMesh()->SetCenterOfMass(FVector(0.f, 0.f, 10.f)); // Lower center of mass for better stability
 }
 
 void ADeprivationCar::EnterVehicle(APawn* Pawn)
 {
 	if (!Pawn || CurrentDriver)
 		return;
+
+	// Prevent immediate exit after entry
+	bCanExitVehicle = false;
 
 	CurrentDriver = Pawn;
 
@@ -45,11 +48,18 @@ void ADeprivationCar::EnterVehicle(APawn* Pawn)
 		CurrentDriver->SetActorEnableCollision(false);
 		CurrentDriver->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 	}
+
+	// Allow exit after a short delay
+	FTimerHandle ExitTimerHandle;
+	GetWorldTimerManager().SetTimer(ExitTimerHandle, [this]() {
+		bCanExitVehicle = true;
+	}, 0.5f, false);
 }
 
 void ADeprivationCar::ExitVehicle()
 {
-	if (!CurrentDriver)
+	// Check if exit is allowed to prevent immediate exit after entry
+	if (!CurrentDriver || !bCanExitVehicle)
 		return;
 
 	if (AController* DriverController = GetController())
@@ -79,39 +89,32 @@ void ADeprivationCar::ExitVehicle()
 void ADeprivationCar::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Improve vehicle stability by adjusting center of mass
+	// The center of mass was already adjusted in constructor
 }
 
-void ADeprivationCar::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+void ADeprivationCar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	if (UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		if (ExitAction)
-		{
-			EnhancedInputComponent->BindAction(ExitAction, ETriggerEvent::Started, this, &ADeprivationCar::ExitVehicle);
-		}
+		EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Accelerate);
+		EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopAccelerate);
+
+		EnhancedInput->BindAction(SteerAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Steer);
+		EnhancedInput->BindAction(SteerAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopSteer);
+
+		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::HandbrakePressed);
+		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::HandbrakeReleased);
 		
-		// Привязка действий для управления автомобилем
-		if (AccelerateAction)
-		{
-			EnhancedInputComponent->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &ADeprivationCar::OnAccelerate);
-		}
-		
-		if (BrakeAction)
-		{
-			EnhancedInputComponent->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::OnBrake);
-		}
-		
-		if (SteerAction)
-		{
-			EnhancedInputComponent->BindAction(SteerAction, ETriggerEvent::Triggered, this, &ADeprivationCar::OnSteer);
-		}
-		
-		if (HandbrakeAction)
-		{
-			EnhancedInputComponent->BindAction(HandbrakeAction, ETriggerEvent::Started, this, &ADeprivationCar::OnHandbrakePressed);
-			EnhancedInputComponent->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::OnHandbrakeReleased);
-		}
+		// Adding brake input binding for reverse gear
+		EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Brake);
+		EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopBrake);
+
+		// Bind exit action
+		EnhancedInput->BindAction(ExitAction, ETriggerEvent::Triggered, this, &ADeprivationCar::ExitVehicle);
 	}
+	
 }
 
 void ADeprivationCar::Tick(float DeltaTime)
@@ -119,44 +122,88 @@ void ADeprivationCar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// Функции управления автомобилем
-void ADeprivationCar::OnAccelerate(const FInputActionValue& Value)
+void ADeprivationCar::Accelerate(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
-		VehicleMovement->SetThrottleInput(Value.Get<float>());
+		float ThrottleValue = Value.Get<float>();
+		VehicleMovement->SetThrottleInput(ThrottleValue);
 	}
 }
 
-void ADeprivationCar::OnBrake(const FInputActionValue& Value)
+void ADeprivationCar::StopAccelerate()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
-		VehicleMovement->SetBrakeInput(Value.Get<float>());
+		VehicleMovement->SetThrottleInput(0.0f);
 	}
 }
 
-void ADeprivationCar::OnSteer(const FInputActionValue& Value)
+void ADeprivationCar::Steer(const FInputActionValue& Value)
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
-		VehicleMovement->SetSteeringInput(Value.Get<float>());
+		float SteerValue = Value.Get<float>();
+		VehicleMovement->SetSteeringInput(SteerValue);
 	}
 }
 
-void ADeprivationCar::OnHandbrakePressed(const FInputActionValue& Value)
+void ADeprivationCar::StopSteer()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
+	{
+		VehicleMovement->SetSteeringInput(0.0f);
+	}
+}
+
+void ADeprivationCar::HandbrakePressed()
+{
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(true);
 	}
 }
 
-void ADeprivationCar::OnHandbrakeReleased(const FInputActionValue& Value)
+void ADeprivationCar::HandbrakeReleased()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(false);
+	}
+}
+
+// Adding brake functionality for reverse gear
+void ADeprivationCar::Brake(const FInputActionValue& Value)
+{
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
+	{
+		// For reverse gear, we use the brake input to control reverse movement
+		float BrakeValue = Value.Get<float>();
+		VehicleMovement->SetBrakeInput(BrakeValue);
+		
+		// When brake is pressed and vehicle is slow or stationary, engage reverse
+		// This simulates the "reverse as brake" behavior
+		if (FMath::Abs(GetVelocity().Size()) < 10.0f) // Vehicle is nearly stationary
+		{
+			VehicleMovement->SetThrottleInput(-BrakeValue);
+		}
+	}
+}
+
+void ADeprivationCar::StopBrake()
+{
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
+	{
+		VehicleMovement->SetBrakeInput(0.0f);
+		VehicleMovement->SetThrottleInput(0.0f);
 	}
 }
 

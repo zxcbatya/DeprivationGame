@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
+class ADeprivationCar;
+class UCameraComponent;
+
 UCLASS()
 class DEPRIVATIONGAME_API ABaseCharacter : public ACharacter
 {
@@ -33,10 +36,31 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Materials")
 	UMaterialParameterCollection* StateMPC;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	UCameraComponent* CameraComponent;
+
 public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void EnterVehicle(ADeprivationCar* Vehicle);
+
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void ExitVehicle();
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	AActor* LineTrace(float LineLength, bool bDrawDebug = false) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	void Interact();
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	AActor* GetInteractableActor() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	FText GetInteractionPrompt() const;
 
 private:
 	UFUNCTION()
@@ -44,4 +68,6 @@ private:
 
 	UFUNCTION()
 	void OnDrunkStateChanged(EDrunkState State);
+
+	ADeprivationCar* CurrentVehicle = nullptr;
 };

@@ -8,6 +8,7 @@
 
 class ADeprivationCar;
 class UCameraComponent;
+class USpringArmComponent;
 
 UCLASS()
 class DEPRIVATIONGAME_API ABaseCharacter : public ACharacter
@@ -39,13 +40,16 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	USpringArmComponent* SpringArmComponent;
+
 public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	void EnterVehicle(ADeprivationCar* Vehicle);
+	void EnterVehicle(APawn* Vehicle);
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void ExitVehicle();
@@ -54,7 +58,7 @@ public:
 	AActor* LineTrace(float LineLength, bool bDrawDebug = false) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void Interactt();
+	void Interact();
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	AActor* GetInteractableActor() const;

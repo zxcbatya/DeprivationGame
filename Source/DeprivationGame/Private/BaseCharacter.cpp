@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Engine/Engine.h"
 #include "DrawDebugHelpers.h"
 #include "Interfaces/IInteractable.h"
@@ -14,14 +15,18 @@ ABaseCharacter::ABaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(GetMesh(), FName("headSocket"));
-	CameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	CameraComponent->bUsePawnControlRotation = true;
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArmComponent->SetupAttachment(GetMesh());
+	SpringArmComponent->TargetArmLength = 0.0f;
+	SpringArmComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 60.0f));
+	SpringArmComponent->bUsePawnControlRotation = true;
+	SpringArmComponent->bInheritPitch = true;
+	SpringArmComponent->bInheritYaw = true;
+	SpringArmComponent->bInheritRoll = false;
 
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationRoll = false;
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	CameraComponent->SetupAttachment(SpringArmComponent);
+	CameraComponent->bUsePawnControlRotation = false;
 }
 
 void ABaseCharacter::BeginPlay()
@@ -69,12 +74,13 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ABaseCharacter::EnterVehicle(ADeprivationCar* Vehicle)
+void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 {
-	if (!Vehicle || CurrentVehicle)
+	ADeprivationCar* Car = Cast<ADeprivationCar>(Vehicle);
+	if (!Car || CurrentVehicle)
 		return;
 
-	CurrentVehicle = Vehicle;
+	CurrentVehicle = Car;
 
 	if (UCharacterMovementComponent* MovementComp = GetCharacterMovement())
 	{
@@ -84,7 +90,7 @@ void ABaseCharacter::EnterVehicle(ADeprivationCar* Vehicle)
 	}
 	SetActorEnableCollision(false);
 	SetActorHiddenInGame(true);
-	AttachToComponent(Vehicle->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	AttachToComponent(Car->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 
 	if (AController* MyController = GetController())
 	{
@@ -92,7 +98,7 @@ void ABaseCharacter::EnterVehicle(ADeprivationCar* Vehicle)
 		MyController->Possess(Vehicle);
 	}
 
-	Vehicle->EnterVehicle(this);
+	Car->EnterVehicle(Cast<APawn>(this));
 }
 
 void ABaseCharacter::ExitVehicle()
@@ -100,7 +106,10 @@ void ABaseCharacter::ExitVehicle()
 	if (!CurrentVehicle)
 		return;
 
-	CurrentVehicle->ExitVehicle();
+	if (ADeprivationCar* Car = Cast<ADeprivationCar>(CurrentVehicle))
+	{
+		Car->ExitVehicle();
+	}
 	CurrentVehicle = nullptr;
 }
 
@@ -156,21 +165,13 @@ AActor* ABaseCharacter::GetInteractableActor() const
 	}
 
 	AActor* HitActor = LineTrace(300.0f, false);
-	if (HitActor)
+	if (HitActor && HitActor->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
-		if (ADeprivationCar* Vehicle = Cast<ADeprivationCar>(HitActor))
+		if (IInteractable* Interactable = Cast<IInteractable>(HitActor))
 		{
 			float Distance = FVector::Dist(GetActorLocation(), HitActor->GetActorLocation());
-			if (Distance <= 500.0f && Vehicle->CanInteract_Implementation(Cast<APawn>(const_cast<ABaseCharacter*>(this))))
-			{
-				return HitActor;
-			}
-		}
-		else if (HitActor->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
-		{
-			float Distance = FVector::Dist(GetActorLocation(), HitActor->GetActorLocation());
-			if (IInteractable::Execute_CanInteract(HitActor, Cast<APawn>(const_cast<ABaseCharacter*>(this))) && 
-				Distance <= IInteractable::Execute_GetInteractionDistance(HitActor))
+			if (Interactable->CanInteract(const_cast<ABaseCharacter*>(this)) && 
+				Distance <= Interactable->GetInteractionDistance())
 			{
 				return HitActor;
 			}
@@ -182,21 +183,17 @@ AActor* ABaseCharacter::GetInteractableActor() const
 FText ABaseCharacter::GetInteractionPrompt() const
 {
 	AActor* Interactable = GetInteractableActor();
-	if (Interactable)
+	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
-		if (ADeprivationCar* Vehicle = Cast<ADeprivationCar>(Interactable))
+		if (IInteractable* InteractableInterface = Cast<IInteractable>(Interactable))
 		{
-			return Vehicle->GetInteractionText_Implementation();
-		}
-		else if (Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
-		{
-			return IInteractable::Execute_GetInteractionText(Interactable);
+			return InteractableInterface->GetInteractionText();
 		}
 	}
 	return FText::GetEmpty();
 }
 
-void ABaseCharacter::Interactt()
+void ABaseCharacter::Interact()
 {
 	if (CurrentVehicle)
 	{
@@ -205,15 +202,11 @@ void ABaseCharacter::Interactt()
 	}
 
 	AActor* Interactable = GetInteractableActor();
-	if (Interactable)
+	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
-		if (ADeprivationCar* Vehicle = Cast<ADeprivationCar>(Interactable))
+		if (IInteractable* InteractableInterface = Cast<IInteractable>(Interactable))
 		{
-			Vehicle->OnInteract_Implementation(Cast<APawn>(this));
-		}
-		else if (Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
-		{
-			IInteractable::Execute_OnInteract(Interactable, Cast<APawn>(this));
+			InteractableInterface->OnInteract(this);
 		}
 	}
 }

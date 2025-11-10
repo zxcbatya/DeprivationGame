@@ -183,6 +183,7 @@ void ADeprivationCar::StopAccelerate()
 	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetThrottleInput(0.0f);
+		VehicleMovement->SetBrakeInput(0.0f);
 	}
 }
 
@@ -231,23 +232,22 @@ void ADeprivationCar::StopBrake()
 	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetBrakeInput(0.0f);
+		VehicleMovement->SetThrottleInput(0.0f);
 	}
 }
 
-bool ADeprivationCar::CanInteract_Implementation(APawn* InteractingPawn) const
+bool ADeprivationCar::CanInteract_Implementation(APawn* Pawn) const
 {
-	ABaseCharacter* Character = Cast<ABaseCharacter>(InteractingPawn);
+	ABaseCharacter* Character = Cast<ABaseCharacter>(Pawn);
 	return Character != nullptr && CurrentDriver == nullptr;
 }
 
-void ADeprivationCar::OnInteract_Implementation(APawn* InteractingPawn)
+void ADeprivationCar::OnInteract_Implementation(APawn* Pawn)
 {
-	if (ABaseCharacter* Character = Cast<ABaseCharacter>(InteractingPawn))
+	ABaseCharacter* Character = Cast<ABaseCharacter>(Pawn);
+	if (Character && CanInteract_Implementation(Pawn))
 	{
-		if (CanInteract_Implementation(InteractingPawn))
-		{
-			Character->EnterVehicle(this);
-		}
+		Character->EnterVehicle(Cast<APawn>(this));
 	}
 }
 

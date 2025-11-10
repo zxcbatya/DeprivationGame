@@ -54,7 +54,7 @@ public:
 	AActor* LineTrace(float LineLength, bool bDrawDebug = false) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void Interact();
+	void Interactt();
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	AActor* GetInteractableActor() const;

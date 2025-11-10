@@ -59,7 +59,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void Brake(const FInputActionValue& Value);
 
-public:
 	virtual bool CanInteract_Implementation(APawn* InteractingPawn) const override;
 	virtual void OnInteract_Implementation(APawn* InteractingPawn) override;
 	virtual FText GetInteractionText_Implementation() const override;

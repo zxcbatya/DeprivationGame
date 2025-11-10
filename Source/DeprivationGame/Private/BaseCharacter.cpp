@@ -15,7 +15,7 @@ ABaseCharacter::ABaseCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(GetMesh(), FName("head"));
+	CameraComponent->SetupAttachment(GetMesh(), FName("headSocket"));
 	CameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	CameraComponent->bUsePawnControlRotation = true;
 
@@ -196,7 +196,7 @@ FText ABaseCharacter::GetInteractionPrompt() const
 	return FText::GetEmpty();
 }
 
-void ABaseCharacter::Interact()
+void ABaseCharacter::Interactt()
 {
 	if (CurrentVehicle)
 	{

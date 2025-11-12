@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ListView.h"
-#include "Telephone/ChatManagerSubsystem.h"
-#include "Data/ChatData.h"
+#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
+#include "DeprivationGame/Public/Data/ChatData.h"
 #include "ChatListWidget.generated.h"
 
 /**

@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Telephone/UI/ChatListWidget.h"
-#include "Telephone/ChatManagerSubsystem.h"
-#include "Data/ChatData.h"
+#include "DeprivationGame/Public/Telephone/UI/ChatListWidget.h"
+#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
+#include "DeprivationGame/Public/Data/ChatData.h"
 
 void UChatListWidget::NativeConstruct()
 {

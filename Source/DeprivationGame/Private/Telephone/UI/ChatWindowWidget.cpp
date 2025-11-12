@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Telephone/UI/ChatWindowWidget.h"
-#include "Telephone/UI/MessageEntryWidget.h"
-#include "Telephone/ChatManagerSubsystem.h"
+#include "DeprivationGame/Public/Telephone/UI/ChatWindowWidget.h"
+#include "DeprivationGame/Public/Telephone/UI/MessageEntryWidget.h"
+#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
 #include "Components/VerticalBox.h"
 
 void UChatWindowWidget::OpenChat(int32 ContactID)

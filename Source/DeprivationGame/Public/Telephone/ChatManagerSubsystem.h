@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "Data/ChatData.h"
+#include "DeprivationGame/Public/Data/ChatData.h"
 #include "ChatManagerSubsystem.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChatUpdated, int32, ContactID);
@@ -25,7 +25,6 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	UFUNCTION(BlueprintCallable, Category="Chat")
 	void AddMessage(int32 ContactID, const FMessageData& Message);
-
 
 	UFUNCTION(BlueprintCallable, Category="Chat", BlueprintPure)
 	FChatData GetChatByContactID(int32 ContactID) const;

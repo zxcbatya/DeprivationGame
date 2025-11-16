@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/ChatData.h"
+#include "DeprivationGame/Public/Data/ChatData.h"
 #include "MessageEntryWidget.generated.h"
 
 /**

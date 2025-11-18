@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Engine/Engine.h"
 #include "DrawDebugHelpers.h"
 #include "Interfaces/IInteractable.h"
@@ -14,13 +15,18 @@ ABaseCharacter::ABaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Инициализация камеры по умолчанию
-	CameraOffset = FVector(0.0f, 70.0f, 170.0f);
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArmComponent->SetupAttachment(GetMesh());
+	SpringArmComponent->TargetArmLength = 0.0f;
+	SpringArmComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 60.0f));
+	SpringArmComponent->bUsePawnControlRotation = true;
+	SpringArmComponent->bInheritPitch = true;
+	SpringArmComponent->bInheritYaw = true;
+	SpringArmComponent->bInheritRoll = false;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(GetMesh());
-	CameraComponent->SetRelativeLocation(CameraOffset);
-	CameraComponent->bUsePawnControlRotation = true;
+	CameraComponent->SetupAttachment(SpringArmComponent);
+	CameraComponent->bUsePawnControlRotation = false;
 }
 
 void ABaseCharacter::BeginPlay()
@@ -61,9 +67,6 @@ void ABaseCharacter::OnDrunkStateChanged(EDrunkState State)
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	// Обновляем позицию камеры каждый кадр для поддержки редактирования в реальном времени
-	CameraComponent->SetRelativeLocation(CameraOffset);
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

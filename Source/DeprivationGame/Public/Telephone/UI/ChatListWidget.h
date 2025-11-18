@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/VerticalBox.h"
+#include "Components/ListView.h"
+#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
+#include "DeprivationGame/Public/Data/ChatData.h"
 #include "ChatListWidget.generated.h"
 
 /**
@@ -17,28 +19,12 @@ class DEPRIVATIONGAME_API UChatListWidget : public UUserWidget
 
 public:
 	UPROPERTY(meta=(BindWidget))
-	UVerticalBox* ChatListContainer;
-
-	UPROPERTY(EditAnywhere, Category = "Chat")
-	TSubclassOf<class UChatListItemWidget> ChatItemClass;
-
-	UPROPERTY(EditAnywhere, Category = "Chat")
-	TSubclassOf<class UChatWindowWidget> ChatWindowClass;
+	UListView* ChatListView;
 
 protected:
 	virtual void NativeConstruct() override;
-	virtual void NativeDestruct() override;
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Chat")
-	void RefreshChatList(int32 ContactID = -1);
-
-	UFUNCTION(BlueprintCallable, Category = "Chat")
-	void OpenChatWindow(int32 ContactID);
-
-	// Обработчик клика по элементу списка
-	UFUNCTION(BlueprintCallable, Category = "Chat")
-	void OnChatItemClicked(int32 ContactID);
-
-
+	UFUNCTION()
+	void RefreshChatList(int32 ContactID);
 };

@@ -4,10 +4,11 @@
 #include "Enums/EDrunkState.h"
 #include "Enums/EFatigueState.h"
 #include "GameFramework/Character.h"
-#include "Camera/CameraComponent.h"
 #include "BaseCharacter.generated.h"
 
 class ADeprivationCar;
+class UCameraComponent;
+class USpringArmComponent;
 
 UCLASS()
 class DEPRIVATIONGAME_API ABaseCharacter : public ACharacter
@@ -39,12 +40,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComponent;
 
-	// Редактируемое смещение камеры в редакторе
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (DisplayName = "Camera Offset"))
-	FVector CameraOffset;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	USpringArmComponent* SpringArmComponent;
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")

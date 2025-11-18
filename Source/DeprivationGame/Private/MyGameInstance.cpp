@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DeprivationGame/Public/MyGameInstance.h"
-#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
+#include "MyGameInstance.h"
+#include "Telephone/ChatManagerSubsystem.h"
 
 void UMyGameInstance::Init()
 {

@@ -1,45 +1,93 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-#include "DeprivationGame/Public/Telephone/UI/ChatListWidget.h"
-#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
-#include "DeprivationGame/Public/Data/ChatData.h"
+#include "Telephone/UI/ChatListWidget.h"
+#include "Telephone/ChatManagerSubsystem.h"
+#include "Data/ChatData.h"
+#include "Components/VerticalBox.h"
+#include "Telephone/UI/ChatWindowWidget.h"
+#include "Telephone/UI/ChatListItemWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 void UChatListWidget::NativeConstruct()
 {
-    Super::NativeConstruct();
-    
-    UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>();
-    if (Mgr)
-    {
-        Mgr->OnChatUpdated.AddDynamic(this, &UChatListWidget::RefreshChatList);
-    }
-    
-    // Вызовем RefreshChatList с временным значением, так как у нас нет ContactID на старте
-    RefreshChatList(-1);
+	Super::NativeConstruct();
+
+	// Подписываемся на обновления чатов
+	if (UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>())
+	{
+		Mgr->OnChatUpdated.AddDynamic(this, &UChatListWidget::RefreshChatList);
+	}
+
+	RefreshChatList();
+}
+
+void UChatListWidget::NativeDestruct()
+{
+	// Отписываемся от обновлений чатов
+	if (UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>())
+	{
+		Mgr->OnChatUpdated.RemoveDynamic(this, &UChatListWidget::RefreshChatList);
+	}
+
+	Super::NativeDestruct();
 }
 
 void UChatListWidget::RefreshChatList(int32 ContactID)
 {
-    // ContactID передается, но в данном случае нам не нужен
-    // Можно использовать его или игнорировать
-    
-    UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>();
-    if (!Mgr)
-        return;
-        
-    TArray<FChatData> Chats = Mgr->GetAllChats();
-    ChatListView->ClearListItems();
-    
-    for (const auto& C : Chats)
-    {
-        // Note: You'll need to create and assign MessageEntryClass
-        // UMessageEntryWidget* Item = CreateWidget<UMessageEntryWidget>(this, MessageEntryClass);
-        // Item->Setup(C);
-        // ChatListView->AddItem(Item);
-        
-        // Placeholder implementation:
-        UObject* Item = NewObject<UObject>(this);
-        ChatListView->AddItem(Item);
-    }
+	UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>();
+	if (!Mgr || !ChatListContainer)
+		return;
+
+	TArray<FChatData> Chats = Mgr->GetAllChats();
+	ChatListContainer->ClearChildren();
+
+	UE_LOG(LogTemp, Warning, TEXT("Refreshing chat list, found %d chats"), Chats.Num());
+
+	// Создаем элементы списка для каждого чата
+	for (const FChatData& Chat : Chats)
+	{
+		if (ChatItemClass)
+		{
+			UChatListItemWidget* ChatItem = CreateWidget<UChatListItemWidget>(this, ChatItemClass);
+			if (ChatItem)
+			{
+				// Настраиваем элемент списка с данными чата
+				FString LastMessage = Chat.Messages.Num() > 0 ? Chat.Messages.Last().Content : TEXT("No messages");
+				ChatItem->SetContactData(
+					Chat.ChatId,
+					Chat.ContactName,
+					LastMessage,
+					Chat.UnreadCount,
+					Chat.ContactIconColor,
+					Chat.ContactInitial
+
+				);
+
+				// Подписываемся на клик по элементу
+				ChatItem->OnContactSelected.AddDynamic(this, &UChatListWidget::OnChatItemClicked);
+
+				ChatListContainer->AddChild(ChatItem);
+			}
+		}
+	}
+}
+
+void UChatListWidget::OnChatItemClicked(int32 ContactID)
+{
+	OpenChatWindow(ContactID);
+}
+
+
+void UChatListWidget::OpenChatWindow(int32 ContactID)
+{
+	if (!ChatWindowClass) return;
+
+	UChatWindowWidget* ChatWindow = CreateWidget<UChatWindowWidget>(GetWorld(), ChatWindowClass);
+	if (ChatWindow)
+	{
+		ChatWindow->OpenChat(ContactID, this); 
+
+		ChatWindow->AddToViewport();
+		this->SetVisibility(ESlateVisibility::Hidden);
+	}
 }

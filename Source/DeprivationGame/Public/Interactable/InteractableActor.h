@@ -43,10 +43,10 @@ public:
 	virtual float GetInteractionDistance_Implementation() const override;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
-	void ReceiveOnInteract(APawn* InteractingPawn);
+	bool ReceiveCanInteract(APawn* InteractingPawn) const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
-	bool ReceiveCanInteract(APawn* InteractingPawn) const;
+	void ReceiveOnInteract(APawn* InteractingPawn);
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void SetCanInteract(bool bNewCanInteract);
@@ -57,4 +57,3 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void SetInteractionDistance(float NewDistance);
 };
-

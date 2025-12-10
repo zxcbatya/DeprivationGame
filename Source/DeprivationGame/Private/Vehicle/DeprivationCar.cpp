@@ -9,6 +9,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "BaseCharacter.h"
 
+DEFINE_LOG_CATEGORY(LogDeprivationCar);
+
 ADeprivationCar::ADeprivationCar()
 {
 	PrimaryActorTick.bCanEverTick = false;

@@ -1,4 +1,5 @@
 #include "Interactable/InteractableActor.h"
+#include "BaseCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/Pawn.h"

@@ -235,11 +235,11 @@ void UChopWoodGame::StartChopping()
 				CreatedWidget->AddToViewport();
 				
 				// Notify owner to play start animation
-				if (AActor* Owner = GetOwner())
+				if (AActor* OwnerActor = GetOwner())
 				{
-					if (Owner->GetClass()->ImplementsInterface(UChopWoodGameListener::StaticClass()))
+					if (OwnerActor->GetClass()->ImplementsInterface(UChopWoodGameListener::StaticClass()))
 					{
-						IChopWoodGameListener::Execute_PlayChopStartAnimation(Owner);
+						IChopWoodGameListener::Execute_PlayChopStartAnimation(OwnerActor);
 					}
 				}
 			}

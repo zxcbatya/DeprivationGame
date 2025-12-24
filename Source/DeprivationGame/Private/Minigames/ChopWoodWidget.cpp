@@ -29,31 +29,28 @@ void UChopWoodWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 void UChopWoodWidget::UpdateVisuals()
 {
-	if (!BackgroundImage || !TargetZoneImage || !IndicatorImage)
-		return;
-
 	FGeometry BackgroundGeom = BackgroundImage->GetCachedGeometry();
 	FVector2D BackgroundSize = BackgroundGeom.GetLocalSize();
-	
+
 	float EffectiveBackgroundWidth = (ManualBackgroundWidth > 0.0f) ? ManualBackgroundWidth : BackgroundSize.X;
-	
+
 	float UsableWidth = EffectiveBackgroundWidth - TopPadding - BottomPadding;
-	
+
 	float StartX = TopPadding;
 
 	if (UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(TargetZoneImage->Slot))
 	{
 		const float ZoneWidthPixels = CurrentTargetZoneSize * UsableWidth;
 		const float ZoneHeightPixels = 45.0f;
-		
+
 		float ZoneX = StartX + (TargetZoneCenter * UsableWidth) - (ZoneWidthPixels * 0.5f);
 		float ZoneY = (BackgroundSize.Y - ZoneHeightPixels) * 0.5f + TargetZoneVerticalOffset;
-		
+
 		ZoneX = FMath::Clamp(ZoneX, StartX, StartX + UsableWidth - ZoneWidthPixels);
-		
+
 		ZoneSlot->SetSize(FVector2D(ZoneWidthPixels, ZoneHeightPixels));
 		ZoneSlot->SetPosition(FVector2D(ZoneX, ZoneY));
-		
+
 		TargetZoneImage->InvalidateLayoutAndVolatility();
 	}
 

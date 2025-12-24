@@ -1,35 +1,96 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
+#include "Telephone/ChatManagerSubsystem.h"
+#include "Data/ChatData.h"
+#include "Algo/Sort.h"
 
 void UChatManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
+	Chats.Empty();
 
-	// Initialize with some test data
 	FChatData TestChat;
-	TestChat.ContactID = 1;
-	TestChat.ContactName = FText::FromString("Test Contact");
+	TestChat.ChatId = 1000;
+	TestChat.ContactName = "Test Contact";
+	TestChat.LastMessage = "Hello, this is a test message!";
 	TestChat.UnreadCount = 0;
-	TestChat.bIsActive = true;
-	
+	TestChat.LastMessageTime = FDateTime::Now();
+
 	FMessageData TestMessage;
-	TestMessage.SenderID = "1";
+	TestMessage.SenderID = "1000";
 	TestMessage.Content = "Hello, this is a test message!";
 	TestMessage.Timestamp = FDateTime::Now();
-	TestMessage.bIsRead = false;
-	
+	TestMessage.bIsUnread = true;
+
 	TestChat.Messages.Add(TestMessage);
-	Chats.Add(1, TestChat);
+	Chats.Add(1000, TestChat);
+}
+
+
+void UChatManagerSubsystem::RequestChatListRefresh(int32 ContactID)
+{
+	OnChatListRefreshRequested.Broadcast(ContactID);
 }
 
 void UChatManagerSubsystem::AddMessage(int32 ContactID, const FMessageData& Message)
 {
-	if (FChatData* Chat = Chats.Find(ContactID))
+	FChatData& Chat = Chats[ContactID];
+	Chat.Messages.Add(Message);
+
+	if (Message.bIsUnread)
+		++Chat.UnreadCount;
+
+	Chat.LastMessageTime = Message.Timestamp;
+	Chat.LastMessage = Message.Content;
+	OnChatUpdated.Broadcast(ContactID);
+	OnMessageReceived.Broadcast(ContactID, Message);
+}
+
+void UChatManagerSubsystem::SendMessage(int32 ContactID, const FString& SenderID, const FString& Content,
+                                        const FString& SenderIconPath)
+{
+	FMessageData Message;
+	Message.SenderID = SenderID;
+	Message.Content = Content;
+	Message.Timestamp = FDateTime::Now();
+	Message.bIsUnread = true;
+
+	AddMessage(ContactID, Message);
+}
+
+void UChatManagerSubsystem::AddContact(int32 ContactID, const FText& ContactName, const FString& ContactIconPath)
+{
+	if (!Chats.Contains(ContactID))
 	{
-		Chat->Messages.Add(Message);
-		Chat->LastMessageTimestamp = Message.Timestamp;
-		Chat->UnreadCount++;
+		FChatData NewChat;
+		NewChat.ChatId = ContactID;
+		NewChat.ContactName = ContactName.ToString();
+		NewChat.UnreadCount = 0;
+		NewChat.LastMessageTime = FDateTime::Now();
+		Chats.Add(ContactID, NewChat);
+		OnChatUpdated.Broadcast(ContactID);
+	}
+}
+
+void UChatManagerSubsystem::CreateContact(int32 ContactID, const FText& ContactName,
+                                          const FLinearColor& ContactIconColor, const FString ContactInitial)
+{
+	if (!Chats.Contains(ContactID))
+	{
+		FChatData NewChat;
+		NewChat.ChatId = ContactID;
+		NewChat.ContactName = ContactName.ToString();
+		NewChat.UnreadCount = 0;
+		NewChat.LastMessageTime = FDateTime::Now();
+		NewChat.ContactIconColor = ContactIconColor;
+		NewChat.ContactInitial = ContactInitial;
+		Chats.Add(ContactID, NewChat);
+		OnChatUpdated.Broadcast(ContactID);
+	}
+	else
+	{
+		FChatData& Chat = Chats[ContactID];
+		Chat.ContactName = ContactName.ToString();
 		OnChatUpdated.Broadcast(ContactID);
 	}
 }
@@ -47,20 +108,34 @@ bool UChatManagerSubsystem::MarkChatAsRead(int32 ContactID)
 {
 	if (FChatData* Chat = Chats.Find(ContactID))
 	{
+		for (FMessageData& Msg : Chat->Messages)
+			Msg.bIsUnread = false;
+
 		Chat->UnreadCount = 0;
-		for (auto& Message : Chat->Messages)
-		{
-			Message.bIsRead = true;
-		}
 		OnChatUpdated.Broadcast(ContactID);
 		return true;
 	}
+
 	return false;
 }
 
 TArray<FChatData> UChatManagerSubsystem::GetAllChats() const
 {
 	TArray<FChatData> Result;
-	Chats.GenerateValueArray(Result);
+	for (const auto& Pair : Chats)
+	{
+		Result.Add(Pair.Value);
+	}
+
+	Algo::SortBy(Result, [](const FChatData& Chat)
+	{
+		return Chat.LastMessageTime;
+	}, TGreater<FDateTime>());
+
 	return Result;
+}
+
+void UChatManagerSubsystem::OnChatItemClicked(int32 ContactID)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Chat item clicked, ContactID: %d"), ContactID);
 }

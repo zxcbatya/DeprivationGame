@@ -4,10 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
-#include "GameFramework/Character.h"
 #include "GameFramework/PlayerController.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Camera/CameraComponent.h"
 #include "InputActionValue.h"
 #include "ChopWoodGame.generated.h"
 
@@ -72,11 +69,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* ChopAction;
 
-	// Variable to save the rotation state
 	UPROPERTY()
 	bool bWasRotationInputAllowed;
 
-	// Variables to save the complete input state
 	UPROPERTY()
 	bool bWasClickEventsAllowed;
 
@@ -89,7 +84,6 @@ public:
 	UPROPERTY()
 	bool bWasMoveInputAllowed;
 
-	// Delay for widget re-display after hit
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Timing")
 	float WidgetDisplayDelay;
 
@@ -120,7 +114,6 @@ public:
 protected:
 	void InitializeDefaults();
 	
-	// Using TWeakObjectPtr to prevent memory leaks
 	TWeakObjectPtr<UChopWoodWidget> CreatedWidget;
 
 private:
@@ -129,7 +122,6 @@ private:
 	void NotifyGameCompleted(bool bSuccess);
 	void NotifyHitResult(bool bSuccess);
 	
-	// New functions for improved input handling
 	void SavePlayerInputState(APlayerController* PC);
 	void RestorePlayerInputState(APlayerController* PC);
 	void DisableAllPlayerInput(APlayerController* PC);

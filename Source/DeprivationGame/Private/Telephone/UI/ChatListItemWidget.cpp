@@ -29,6 +29,5 @@ void UChatListItemWidget::SetContactData(int32 InContactID, const FString& Conta
 
 void UChatListItemWidget::HandleClicked()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Chat item clicked, ContactID: %d"), ContactID);
 	OnContactSelected.Broadcast(ContactID);
 }

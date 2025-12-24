@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/CanvasPanel.h"
 #include "Components/Image.h"
 #include "ChopWoodWidget.generated.h"
 
@@ -55,7 +54,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float BottomPadding = 120.0f;
 
-	// New properties for vertical offsets
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float TargetZoneVerticalOffset = 0.0f;
 
@@ -68,7 +66,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ChopWood")
 	void UpdateVisuals();
 
-	// Animations that can be implemented in Blueprint
 	UFUNCTION(BlueprintImplementableEvent, Category = "ChopWood")
 	void PlaySuccessAnimation();
 

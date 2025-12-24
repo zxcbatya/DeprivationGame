@@ -21,11 +21,11 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = "ChopWood")
 	void OnChopWoodGameFailed();
-    
+	
 	// Hit events
 	UFUNCTION(BlueprintNativeEvent, Category = "ChopWood")
 	void OnChopWoodHitSuccess(int32 HitCount);
-    
+	
 	UFUNCTION(BlueprintNativeEvent, Category = "ChopWood")
 	void OnChopWoodHitFailed(int32 FailCount);
 

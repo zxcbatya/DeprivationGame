@@ -1,22 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Telephone/UI/ChatWindowWidget.h"
-#include "Telephone/UI/MessageEntryWidget.h"
-#include "Telephone/UI/ChatListWidget.h"
-#include "Telephone/ChatManagerSubsystem.h"
+#include "DeprivationGame/Public/Telephone/UI/ChatWindowWidget.h"
+#include "DeprivationGame/Public/Telephone/UI/MessageEntryWidget.h"
+#include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
 #include "Components/VerticalBox.h"
-#include "Components/Button.h"
 
-void UChatWindowWidget::OpenChat(int32 ContactID, UChatListWidget* ParentList)
+void UChatWindowWidget::OpenChat(int32 ContactID)
 {
 	CurrentContactID = ContactID;
-	ParentChatList = ParentList;
 	RefreshMessages();
 }
 
 void UChatWindowWidget::RefreshMessages()
 {
 	UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>();
+	if (!Mgr)
+		return;
 
 	FChatData Chat = Mgr->GetChatByContactID(CurrentContactID);
 	MessagesBox->ClearChildren();
@@ -35,37 +34,4 @@ void UChatWindowWidget::RefreshMessages()
 	}
 
 	Mgr->MarkChatAsRead(CurrentContactID);
-}
-
-void UChatWindowWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-	if (BackButton)
-	{
-		BackButton->OnClicked.AddDynamic(this, &UChatWindowWidget::OnBackClicked);
-	}
-}
-
-void UChatWindowWidget::NativeDestruct()
-{
-	Super::NativeDestruct();
-	if (BackButton) BackButton->OnClicked.RemoveDynamic(this, &UChatWindowWidget::OnBackClicked);
-}
-
-void UChatWindowWidget::OnBackClicked()
-{
-	UChatManagerSubsystem* Mgr = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>();
-
-	if (UChatManagerSubsystem* ChatManagerSubsystem = GetGameInstance()->GetSubsystem<UChatManagerSubsystem>())
-	{
-		ChatManagerSubsystem->RequestChatListRefresh(CurrentContactID);
-	}
-	if (ParentChatList)
-	{
-		ParentChatList->SetVisibility(ESlateVisibility::Visible);
-		ParentChatList->RefreshChatList(CurrentContactID); // ← Принудительно обновляем
-	}
-	SetVisibility(ESlateVisibility::Hidden);
-	RemoveFromParent();
 }

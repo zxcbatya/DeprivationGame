@@ -37,6 +37,7 @@ public:
     UPROPERTY(meta = (BindWidget))
     UTextBlock* ContactInitialText;
 
+    // Используем делегат из ChatManagerSubsystem
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnContactSelected, int32, ContactID);
     
     UPROPERTY(BlueprintAssignable, Category = "Chat")

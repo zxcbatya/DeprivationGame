@@ -1,19 +1,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "Enums/EFatigueState.h"
 #include "Enums/EDrunkState.h"
+#include "Enums/EFatigueState.h"
+#include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
-class UCameraComponent;
 class ADeprivationCar;
-class UMaterialParameterCollection;
-class UUserWidget;
-class UImage;
-class UTextBlock;
-class UInputAction;
-class UInputMappingContext;
+class UCameraComponent;
+class USpringArmComponent;
 
 UCLASS()
 class DEPRIVATIONGAME_API ABaseCharacter : public ACharacter
@@ -25,12 +20,19 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, Category = "Tired")
+	bool bIsTired;
+	UPROPERTY(VisibleAnywhere, Category="Tireds")
+	USoundBase* TiredSound;
+	UPROPERTY(VisibleAnywhere, Category="Tireds")
 	EFatigueState TiredState;
-
-	UPROPERTY(VisibleAnywhere, Category = "Drunk")
+	UPROPERTY(VisibleAnywhere, Category="Drunk")
 	EDrunkState DrunkState;
+
+	UFUNCTION(BlueprintCallable, Category="Player State")
+	void SetFatigueState(EFatigueState NewState);
+
+	UFUNCTION(BlueprintCallable, Category="Player State")
+	void SetDrunkState(EDrunkState NewState);
 
 	UPROPERTY(EditAnywhere, Category = "Materials")
 	UMaterialParameterCollection* StateMPC;
@@ -38,52 +40,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (DisplayName = "Camera Offset"))
-	FVector CameraOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction",
-		meta = (DisplayName = "Crosshair Widget Class"))
-	TSubclassOf<class UUserWidget> CrosshairWidgetClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction",
-		meta = (DisplayName = "Interaction Widget Class"))
-	TSubclassOf<class UUserWidget> InteractionWidgetClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Interaction Action"))
-	UInputAction* InteractionAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Character Mapping Context"))
-	UInputMappingContext* CharacterMappingContext;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = "Interaction", meta = (DisplayName = "Created Crosshair Widget"))
-	class UUserWidget* CreatedCrosshairWidget;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = "Interaction",
-		meta = (DisplayName = "Created Interaction Widget"))
-	class UUserWidget* CreatedInteractionWidget;
-
-	float InteractionCheckTimer;
-
-	AActor* CurrentHoveredInteractable = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	USpringArmComponent* SpringArmComponent;
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void CreateCrosshairWidget();
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void CreateInteractionWidget();
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void ShowCrosshair(bool bShow);
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void ShowInteractionPrompt(bool bShow, const FText& PromptText = FText::GetEmpty());
-
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void StartChoppingMinigame();
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void EnterVehicle(APawn* Vehicle);

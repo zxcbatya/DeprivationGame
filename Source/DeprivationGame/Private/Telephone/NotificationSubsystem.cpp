@@ -4,5 +4,5 @@
 
 void UNotificationSubsystem::ShowNotification(int32 ContactID, const FMessageData& Message)
 {
-	OnNotificationReceived.Broadcast(ContactID, Message);
+    OnNotificationReceived.Broadcast(ContactID, Message);
 }

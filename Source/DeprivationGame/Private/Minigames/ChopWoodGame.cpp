@@ -2,13 +2,10 @@
 #include "Minigames/ChopWoodWidget.h"
 #include "Interfaces/IChopWoodGameListener.h"
 #include "Engine/Engine.h"
-#include "Kismet/GameplayStatics.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
-#include "GameFramework/PlayerInput.h"
-#include "Camera/CameraComponent.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputComponent.h"
@@ -37,14 +34,13 @@ void UChopWoodGame::InitializeDefaults()
 	MinTargetZoneSize = 0.05f;
 	InitialTargetZoneSize = 0.2f;
 	InitialTargetZoneCenter = 0.5f;
-	bWasRotationInputAllowed = true; // Default rotation allowed
+	bWasRotationInputAllowed = true; 
 
-	// Initialize new variables
 	bWasClickEventsAllowed = true;
 	bWasMouseOverEventsAllowed = true;
 	bWasLookInputAllowed = true;
 	bWasMoveInputAllowed = true;
-	WidgetDisplayDelay = 0.5f; // Default delay of 0.5 seconds
+	WidgetDisplayDelay = 0.5f; 
 }
 
 void UChopWoodGame::BeginPlay()
@@ -90,7 +86,6 @@ void UChopWoodGame::NotifyGameCompleted(bool bSuccess)
 {
 	if (AActor* Owner = GetOwner())
 	{
-		// Notify using the IChopWoodGameListener interface
 		if (Owner->GetClass()->ImplementsInterface(UChopWoodGameListener::StaticClass()))
 		{
 			if (bSuccess)
@@ -109,21 +104,18 @@ void UChopWoodGame::NotifyHitResult(bool bSuccess)
 {
 	if (AActor* Owner = GetOwner())
 	{
-		// Notify using the IChopWoodGameListener interface
 		if (Owner->GetClass()->ImplementsInterface(UChopWoodGameListener::StaticClass()))
 		{
 			if (bSuccess)
 			{
 				IChopWoodGameListener::Execute_OnChopWoodHitSuccess(Owner, ChopsSuccessful);
-				
-				// Trigger animation event
+
 				IChopWoodGameListener::Execute_PlayChopSuccessAnimation(Owner);
 			}
 			else
 			{
 				IChopWoodGameListener::Execute_OnChopWoodHitFailed(Owner, ChopsFailed);
-				
-				// Trigger animation event
+
 				IChopWoodGameListener::Execute_PlayChopFailAnimation(Owner);
 			}
 		}
@@ -132,12 +124,9 @@ void UChopWoodGame::NotifyHitResult(bool bSuccess)
 
 void UChopWoodGame::SavePlayerInputState(APlayerController* PC)
 {
-	if (!PC) return;
-
-	// Save the complete input state
 	bWasClickEventsAllowed = PC->bEnableClickEvents;
 	bWasMouseOverEventsAllowed = PC->bEnableMouseOverEvents;
-	bWasLookInputAllowed = PC->bEnableClickEvents; // Look input is tied to click events in many cases
+	bWasLookInputAllowed = PC->bEnableClickEvents; 
 	bWasMoveInputAllowed = !PC->IsMoveInputIgnored();
 }
 
@@ -145,11 +134,9 @@ void UChopWoodGame::RestorePlayerInputState(APlayerController* PC)
 {
 	if (!PC) return;
 
-	// Restore the complete input state
 	PC->bEnableClickEvents = bWasClickEventsAllowed;
 	PC->bEnableMouseOverEvents = bWasMouseOverEventsAllowed;
 
-	// Restore movement if it was enabled
 	if (bWasMoveInputAllowed)
 	{
 		PC->SetIgnoreMoveInput(false);
@@ -158,9 +145,6 @@ void UChopWoodGame::RestorePlayerInputState(APlayerController* PC)
 
 void UChopWoodGame::DisableAllPlayerInput(APlayerController* PC)
 {
-	if (!PC) return;
-
-	// Completely disable all player input
 	PC->bEnableClickEvents = false;
 	PC->bEnableMouseOverEvents = false;
 	PC->SetIgnoreLookInput(true);
@@ -169,9 +153,6 @@ void UChopWoodGame::DisableAllPlayerInput(APlayerController* PC)
 
 void UChopWoodGame::EnableAllPlayerInput(APlayerController* PC)
 {
-	if (!PC) return;
-
-	// Re-enable all player input
 	PC->bEnableClickEvents = true;
 	PC->bEnableMouseOverEvents = true;
 	PC->SetIgnoreLookInput(false);
@@ -200,10 +181,8 @@ void UChopWoodGame::StartChopping()
 
 				if (APlayerController* PC = Cast<APlayerController>(Character->GetController()))
 				{
-					// Save the complete input state
 					SavePlayerInputState(PC);
 
-					// Completely disable all input during gameplay
 					DisableAllPlayerInput(PC);
 
 					if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
@@ -233,13 +212,12 @@ void UChopWoodGame::StartChopping()
 			if (CreatedWidget.IsValid())
 			{
 				CreatedWidget->AddToViewport();
-				// Notify owner to play start animation
 				if (AActor* OwnerActor = GetOwner())
 				{
-						if (OwnerActor->GetClass()->ImplementsInterface(UChopWoodGameListener::StaticClass()))
-						{
-								IChopWoodGameListener::Execute_PlayChopStartAnimation(OwnerActor);
-						}
+					if (OwnerActor->GetClass()->ImplementsInterface(UChopWoodGameListener::StaticClass()))
+					{
+						IChopWoodGameListener::Execute_PlayChopStartAnimation(OwnerActor);
+					}
 				}
 			}
 		}
@@ -263,7 +241,6 @@ void UChopWoodGame::StopChopping()
 
 				if (APlayerController* PC = Cast<APlayerController>(Character->GetController()))
 				{
-					// Fully restore all input
 					EnableAllPlayerInput(PC);
 
 					if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
@@ -274,22 +251,17 @@ void UChopWoodGame::StopChopping()
 							Subsystem->RemoveMappingContext(ChopWoodMappingContext);
 						}
 					}
-
-					// Note: Enhanced Input bindings are automatically cleaned up when 
-					// the mapping context is removed, so we don't need to manually unbind
 				}
 			}
 		}
 	}
 
-	// Safely remove widget with proper memory management
 	if (CreatedWidget.IsValid())
 	{
 		CreatedWidget->RemoveFromParent();
-		CreatedWidget.Reset(); // Explicitly reset the weak pointer
+		CreatedWidget.Reset();
 	}
 
-	// Clear any pending timers
 	if (GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(WidgetDisplayTimerHandle);
@@ -303,11 +275,6 @@ bool UChopWoodGame::AttemptChop()
 		return false;
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("Chop attempt - Indicator Position: %f"), IndicatorPosition);
-	UE_LOG(LogTemp, Log, TEXT("Target Zone: Start=%f, End=%f"),
-	       TargetZoneCenter - CurrentTargetZoneSize * 0.5f,
-	       TargetZoneCenter + CurrentTargetZoneSize * 0.5f);
-
 	const float ZoneStart = FMath::Max(0.0f, TargetZoneCenter - CurrentTargetZoneSize * 0.5f);
 	const float ZoneEnd = FMath::Min(1.0f, TargetZoneCenter + CurrentTargetZoneSize * 0.5f);
 
@@ -316,15 +283,11 @@ bool UChopWoodGame::AttemptChop()
 	if (IndicatorPosition >= (ZoneStart - Tolerance) && IndicatorPosition <= (ZoneEnd + Tolerance))
 	{
 		ChopsSuccessful++;
-		UE_LOG(LogTemp, Log, TEXT("Chop SUCCESSFUL - Count: %d"), ChopsSuccessful);
-		
-		// Play success animation
 		if (CreatedWidget.IsValid())
 		{
 			CreatedWidget->PlaySuccessAnimation();
 		}
-		
-		// Notify hit result and trigger animation
+
 		NotifyHitResult(true);
 
 		if (ChopsSuccessful >= RequiredHits)
@@ -345,15 +308,11 @@ bool UChopWoodGame::AttemptChop()
 	else
 	{
 		ChopsFailed++;
-		UE_LOG(LogTemp, Log, TEXT("Chop FAILED - Count: %d"), ChopsFailed);
-		
-		// Play failure animation
 		if (CreatedWidget.IsValid())
 		{
 			CreatedWidget->PlayFailureAnimation();
 		}
-		
-		// Notify hit result and trigger animation
+
 		NotifyHitResult(false);
 
 		if (ChopsFailed >= 3)
@@ -404,7 +363,6 @@ void UChopWoodGame::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 		}
 	}
 
-	// Update the indicator position in the widget
 	if (CreatedWidget.IsValid())
 	{
 		CreatedWidget->IndicatorPosition = IndicatorPosition;

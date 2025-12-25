@@ -13,11 +13,15 @@ class UInteractable : public UInterface
 	GENERATED_BODY()
 };
 
+/**
+ * Interface for interactive objects in the game
+ */
 class DEPRIVATIONGAME_API IInteractable
 {
 	GENERATED_BODY()
 
 public:
+	// Interaction methods
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	bool CanInteract(APawn* InteractingPawn) const;
 
@@ -29,5 +33,19 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	float GetInteractionDistance() const;
+	
+	// Hover methods
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
+	void OnHoverBegin(APawn* HoveringPawn);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
+	void OnHoverEnd(APawn* HoveringPawn);
+
+	// Widget interaction methods
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
+	void ShowInteractionPrompt(APawn* InteractingPawn);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
+	void HideInteractionPrompt(APawn* InteractingPawn);
 };
 

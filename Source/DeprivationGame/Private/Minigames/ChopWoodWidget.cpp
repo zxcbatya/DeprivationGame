@@ -3,7 +3,7 @@
 #include "Components/Image.h"
 
 UChopWoodWidget::UChopWoodWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+	: Super(ObjectInitializer), TargetZoneImage(nullptr), IndicatorImage(nullptr), BackgroundImage(nullptr)
 {
 	IndicatorPosition = 0.0f;
 	IndicatorDirection = true;
@@ -12,8 +12,12 @@ UChopWoodWidget::UChopWoodWidget(const FObjectInitializer& ObjectInitializer)
 	BackgroundOffsetX = 0.0f;
 	BackgroundOffsetY = 0.0f;
 	ManualBackgroundWidth = 0.0f;
-	TopPadding = 300.0f;
+	TopPadding = 120.0f;
 	BottomPadding = 120.0f;
+	BottomVerticalPadding = 50.0f;
+	TopVerticalPadding = 0.0f;
+	TargetZoneVerticalOffset = 0.0f;
+	IndicatorVerticalOffset = 0.0f;
 }
 
 void UChopWoodWidget::NativeConstruct()
@@ -29,45 +33,48 @@ void UChopWoodWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 void UChopWoodWidget::UpdateVisuals()
 {
-	FGeometry BackgroundGeom = BackgroundImage->GetCachedGeometry();
-	FVector2D BackgroundSize = BackgroundGeom.GetLocalSize();
+    FGeometry BackgroundGeom = BackgroundImage->GetCachedGeometry();
+    FVector2D BackgroundSize = BackgroundGeom.GetLocalSize();
 
-	float EffectiveBackgroundWidth = (ManualBackgroundWidth > 0.0f) ? ManualBackgroundWidth : BackgroundSize.X;
+    float UsableWidth = BackgroundSize.X - (TopPadding + BottomPadding);
+    float StartX = TopPadding;
 
-	float UsableWidth = EffectiveBackgroundWidth - TopPadding - BottomPadding;
+    float CenterY = (BackgroundSize.Y * 0.5f) - (BottomVerticalPadding * 0.5f) + (TopVerticalPadding * 0.5f);
 
-	float StartX = TopPadding;
+    auto PositionElement = [&](float PositionRatio, float ElementWidth, float ElementHeight, float VerticalOffset) -> FVector2D
+    {
+        float ElementX = StartX + (PositionRatio * UsableWidth) - (ElementWidth * 0.5f);
+        float ElementY = CenterY + VerticalOffset;
 
-	if (UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(TargetZoneImage->Slot))
-	{
-		const float ZoneWidthPixels = CurrentTargetZoneSize * UsableWidth;
-		const float ZoneHeightPixels = 45.0f;
+        ElementX = FMath::Clamp(ElementX, StartX, StartX + UsableWidth - ElementWidth);
+        float MinY = TopVerticalPadding;
+        float MaxY = BackgroundSize.Y - BottomVerticalPadding - ElementHeight;
+        ElementY = FMath::Clamp(ElementY, MinY, MaxY);
 
-		float ZoneX = StartX + (TargetZoneCenter * UsableWidth) - (ZoneWidthPixels * 0.5f);
-		float ZoneY = (BackgroundSize.Y - ZoneHeightPixels) * 0.5f + TargetZoneVerticalOffset;
+        return FVector2D(ElementX, ElementY);
+    };
+    if (UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(TargetZoneImage->Slot))
+    {
+        float ZoneWidth = CurrentTargetZoneSize * UsableWidth;
+        float ZoneHeight = 45.0f;
 
-		ZoneX = FMath::Clamp(ZoneX, StartX, StartX + UsableWidth - ZoneWidthPixels);
+        FVector2D ZonePos = PositionElement(TargetZoneCenter, ZoneWidth, ZoneHeight, TargetZoneVerticalOffset);
 
-		ZoneSlot->SetSize(FVector2D(ZoneWidthPixels, ZoneHeightPixels));
-		ZoneSlot->SetPosition(FVector2D(ZoneX, ZoneY));
+        ZoneSlot->SetSize(FVector2D(ZoneWidth, ZoneHeight));
+        ZoneSlot->SetPosition(ZonePos);
+        TargetZoneImage->InvalidateLayoutAndVolatility();
+    }
 
-		TargetZoneImage->InvalidateLayoutAndVolatility();
-	}
+    if (UCanvasPanelSlot* IndicatorSlot = Cast<UCanvasPanelSlot>(IndicatorImage->Slot))
+    {
+        float IndicatorWidth = 50.0f;
+        float IndicatorHeight = 45.0f;
+        float Pos = FMath::Clamp(IndicatorPosition, 0.0f, 1.0f);
 
-	if (UCanvasPanelSlot* IndicatorSlot = Cast<UCanvasPanelSlot>(IndicatorImage->Slot))
-	{
-		float Pos = FMath::Clamp(IndicatorPosition, 0.0f, 1.0f);
-		const float IndicatorWidth = 50.0f;
-		const float IndicatorHeight = 45.0f;
+        FVector2D IndicatorPos = PositionElement(Pos, IndicatorWidth, IndicatorHeight, IndicatorVerticalOffset);
 
-		float IndicatorX = StartX + (Pos * UsableWidth) - (IndicatorWidth * 0.5f);
-		float IndicatorY = (BackgroundSize.Y - IndicatorHeight) * 0.5f + IndicatorVerticalOffset;
-
-		IndicatorX = FMath::Clamp(IndicatorX, StartX, StartX + UsableWidth - IndicatorWidth);
-
-		IndicatorSlot->SetSize(FVector2D(IndicatorWidth, IndicatorHeight));
-		IndicatorSlot->SetPosition(FVector2D(IndicatorX, IndicatorY));
-
-		IndicatorImage->InvalidateLayoutAndVolatility();
-	}
+        IndicatorSlot->SetSize(FVector2D(IndicatorWidth, IndicatorHeight));
+        IndicatorSlot->SetPosition(IndicatorPos);
+        IndicatorImage->InvalidateLayoutAndVolatility();
+    }
 }

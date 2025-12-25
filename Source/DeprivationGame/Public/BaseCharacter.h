@@ -25,6 +25,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Tired")
 	EFatigueState TiredState;
@@ -62,7 +63,7 @@ protected:
 		meta = (DisplayName = "Created Interaction Widget"))
 	class UUserWidget* CreatedInteractionWidget;
 
-	float InteractionCheckTimer;
+	FTimerHandle InteractionCheckTimerHandle;
 
 	AActor* CurrentHoveredInteractable = nullptr;
 
@@ -102,6 +103,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	FText GetInteractionPrompt() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	void CheckInteraction();
 
 private:
 	UFUNCTION()

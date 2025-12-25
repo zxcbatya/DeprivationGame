@@ -6,13 +6,13 @@
 #include "Interfaces/IInteractable.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
-#include "Interfaces/IWidgetAnimationHandler.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputAction.h"
 #include "InputMappingContext.h"
 #include "Engine/LocalPlayer.h"
+#include "Interfaces/IWidgetAnimationHandler.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -25,7 +25,7 @@ ABaseCharacter::ABaseCharacter()
 	CameraComponent->SetRelativeLocation(CameraOffset);
 	CameraComponent->bUsePawnControlRotation = true;
 
-	InteractionCheckTimer = 0.0f;
+	// InteractionCheckTimerHandle is initialized by the timer system
 	CurrentHoveredInteractable = nullptr;
 }
 
@@ -40,6 +40,9 @@ void ABaseCharacter::BeginPlay()
 		CreatedCrosshairWidget->SetVisibility(ESlateVisibility::Hidden);
 		ShowCrosshair(false);
 	}
+
+	// Start interaction check timer
+	GetWorldTimerManager().SetTimer(InteractionCheckTimerHandle, this, &ABaseCharacter::CheckInteraction, 0.1f, true);
 }
 
 void ABaseCharacter::Tick(float DeltaTime)
@@ -47,54 +50,66 @@ void ABaseCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CameraComponent->SetRelativeLocation(CameraOffset);
+}
 
-	InteractionCheckTimer += DeltaTime;
-	if (InteractionCheckTimer >= 0.1f)
-	{
-		InteractionCheckTimer = 0.1f;
+void ABaseCharacter::CheckInteraction()
+{
+    AActor* NewHoveredInteractable = GetInteractableActor();
 
-		AActor* Interactable = GetInteractableActor();
+    // Проверяем, изменилось ли состояние (новый объект или нет объекта)
+    if (NewHoveredInteractable != CurrentHoveredInteractable)
+    {
+        // Скрыть предыдущий объект
+        if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(
+            UInteractable::StaticClass()))
+        {
+            IInteractable::Execute_HideInteractionPrompt(CurrentHoveredInteractable, this);
+            IInteractable::Execute_OnHoverEnd(CurrentHoveredInteractable, this);
+        }
 
-		if (Interactable != CurrentHoveredInteractable)
-		{
-			CurrentHoveredInteractable = Interactable;
+        CurrentHoveredInteractable = NewHoveredInteractable;
 
-			if (Interactable != nullptr)
-			{
-				if (CreatedCrosshairWidget && CreatedCrosshairWidget->GetClass()->ImplementsInterface(
-					UWidgetAnimationHandler::StaticClass()))
-				{
-					IWidgetAnimationHandler::Execute_PlayShowAnimation(CreatedCrosshairWidget);
-					CreatedCrosshairWidget->SetVisibility(ESlateVisibility::Visible);
-					ShowCrosshair(true);
-				}
+        if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(
+            UInteractable::StaticClass()))
+        {
+            IInteractable::Execute_ShowInteractionPrompt(CurrentHoveredInteractable, this);
+            IInteractable::Execute_OnHoverBegin(CurrentHoveredInteractable, this);
+        }
 
-				if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(
-					UWidgetAnimationHandler::StaticClass()))
-				{
-					IWidgetAnimationHandler::Execute_PlayShowAnimation(CreatedInteractionWidget);
-				}
-			}
-			else
-			{
-				if (CreatedCrosshairWidget && CreatedCrosshairWidget->GetClass()->ImplementsInterface(
-					UWidgetAnimationHandler::StaticClass()))
-				{
-					IWidgetAnimationHandler::Execute_PlayHideAnimation(CreatedCrosshairWidget);
-				}
-
-				if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(
-					UWidgetAnimationHandler::StaticClass()))
-				{
-					IWidgetAnimationHandler::Execute_PlayHideAnimation(CreatedInteractionWidget);
-				}
-			}
-		}
-
-		//bool bIsHovering = Interactable != nullptr;
-		//FText Prompt = bIsHovering ? GetInteractionPrompt() : FText::GetEmpty();
-		//ShowInteractionPrompt(bIsHovering, Prompt);
-	}
+        if (CurrentHoveredInteractable)
+        {
+            ShowInteractionPrompt(true, IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable));
+            ShowCrosshair(true); 
+            
+            if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
+            {
+                IWidgetAnimationHandler::Execute_PlayShowAnimation(CreatedInteractionWidget);
+            }
+            if (CreatedCrosshairWidget && CreatedCrosshairWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
+            {
+                IWidgetAnimationHandler::Execute_PlayShowAnimation(CreatedCrosshairWidget);
+            }
+        }
+        else
+        {
+            ShowInteractionPrompt(false);
+            ShowCrosshair(true);
+            
+            if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
+            {
+                IWidgetAnimationHandler::Execute_PlayHideAnimation(CreatedInteractionWidget);
+            }
+            if (CreatedCrosshairWidget && CreatedCrosshairWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
+            {
+                IWidgetAnimationHandler::Execute_PlayHideAnimation(CreatedCrosshairWidget); 
+            }
+        }
+    }
+    else if (CurrentHoveredInteractable)
+    {
+        FText InteractionText = IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable);
+        ShowInteractionPrompt(true, InteractionText);
+    }
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -107,10 +122,11 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		{
 			EnhancedInput->BindAction(InteractionAction, ETriggerEvent::Triggered, this, &ABaseCharacter::Interact);
 		}
-		
+
 		if (APlayerController* PC = Cast<APlayerController>(GetController()))
 		{
-			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+				UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 			{
 				if (CharacterMappingContext)
 				{
@@ -211,7 +227,6 @@ FText ABaseCharacter::GetInteractionPrompt() const
 
 void ABaseCharacter::Interact()
 {
-	
 	if (CurrentVehicle)
 	{
 		ExitVehicle();
@@ -261,12 +276,14 @@ void ABaseCharacter::ShowCrosshair(bool bShow)
 
 void ABaseCharacter::ShowInteractionPrompt(bool bShow, const FText& PromptText)
 {
-	CreatedInteractionWidget->SetVisibility(bShow ? ESlateVisibility::Visible : ESlateVisibility::Hidden);
+	if (CreatedInteractionWidget)
+	{
+		CreatedInteractionWidget->SetVisibility(bShow ? ESlateVisibility::Visible : ESlateVisibility::Hidden);
+	}
 }
 
 void ABaseCharacter::StartChoppingMinigame()
 {
-
 }
 
 void ABaseCharacter::OnFatigueStateChanged(EFatigueState State)
@@ -275,4 +292,23 @@ void ABaseCharacter::OnFatigueStateChanged(EFatigueState State)
 
 void ABaseCharacter::OnDrunkStateChanged(EDrunkState State)
 {
+}
+
+void ABaseCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	// Clear the interaction check timer to prevent delegate calls on destroyed object
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(InteractionCheckTimerHandle);
+	}
+
+	// Hide any active interaction prompts
+	if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(
+		UInteractable::StaticClass()))
+	{
+		IInteractable::Execute_HideInteractionPrompt(CurrentHoveredInteractable, this);
+		IInteractable::Execute_OnHoverEnd(CurrentHoveredInteractable, this);
+	}
 }

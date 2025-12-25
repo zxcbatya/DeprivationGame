@@ -45,17 +45,22 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float BackgroundOffsetY = 0.0f;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float ManualBackgroundWidth = 0.0f;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float TopPadding = 120.0f;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float BottomPadding = 120.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
+	float TopVerticalPadding = 0.0f;
 
-	// New properties for vertical offsets
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
+	float BottomVerticalPadding = 50.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float TargetZoneVerticalOffset = 0.0f;
 

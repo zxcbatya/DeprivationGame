@@ -66,3 +66,23 @@ float AInteractableActor::GetInteractionDistance_Implementation() const
 	return InteractionDistance;
 }
 
+void AInteractableActor::OnHoverBegin_Implementation(APawn* HoveringPawn)
+{
+	ReceiveOnHoverBegin(HoveringPawn);
+}
+
+void AInteractableActor::OnHoverEnd_Implementation(APawn* HoveringPawn)
+{
+	ReceiveOnHoverEnd(HoveringPawn);
+}
+
+void AInteractableActor::ShowInteractionPrompt_Implementation(APawn* InteractingPawn)
+{
+	ReceiveShowInteractionPrompt(InteractingPawn);
+}
+
+void AInteractableActor::HideInteractionPrompt_Implementation(APawn* InteractingPawn)
+{
+	ReceiveHideInteractionPrompt(InteractingPawn);
+}
+

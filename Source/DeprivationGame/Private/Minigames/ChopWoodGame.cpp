@@ -114,7 +114,6 @@ void UChopWoodGame::NotifyHitResult(bool bSuccess)
 }
 
 
-
 void UChopWoodGame::StartChopping()
 {
 	IsChopping = true;

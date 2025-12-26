@@ -53,7 +53,7 @@ public:
 	UChopWoodWidget(const FObjectInitializer& ObjectInitializer);
 
 	UFUNCTION(BlueprintCallable, Category = "ChopWood")
-	void UpdateVisuals(float InTargetZoneCenter, float InCurrentTargetZoneSize, float InIndicatorPosition);
+	void UpdateVisuals(float InTargetZoneCenter, float InTargetZoneSize, float InIndicatorPosition);
 
 	// Animations that can be implemented in Blueprint
 	UFUNCTION(BlueprintImplementableEvent, Category = "ChopWood")
@@ -65,5 +65,5 @@ public:
 protected:
 	virtual void NativeConstruct() override;
 
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	//virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override; // Пока отключим, если не используется
 };

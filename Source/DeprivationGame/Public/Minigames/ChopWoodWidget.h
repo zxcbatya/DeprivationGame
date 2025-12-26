@@ -25,30 +25,7 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UImage* BackgroundImage;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood")
-	float TargetZoneSize = 0.2f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood")
-	float IndicatorPosition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood")
-	bool IndicatorDirection;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood")
-	float CurrentTargetZoneSize;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood")
-	float TargetZoneCenter = 0.5f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
-	float BackgroundOffsetX = 0.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
-	float BackgroundOffsetY = 0.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
-	float ManualBackgroundWidth = 0.0f;
-
+	// Positioning parameters that can be adjusted in editor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float TopPadding = 120.0f;
 
@@ -67,9 +44,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Positioning")
 	float IndicatorVerticalOffset = 0.0f;
 
+	// Internal variables to store current state
+	float CurrentTargetZoneCenter = 0.5f;
+	float CurrentTargetZoneSize = 0.2f;
+	float CurrentIndicatorPosition = 0.0f;
+
 public:
 	UChopWoodWidget(const FObjectInitializer& ObjectInitializer);
 
+	UFUNCTION(BlueprintCallable, Category = "ChopWood")
+	void UpdateVisuals(float InTargetZoneCenter, float InCurrentTargetZoneSize, float InIndicatorPosition);
+
+	// Convenience function to update visuals with current stored values
 	UFUNCTION(BlueprintCallable, Category = "ChopWood")
 	void UpdateVisuals();
 

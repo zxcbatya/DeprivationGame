@@ -72,27 +72,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* ChopAction;
 
-	// Variable to save the rotation state
-	UPROPERTY()
-	bool bWasRotationInputAllowed;
-
-	// Variables to save the complete input state
-	UPROPERTY()
-	bool bWasClickEventsAllowed;
-
-	UPROPERTY()
-	bool bWasMouseOverEventsAllowed;
-
-	UPROPERTY()
-	bool bWasLookInputAllowed;
-
-	UPROPERTY()
-	bool bWasMoveInputAllowed;
-
-	// Delay for widget re-display after hit
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChopWood|Timing")
-	float WidgetDisplayDelay;
-
 protected:
 	FTimerHandle WidgetDisplayTimerHandle;
 

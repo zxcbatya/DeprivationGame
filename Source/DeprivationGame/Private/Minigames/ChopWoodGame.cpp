@@ -34,13 +34,6 @@ void UChopWoodGame::InitializeDefaults()
 	MinTargetZoneSize = 0.05f;
 	InitialTargetZoneSize = 0.2f;
 	InitialTargetZoneCenter = 0.5f;
-	bWasRotationInputAllowed = true; 
-
-	bWasClickEventsAllowed = true;
-	bWasMouseOverEventsAllowed = true;
-	bWasLookInputAllowed = true;
-	bWasMoveInputAllowed = true;
-	WidgetDisplayDelay = 0.5f; 
 }
 
 void UChopWoodGame::BeginPlay()
@@ -76,9 +69,7 @@ void UChopWoodGame::UpdateWidget()
 {
 	if (CreatedWidget.IsValid())
 	{
-		CreatedWidget->CurrentTargetZoneSize = CurrentTargetZoneSize;
-		CreatedWidget->TargetZoneCenter = TargetZoneCenter;
-		CreatedWidget->UpdateVisuals();
+		CreatedWidget->UpdateVisuals(TargetZoneCenter, CurrentTargetZoneSize, IndicatorPosition);
 	}
 }
 
@@ -122,42 +113,7 @@ void UChopWoodGame::NotifyHitResult(bool bSuccess)
 	}
 }
 
-void UChopWoodGame::SavePlayerInputState(APlayerController* PC)
-{
-	bWasClickEventsAllowed = PC->bEnableClickEvents;
-	bWasMouseOverEventsAllowed = PC->bEnableMouseOverEvents;
-	bWasLookInputAllowed = PC->bEnableClickEvents; 
-	bWasMoveInputAllowed = !PC->IsMoveInputIgnored();
-}
 
-void UChopWoodGame::RestorePlayerInputState(APlayerController* PC)
-{
-	if (!PC) return;
-
-	PC->bEnableClickEvents = bWasClickEventsAllowed;
-	PC->bEnableMouseOverEvents = bWasMouseOverEventsAllowed;
-
-	if (bWasMoveInputAllowed)
-	{
-		PC->SetIgnoreMoveInput(false);
-	}
-}
-
-void UChopWoodGame::DisableAllPlayerInput(APlayerController* PC)
-{
-	PC->bEnableClickEvents = false;
-	PC->bEnableMouseOverEvents = false;
-	PC->SetIgnoreLookInput(true);
-	PC->SetIgnoreMoveInput(true);
-}
-
-void UChopWoodGame::EnableAllPlayerInput(APlayerController* PC)
-{
-	PC->bEnableClickEvents = true;
-	PC->bEnableMouseOverEvents = true;
-	PC->SetIgnoreLookInput(false);
-	PC->SetIgnoreMoveInput(false);
-}
 
 void UChopWoodGame::StartChopping()
 {
@@ -181,9 +137,17 @@ void UChopWoodGame::StartChopping()
 
 				if (APlayerController* PC = Cast<APlayerController>(Character->GetController()))
 				{
-					SavePlayerInputState(PC);
+					// Save player input state
+					bool bWasClickEventsAllowed = PC->bEnableClickEvents;
+					bool bWasMouseOverEventsAllowed = PC->bEnableMouseOverEvents;
+					bool bWasLookInputAllowed = PC->bEnableClickEvents;
+					bool bWasMoveInputAllowed = !PC->IsMoveInputIgnored();
 
-					DisableAllPlayerInput(PC);
+					// Disable all player input
+					PC->bEnableClickEvents = false;
+					PC->bEnableMouseOverEvents = false;
+					PC->SetIgnoreLookInput(true);
+					PC->SetIgnoreMoveInput(true);
 
 					if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
 						UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
@@ -241,7 +205,11 @@ void UChopWoodGame::StopChopping()
 
 				if (APlayerController* PC = Cast<APlayerController>(Character->GetController()))
 				{
-					EnableAllPlayerInput(PC);
+					// Enable all player input
+					PC->bEnableClickEvents = true;
+					PC->bEnableMouseOverEvents = true;
+					PC->SetIgnoreLookInput(false);
+					PC->SetIgnoreMoveInput(false);
 
 					if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
 						UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
@@ -365,8 +333,6 @@ void UChopWoodGame::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 	if (CreatedWidget.IsValid())
 	{
-		CreatedWidget->IndicatorPosition = IndicatorPosition;
-		CreatedWidget->IndicatorDirection = IndicatorDirection;
-		CreatedWidget->UpdateVisuals();
+		CreatedWidget->UpdateVisuals(TargetZoneCenter, CurrentTargetZoneSize, IndicatorPosition);
 	}
 }

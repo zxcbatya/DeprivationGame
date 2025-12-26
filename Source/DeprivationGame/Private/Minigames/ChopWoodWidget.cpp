@@ -21,11 +21,7 @@ void UChopWoodWidget::NativeConstruct()
 void UChopWoodWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	UpdateVisuals(); // Updates using stored values
-}
-
-void UChopWoodWidget::UpdateVisuals()
-{
+	// Update visuals using stored values
 	UpdateVisuals(CurrentTargetZoneCenter, CurrentTargetZoneSize, CurrentIndicatorPosition);
 }
 

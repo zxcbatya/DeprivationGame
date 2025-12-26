@@ -55,10 +55,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ChopWood")
 	void UpdateVisuals(float InTargetZoneCenter, float InCurrentTargetZoneSize, float InIndicatorPosition);
 
-	// Convenience function to update visuals with current stored values
-	UFUNCTION(BlueprintCallable, Category = "ChopWood")
-	void UpdateVisuals();
-
 	// Animations that can be implemented in Blueprint
 	UFUNCTION(BlueprintImplementableEvent, Category = "ChopWood")
 	void PlaySuccessAnimation();

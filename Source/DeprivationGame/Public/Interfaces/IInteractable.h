@@ -33,19 +33,5 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	float GetInteractionDistance() const;
-	
-	// Hover methods
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void OnHoverBegin(APawn* HoveringPawn);
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void OnHoverEnd(APawn* HoveringPawn);
-
-	// Widget interaction methods
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void ShowInteractionPrompt(APawn* InteractingPawn);
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void HideInteractionPrompt(APawn* InteractingPawn);
 };
 

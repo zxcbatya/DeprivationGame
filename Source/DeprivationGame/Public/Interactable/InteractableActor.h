@@ -41,10 +41,7 @@ public:
 	virtual void OnInteract_Implementation(APawn* InteractingPawn) override;
 	virtual FText GetInteractionText_Implementation() const override;
 	virtual float GetInteractionDistance_Implementation() const override;
-	virtual void OnHoverBegin_Implementation(APawn* HoveringPawn) override;
-	virtual void OnHoverEnd_Implementation(APawn* HoveringPawn) override;
-	virtual void ShowInteractionPrompt_Implementation(APawn* InteractingPawn) override;
-	virtual void HideInteractionPrompt_Implementation(APawn* InteractingPawn) override;
+
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
 	void ReceiveOnInteract(APawn* InteractingPawn);
@@ -52,17 +49,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
 	bool ReceiveCanInteract(APawn* InteractingPawn) const;
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
-	void ReceiveOnHoverBegin(APawn* HoveringPawn);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
-	void ReceiveOnHoverEnd(APawn* HoveringPawn);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
-	void ReceiveShowInteractionPrompt(APawn* InteractingPawn);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
-	void ReceiveHideInteractionPrompt(APawn* InteractingPawn);
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void SetCanInteract(bool bNewCanInteract);

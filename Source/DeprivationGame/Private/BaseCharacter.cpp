@@ -56,30 +56,15 @@ void ABaseCharacter::CheckInteraction()
 {
     AActor* NewHoveredInteractable = GetInteractableActor();
 
-    // Проверяем, изменилось ли состояние (новый объект или нет объекта)
     if (NewHoveredInteractable != CurrentHoveredInteractable)
     {
-        // Скрыть предыдущий объект
-        if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(
-            UInteractable::StaticClass()))
-        {
-            IInteractable::Execute_HideInteractionPrompt(CurrentHoveredInteractable, this);
-            IInteractable::Execute_OnHoverEnd(CurrentHoveredInteractable, this);
-        }
-
         CurrentHoveredInteractable = NewHoveredInteractable;
 
-        if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(
-            UInteractable::StaticClass()))
+        if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
         {
-            IInteractable::Execute_ShowInteractionPrompt(CurrentHoveredInteractable, this);
-            IInteractable::Execute_OnHoverBegin(CurrentHoveredInteractable, this);
-        }
-
-        if (CurrentHoveredInteractable)
-        {
-            ShowInteractionPrompt(true, IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable));
-            ShowCrosshair(true); 
+            FText InteractionText = IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable);
+            ShowInteractionPrompt(true, InteractionText);
+            ShowCrosshair(true);
             
             if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
             {
@@ -93,7 +78,7 @@ void ABaseCharacter::CheckInteraction()
         else
         {
             ShowInteractionPrompt(false);
-            ShowCrosshair(true);
+            ShowCrosshair(false);
             
             if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
             {
@@ -101,11 +86,11 @@ void ABaseCharacter::CheckInteraction()
             }
             if (CreatedCrosshairWidget && CreatedCrosshairWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
             {
-                IWidgetAnimationHandler::Execute_PlayHideAnimation(CreatedCrosshairWidget); 
+                IWidgetAnimationHandler::Execute_PlayHideAnimation(CreatedCrosshairWidget);
             }
         }
     }
-    else if (CurrentHoveredInteractable)
+    else if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
     {
         FText InteractionText = IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable);
         ShowInteractionPrompt(true, InteractionText);
@@ -202,12 +187,14 @@ AActor* ABaseCharacter::GetInteractableActor() const
 {
 	if (CurrentVehicle) return CurrentVehicle;
 
-	AActor* HitActor = LineTrace(300.0f, false);
+	const float MaxInteractionDistance = 1000.0f;
+	AActor* HitActor = LineTrace(MaxInteractionDistance, false);
 	if (HitActor && HitActor->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
 		float Dist = FVector::Dist(GetActorLocation(), HitActor->GetActorLocation());
+		float InteractionDistance = IInteractable::Execute_GetInteractionDistance(HitActor);
 		if (IInteractable::Execute_CanInteract(HitActor, const_cast<ABaseCharacter*>(this)) &&
-			Dist <= IInteractable::Execute_GetInteractionDistance(HitActor))
+			Dist <= InteractionDistance)
 		{
 			return HitActor;
 		}
@@ -308,7 +295,6 @@ void ABaseCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(
 		UInteractable::StaticClass()))
 	{
-		IInteractable::Execute_HideInteractionPrompt(CurrentHoveredInteractable, this);
-		IInteractable::Execute_OnHoverEnd(CurrentHoveredInteractable, this);
+		// Interaction ended for object
 	}
 }

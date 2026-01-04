@@ -30,15 +30,11 @@ bool AInteractableActor::CanInteract_Implementation(APawn* InteractingPawn) cons
 		return false;
 	}
 
-	return ReceiveCanInteract(InteractingPawn);
+	return true;
 }
 
 void AInteractableActor::OnInteract_Implementation(APawn* InteractingPawn)
 {
-	if (CanInteract_Implementation(InteractingPawn))
-	{
-		ReceiveOnInteract(InteractingPawn);
-	}
 }
 
 void AInteractableActor::SetCanInteract(bool bNewCanInteract)
@@ -66,23 +62,4 @@ float AInteractableActor::GetInteractionDistance_Implementation() const
 	return InteractionDistance;
 }
 
-void AInteractableActor::OnHoverBegin_Implementation(APawn* HoveringPawn)
-{
-	ReceiveOnHoverBegin(HoveringPawn);
-}
-
-void AInteractableActor::OnHoverEnd_Implementation(APawn* HoveringPawn)
-{
-	ReceiveOnHoverEnd(HoveringPawn);
-}
-
-void AInteractableActor::ShowInteractionPrompt_Implementation(APawn* InteractingPawn)
-{
-	ReceiveShowInteractionPrompt(InteractingPawn);
-}
-
-void AInteractableActor::HideInteractionPrompt_Implementation(APawn* InteractingPawn)
-{
-	ReceiveHideInteractionPrompt(InteractingPawn);
-}
 

@@ -136,13 +136,6 @@ void UChopWoodGame::StartChopping()
 
 				if (APlayerController* PC = Cast<APlayerController>(Character->GetController()))
 				{
-					// Save player input state
-					bool bWasClickEventsAllowed = PC->bEnableClickEvents;
-					bool bWasMouseOverEventsAllowed = PC->bEnableMouseOverEvents;
-					bool bWasLookInputAllowed = PC->bEnableClickEvents;
-					bool bWasMoveInputAllowed = !PC->IsMoveInputIgnored();
-
-					// Disable all player input
 					PC->bEnableClickEvents = false;
 					PC->bEnableMouseOverEvents = false;
 					PC->SetIgnoreLookInput(true);

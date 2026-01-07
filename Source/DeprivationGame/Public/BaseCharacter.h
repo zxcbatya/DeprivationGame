@@ -64,6 +64,8 @@ protected:
 	class UUserWidget* CreatedInteractionWidget;
 
 	FTimerHandle InteractionCheckTimerHandle;
+	FTimerHandle InteractDebounceTimerHandle;
+	bool bCanInteract = true;
 
 	AActor* CurrentHoveredInteractable = nullptr;
 
@@ -91,6 +93,14 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void ExitVehicle();
+
+	/** Автоматически найти машину по тегу и войти в неё */
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void EnterVehicleByTag(FName VehicleTag);
+
+	/** Войти в машину по прямой ссылке (удобно для блупринтов) */
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void EnterVehicleByReference(ADeprivationCar* Vehicle);
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	AActor* LineTrace(float LineLength, bool bDrawDebug = false) const;

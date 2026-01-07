@@ -172,6 +172,8 @@ void ADeprivationCar::BindInputActions(UEnhancedInputComponent* EnhancedInput)
 
 void ADeprivationCar::Accelerate(const FInputActionValue& Value)
 {
+	if (bControlsLocked) return;
+	
 	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetThrottleInput(Value.Get<float>());
@@ -189,6 +191,8 @@ void ADeprivationCar::StopAccelerate()
 
 void ADeprivationCar::Steer(const FInputActionValue& Value)
 {
+	if (bControlsLocked) return;
+	
 	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetSteeringInput(Value.Get<float>());
@@ -221,6 +225,8 @@ void ADeprivationCar::HandbrakeReleased()
 
 void ADeprivationCar::Brake(const FInputActionValue& Value)
 {
+	if (bControlsLocked) return;
+	
 	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
 	{
 		VehicleMovement->SetBrakeInput(Value.Get<float>());
@@ -259,4 +265,23 @@ FText ADeprivationCar::GetInteractionText_Implementation() const
 float ADeprivationCar::GetInteractionDistance_Implementation() const
 {
 	return 500.0f;
+}
+
+void ADeprivationCar::LockControls()
+{
+	bControlsLocked = true;
+	
+	// Останавливаем все движения при блокировке
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	{
+		VehicleMovement->SetThrottleInput(0.0f);
+		VehicleMovement->SetSteeringInput(0.0f);
+		VehicleMovement->SetBrakeInput(0.0f);
+		VehicleMovement->SetHandbrakeInput(false);
+	}
+}
+
+void ADeprivationCar::UnlockControls()
+{
+	bControlsLocked = false;
 }

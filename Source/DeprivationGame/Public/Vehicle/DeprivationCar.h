@@ -59,6 +59,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void Brake(const FInputActionValue& Value);
 
+	/** Заблокировать управление машиной */
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void LockControls();
+
+	/** Разблокировать управление машиной */
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	void UnlockControls();
+
+	/** Проверить, заблокировано ли управление */
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	bool IsControlsLocked() const { return bControlsLocked; }
+
 	virtual bool CanInteract_Implementation(APawn* InteractingPawn) const override;
 	virtual void OnInteract_Implementation(APawn* InteractingPawn) override;
 	virtual FText GetInteractionText_Implementation() const override;
@@ -75,4 +87,5 @@ private:
 	APawn* CurrentDriver = nullptr;
 	bool bCanExitVehicle = true;
 	bool bIgnoreNextExit = false;
+	bool bControlsLocked = false;
 };

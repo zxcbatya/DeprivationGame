@@ -44,11 +44,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction",
 		meta = (DisplayName = "Crosshair Widget Class"))
-	TSubclassOf<class UUserWidget> CrosshairWidgetClass;
+	TSubclassOf<UUserWidget> CrosshairWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction",
 		meta = (DisplayName = "Interaction Widget Class"))
-	TSubclassOf<class UUserWidget> InteractionWidgetClass;
+	TSubclassOf<UUserWidget> InteractionWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Interaction Action"))
 	UInputAction* InteractionAction;
@@ -57,11 +57,15 @@ protected:
 	UInputMappingContext* CharacterMappingContext;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = "Interaction", meta = (DisplayName = "Created Crosshair Widget"))
-	class UUserWidget* CreatedCrosshairWidget;
+	UUserWidget* CreatedCrosshairWidget;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = "Interaction",
 		meta = (DisplayName = "Created Interaction Widget"))
-	class UUserWidget* CreatedInteractionWidget;
+	UUserWidget* CreatedInteractionWidget;
+	UPROPERTY()
+	USceneComponent* ItemHoldSocket;
+	UPROPERTY()
+	class APickableItemActor* HoldItem;
 
 	FTimerHandle InteractionCheckTimerHandle;
 	FTimerHandle InteractDebounceTimerHandle;
@@ -94,11 +98,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void ExitVehicle();
 
-	/** Автоматически найти машину по тегу и войти в неё */
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void EnterVehicleByTag(FName VehicleTag);
 
-	/** Войти в машину по прямой ссылке (удобно для блупринтов) */
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
 	void EnterVehicleByReference(ADeprivationCar* Vehicle);
 
@@ -116,6 +118,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void CheckInteraction();
+	void PickUpItem(class APickableItemActor* ItemToPick);
+	void DropItem();
 
 private:
 	UFUNCTION()

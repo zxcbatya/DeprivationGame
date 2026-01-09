@@ -21,6 +21,7 @@ ABaseCharacter::ABaseCharacter()
 
 	CameraOffset = FVector(0.0f, 15.0f, 170.0f);
 
+	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(GetMesh());
 	CameraComponent->SetRelativeLocation(CameraOffset);
@@ -101,6 +102,26 @@ void ABaseCharacter::CheckInteraction()
             }
         }
     }
+}
+
+void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
+{
+	if (!ItemToPick || HoldItem) return;
+    
+	HoldItem = ItemToPick;
+	HoldItem->SetActorEnableCollision(false);
+	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	HoldItem->SetActorHiddenInGame(false);
+}
+
+// Метод броска
+void ABaseCharacter::DropItem()
+{
+	if (!HoldItem) return;
+    
+	HoldItem->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	HoldItem->SetActorEnableCollision(true);
+	HoldItem = nullptr;
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

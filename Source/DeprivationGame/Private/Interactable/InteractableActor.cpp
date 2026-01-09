@@ -9,7 +9,6 @@ AInteractableActor::AInteractableActor()
 	PrimaryActorTick.bCanEverTick = false;
 	InteractionDistance = 500.0f;
 	bCanInteract = true;
-	InteractionText = FText::FromString(TEXT("Interact"));
 
 	RootSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	RootComponent = RootSceneComponent;

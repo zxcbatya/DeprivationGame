@@ -13,19 +13,20 @@
 #include "InputMappingContext.h"
 #include "Engine/LocalPlayer.h"
 #include "Interfaces/IWidgetAnimationHandler.h"
+#include "Kismet/GameplayStatics.h"
 
 ABaseCharacter::ABaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	CameraOffset = FVector(0.0f, 70.0f, 170.0f);
+	CameraOffset = FVector(0.0f, 15.0f, 170.0f);
 
+	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(GetMesh());
 	CameraComponent->SetRelativeLocation(CameraOffset);
 	CameraComponent->bUsePawnControlRotation = true;
 
-	// InteractionCheckTimerHandle is initialized by the timer system
 	CurrentHoveredInteractable = nullptr;
 }
 
@@ -55,15 +56,27 @@ void ABaseCharacter::Tick(float DeltaTime)
 void ABaseCharacter::CheckInteraction()
 {
     AActor* NewHoveredInteractable = GetInteractableActor();
-
-    if (NewHoveredInteractable != CurrentHoveredInteractable)
+    
+    static int32 SameObjectCounter = 0;
+    static AActor* LastCheckedObject = nullptr;
+    
+    if (NewHoveredInteractable == LastCheckedObject)
+    {
+        SameObjectCounter++;
+    }
+    else
+    {
+        SameObjectCounter = 0;
+        LastCheckedObject = NewHoveredInteractable;
+    }
+    
+    if (SameObjectCounter >= 2 && NewHoveredInteractable != CurrentHoveredInteractable)
     {
         CurrentHoveredInteractable = NewHoveredInteractable;
 
         if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
         {
             FText InteractionText = IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable);
-            ShowInteractionPrompt(true, InteractionText);
             ShowCrosshair(true);
             
             if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
@@ -77,7 +90,6 @@ void ABaseCharacter::CheckInteraction()
         }
         else
         {
-            ShowInteractionPrompt(false);
             ShowCrosshair(false);
             
             if (CreatedInteractionWidget && CreatedInteractionWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))
@@ -90,11 +102,26 @@ void ABaseCharacter::CheckInteraction()
             }
         }
     }
-    else if (CurrentHoveredInteractable && CurrentHoveredInteractable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
-    {
-        FText InteractionText = IInteractable::Execute_GetInteractionText(CurrentHoveredInteractable);
-        ShowInteractionPrompt(true, InteractionText);
-    }
+}
+
+void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
+{
+	if (!ItemToPick || HoldItem) return;
+    
+	HoldItem = ItemToPick;
+	HoldItem->SetActorEnableCollision(false);
+	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	HoldItem->SetActorHiddenInGame(false);
+}
+
+// Метод броска
+void ABaseCharacter::DropItem()
+{
+	if (!HoldItem) return;
+    
+	HoldItem->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	HoldItem->SetActorEnableCollision(true);
+	HoldItem = nullptr;
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -105,7 +132,7 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	{
 		if (InteractionAction)
 		{
-			EnhancedInput->BindAction(InteractionAction, ETriggerEvent::Triggered, this, &ABaseCharacter::Interact);
+			EnhancedInput->BindAction(InteractionAction, ETriggerEvent::Started, this, &ABaseCharacter::Interact);
 		}
 
 		if (APlayerController* PC = Cast<APlayerController>(GetController()))
@@ -161,6 +188,34 @@ void ABaseCharacter::ExitVehicle()
 	CurrentVehicle = nullptr;
 }
 
+void ABaseCharacter::EnterVehicleByTag(FName VehicleTag)
+{
+	if (!GetWorld()) return;
+
+	// Ищем все машины с указанным тегом
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), VehicleTag, FoundActors);
+
+	for (AActor* Actor : FoundActors)
+	{
+		if (ADeprivationCar* Car = Cast<ADeprivationCar>(Actor))
+		{
+			EnterVehicle(Car);
+			return;
+		}
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("BaseCharacter: Не найдена машина с тегом %s"), *VehicleTag.ToString());
+}
+
+void ABaseCharacter::EnterVehicleByReference(ADeprivationCar* Vehicle)
+{
+	if (Vehicle)
+	{
+		EnterVehicle(Vehicle);
+	}
+}
+
 AActor* ABaseCharacter::LineTrace(float LineLength, bool bDrawDebug) const
 {
 	FVector Start = CameraComponent ? CameraComponent->GetComponentLocation() : GetActorLocation();
@@ -214,6 +269,8 @@ FText ABaseCharacter::GetInteractionPrompt() const
 
 void ABaseCharacter::Interact()
 {
+	if (!bCanInteract) return;
+	
 	if (CurrentVehicle)
 	{
 		ExitVehicle();
@@ -223,6 +280,11 @@ void ABaseCharacter::Interact()
 	AActor* Interactable = GetInteractableActor();
 	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
+		bCanInteract = false;
+		GetWorldTimerManager().SetTimer(InteractDebounceTimerHandle, [this]() {
+			bCanInteract = true;
+		}, 0.3f, false);
+		
 		IInteractable::Execute_OnInteract(Interactable, this);
 	}
 }

@@ -131,6 +131,14 @@ public:
 	
 	// Установить предмет в руке (используется PlacementZone)
 	void SetHoldItem(class APickableItemActor* NewItem) { HoldItem = NewItem; }
+	
+	// Проверить, находится ли персонаж в машине
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	bool IsInVehicle() const { return CurrentVehicle != nullptr; }
+	
+	// Получить текущую машину, в которой находится персонаж
+	UFUNCTION(BlueprintCallable, Category = "Vehicle")
+	ADeprivationCar* GetCurrentVehicle() const { return CurrentVehicle; }
 
 private:
 	UFUNCTION()

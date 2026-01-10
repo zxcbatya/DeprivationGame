@@ -33,7 +33,7 @@ ABaseCharacter::ABaseCharacter()
 	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
 	ItemHoldSocket->SetupAttachment(CameraComponent);
 	ItemHoldSocket->SetRelativeLocation(FVector(50.0f, 20.0f, -20.0f)); // Смещение для держания перед камерой
-	ItemHoldSocket->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
+	ItemHoldSocket->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 
 	CurrentHoveredInteractable = nullptr;
 }
@@ -116,63 +116,29 @@ void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
 {
 	if (!ItemToPick) return;
 
-	// Если уже держим предмет, возвращаем его на исходную позицию
 	if (HoldItem)
 	{
 		HoldItem->ReturnToOriginalPosition();
 		HoldItem = nullptr;
 	}
 
-	// Берем новый предмет
 	HoldItem = ItemToPick;
 	
-	// Сохраняем исходную позицию перед взятием (если предмет еще не был взят ранее)
-	if (!HoldItem->IsHeld())
-	{
-		HoldItem->SaveOriginalTransform();
-	}
+	// ВСЕГДА сохраняем трансформ при поднятии
+	HoldItem->SaveOriginalTransform();
 	
-	// Отмечаем что предмет взят
 	HoldItem->SetIsHeld(true);
-	
-	// Отключаем коллизию чтобы предмет не мешал
 	HoldItem->SetActorEnableCollision(false);
-	
-	// Прикрепляем к сокету для держания
 	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	
-	// Убеждаемся что предмет виден
 	HoldItem->SetActorHiddenInGame(false);
 }
 
-// Метод размещения предмета - можно разместить только в PlacementZone
 void ABaseCharacter::DropItem()
 {
 	if (!HoldItem) return;
 
-	// Проверяем, есть ли рядом PlacementZone, куда можно разместить предмет
-	AActor* Interactable = GetInteractableActor();
-	if (Interactable)
-	{
-		if (APlacementZone* PlacementZone = Cast<APlacementZone>(Interactable))
-		{
-			// Пытаемся разместить предмет в зоне
-			if (PlacementZone->CanPlaceItem(HoldItem))
-			{
-				PlacementZone->PlaceItem(HoldItem);
-				HoldItem = nullptr;
-				return;
-			}
-		}
-	}
-
-	// Если не удалось разместить в зоне, возвращаем предмет на исходную позицию
-	// (это предотвращает случайное размещение где попало)
-	if (HoldItem)
-	{
-		HoldItem->ReturnToOriginalPosition();
-		HoldItem = nullptr;
-	}
+	HoldItem->ReturnToOriginalPosition();
+	HoldItem = nullptr;
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -207,6 +173,9 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 
 	CurrentVehicle = Car;
 
+	// Store controller reference before unpossessing
+	AController* MyController = GetController();
+	
 	if (UCharacterMovementComponent* MovementComp = GetCharacterMovement())
 	{
 		MovementComp->SetMovementMode(MOVE_None);
@@ -218,7 +187,8 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 	SetActorHiddenInGame(true);
 	AttachToComponent(Car->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 
-	if (AController* MyController = GetController())
+	// Handle controller possession
+	if (MyController)
 	{
 		MyController->UnPossess();
 		MyController->Possess(Vehicle);
@@ -329,6 +299,7 @@ void ABaseCharacter::Interact()
 	}
 
 	AActor* Interactable = GetInteractableActor();
+	
 	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
 		bCanInteract = false;
@@ -336,7 +307,15 @@ void ABaseCharacter::Interact()
 			bCanInteract = true;
 		}, 0.3f, false);
 		
-		IInteractable::Execute_OnInteract(Interactable, this);
+		// Проверяем тип объекта и вызываем соответствующие методы
+		if (APickableItemActor* PickableItem = Cast<APickableItemActor>(Interactable))
+		{
+			PickUpItem(PickableItem);
+		}
+		else
+		{
+			IInteractable::Execute_OnInteract(Interactable, this);
+		}
 	}
 }
 

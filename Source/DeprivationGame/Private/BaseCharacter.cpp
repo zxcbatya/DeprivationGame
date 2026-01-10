@@ -14,6 +14,8 @@
 #include "Engine/LocalPlayer.h"
 #include "Interfaces/IWidgetAnimationHandler.h"
 #include "Kismet/GameplayStatics.h"
+#include "Interactable/PickableItemActor.h"
+#include "Interactable/PlacementZone.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -21,11 +23,17 @@ ABaseCharacter::ABaseCharacter()
 
 	CameraOffset = FVector(0.0f, 15.0f, 170.0f);
 
-	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
+	// Сначала создаем камеру
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(GetMesh());
 	CameraComponent->SetRelativeLocation(CameraOffset);
 	CameraComponent->bUsePawnControlRotation = true;
+	
+	// Затем создаем сокет для предметов и прикрепляем к камере
+	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
+	ItemHoldSocket->SetupAttachment(CameraComponent);
+	ItemHoldSocket->SetRelativeLocation(FVector(50.0f, 20.0f, -20.0f)); // Смещение для держания перед камерой
+	ItemHoldSocket->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 
 	CurrentHoveredInteractable = nullptr;
 }
@@ -106,22 +114,65 @@ void ABaseCharacter::CheckInteraction()
 
 void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
 {
-	if (!ItemToPick || HoldItem) return;
-    
+	if (!ItemToPick) return;
+
+	// Если уже держим предмет, возвращаем его на исходную позицию
+	if (HoldItem)
+	{
+		HoldItem->ReturnToOriginalPosition();
+		HoldItem = nullptr;
+	}
+
+	// Берем новый предмет
 	HoldItem = ItemToPick;
+	
+	// Сохраняем исходную позицию перед взятием (если предмет еще не был взят ранее)
+	if (!HoldItem->IsHeld())
+	{
+		HoldItem->SaveOriginalTransform();
+	}
+	
+	// Отмечаем что предмет взят
+	HoldItem->SetIsHeld(true);
+	
+	// Отключаем коллизию чтобы предмет не мешал
 	HoldItem->SetActorEnableCollision(false);
+	
+	// Прикрепляем к сокету для держания
 	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	
+	// Убеждаемся что предмет виден
 	HoldItem->SetActorHiddenInGame(false);
 }
 
-// Метод броска
+// Метод размещения предмета - можно разместить только в PlacementZone
 void ABaseCharacter::DropItem()
 {
 	if (!HoldItem) return;
-    
-	HoldItem->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-	HoldItem->SetActorEnableCollision(true);
-	HoldItem = nullptr;
+
+	// Проверяем, есть ли рядом PlacementZone, куда можно разместить предмет
+	AActor* Interactable = GetInteractableActor();
+	if (Interactable)
+	{
+		if (APlacementZone* PlacementZone = Cast<APlacementZone>(Interactable))
+		{
+			// Пытаемся разместить предмет в зоне
+			if (PlacementZone->CanPlaceItem(HoldItem))
+			{
+				PlacementZone->PlaceItem(HoldItem);
+				HoldItem = nullptr;
+				return;
+			}
+		}
+	}
+
+	// Если не удалось разместить в зоне, возвращаем предмет на исходную позицию
+	// (это предотвращает случайное размещение где попало)
+	if (HoldItem)
+	{
+		HoldItem->ReturnToOriginalPosition();
+		HoldItem = nullptr;
+	}
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

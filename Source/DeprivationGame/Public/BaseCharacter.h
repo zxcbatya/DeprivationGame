@@ -118,8 +118,19 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void CheckInteraction();
+	
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void PickUpItem(class APickableItemActor* ItemToPick);
+	
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void DropItem();
+	
+	// Получить предмет, который держит персонаж
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	class APickableItemActor* GetHoldItem() const { return HoldItem; }
+	
+	// Установить предмет в руке (используется PlacementZone)
+	void SetHoldItem(class APickableItemActor* NewItem) { HoldItem = NewItem; }
 
 private:
 	UFUNCTION()

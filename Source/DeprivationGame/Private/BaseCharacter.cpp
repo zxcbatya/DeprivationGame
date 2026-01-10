@@ -14,8 +14,6 @@
 #include "Engine/LocalPlayer.h"
 #include "Interfaces/IWidgetAnimationHandler.h"
 #include "Kismet/GameplayStatics.h"
-#include "Interactable/PickableItemActor.h"
-#include "Interactable/PlacementZone.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -23,17 +21,11 @@ ABaseCharacter::ABaseCharacter()
 
 	CameraOffset = FVector(0.0f, 15.0f, 170.0f);
 
-	// Сначала создаем камеру
+	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(GetMesh());
 	CameraComponent->SetRelativeLocation(CameraOffset);
 	CameraComponent->bUsePawnControlRotation = true;
-	
-	// Затем создаем сокет для предметов и прикрепляем к камере
-	ItemHoldSocket = CreateDefaultSubobject<USceneComponent>(TEXT("ItemHoldSocket"));
-	ItemHoldSocket->SetupAttachment(CameraComponent);
-	ItemHoldSocket->SetRelativeLocation(FVector(50.0f, 20.0f, -20.0f)); // Смещение для держания перед камерой
-	ItemHoldSocket->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 
 	CurrentHoveredInteractable = nullptr;
 }
@@ -114,30 +106,21 @@ void ABaseCharacter::CheckInteraction()
 
 void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
 {
-	if (!ItemToPick) return;
-
-	if (HoldItem)
-	{
-		HoldItem->ReturnToOriginalPosition();
-		HoldItem = nullptr;
-	}
-
+	if (!ItemToPick || HoldItem) return;
+    
 	HoldItem = ItemToPick;
-	
-	// ВСЕГДА сохраняем трансформ при поднятии
-	HoldItem->SaveOriginalTransform();
-	
-	HoldItem->SetIsHeld(true);
 	HoldItem->SetActorEnableCollision(false);
 	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 	HoldItem->SetActorHiddenInGame(false);
 }
 
+// Метод броска
 void ABaseCharacter::DropItem()
 {
 	if (!HoldItem) return;
-
-	HoldItem->ReturnToOriginalPosition();
+    
+	HoldItem->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	HoldItem->SetActorEnableCollision(true);
 	HoldItem = nullptr;
 }
 
@@ -173,9 +156,6 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 
 	CurrentVehicle = Car;
 
-	// Store controller reference before unpossessing
-	AController* MyController = GetController();
-	
 	if (UCharacterMovementComponent* MovementComp = GetCharacterMovement())
 	{
 		MovementComp->SetMovementMode(MOVE_None);
@@ -187,8 +167,7 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 	SetActorHiddenInGame(true);
 	AttachToComponent(Car->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 
-	// Handle controller possession
-	if (MyController)
+	if (AController* MyController = GetController())
 	{
 		MyController->UnPossess();
 		MyController->Possess(Vehicle);
@@ -299,7 +278,6 @@ void ABaseCharacter::Interact()
 	}
 
 	AActor* Interactable = GetInteractableActor();
-	
 	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
 		bCanInteract = false;
@@ -307,15 +285,7 @@ void ABaseCharacter::Interact()
 			bCanInteract = true;
 		}, 0.3f, false);
 		
-		// Проверяем тип объекта и вызываем соответствующие методы
-		if (APickableItemActor* PickableItem = Cast<APickableItemActor>(Interactable))
-		{
-			PickUpItem(PickableItem);
-		}
-		else
-		{
-			IInteractable::Execute_OnInteract(Interactable, this);
-		}
+		IInteractable::Execute_OnInteract(Interactable, this);
 	}
 }
 

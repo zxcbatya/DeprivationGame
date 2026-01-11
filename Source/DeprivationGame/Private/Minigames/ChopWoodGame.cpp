@@ -11,6 +11,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputAction.h"
+#include "Components/CanvasPanelSlot.h"
 
 UChopWoodGame::UChopWoodGame()
 {
@@ -235,12 +236,50 @@ bool UChopWoodGame::AttemptChop()
 		return false;
 	}
 
-	const float ZoneStart = FMath::Max(0.0f, TargetZoneCenter - CurrentTargetZoneSize * 0.5f);
-	const float ZoneEnd = FMath::Min(1.0f, TargetZoneCenter + CurrentTargetZoneSize * 0.5f);
+	// Обновляем визуал — чтобы позиции были актуальны
+	UpdateWidget();
 
-	constexpr float Tolerance = 0.02f;
+	// Получаем виджет
+	if (!CreatedWidget.IsValid())
+	{
+		return false;
+	}
 
-	if (IndicatorPosition >= (ZoneStart - Tolerance) && IndicatorPosition <= (ZoneEnd + Tolerance))
+	// Получаем слоты
+	UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(CreatedWidget->TargetZoneImage->Slot);
+	UCanvasPanelSlot* IndicatorSlot = Cast<UCanvasPanelSlot>(CreatedWidget->IndicatorImage->Slot);
+
+	if (!ZoneSlot || !IndicatorSlot)
+	{
+		return false;
+	}
+
+	// Получаем позиции и размеры в локальных координатах CanvasPanel
+	FVector2D ZonePos = ZoneSlot->GetPosition();
+	FVector2D ZoneSize = ZoneSlot->GetSize();
+
+	FVector2D IndicatorPos = IndicatorSlot->GetPosition();
+	FVector2D IndicatorSize = IndicatorSlot->GetSize();
+
+	// Вычисляем границы
+	float ZoneLeft = ZonePos.X;
+	float ZoneRight = ZonePos.X + ZoneSize.X;
+	float ZoneTop = ZonePos.Y;
+	float ZoneBottom = ZonePos.Y + ZoneSize.Y;
+
+	float IndicatorLeft = IndicatorPos.X;
+	float IndicatorRight = IndicatorPos.X + IndicatorSize.X;
+	float IndicatorTop = IndicatorPos.Y;
+	float IndicatorBottom = IndicatorPos.Y + IndicatorSize.Y;
+
+	// Проверяем пересечение
+	bool bIntersect =
+		IndicatorLeft < ZoneRight &&
+		IndicatorRight > ZoneLeft &&
+		IndicatorTop < ZoneBottom &&
+		IndicatorBottom > ZoneTop;
+
+	if (bIntersect)
 	{
 		ChopsSuccessful++;
 		if (CreatedWidget.IsValid())
@@ -257,11 +296,11 @@ bool UChopWoodGame::AttemptChop()
 			return true;
 		}
 
+		// Смещаем зону и уменьшаем её
 		TargetZoneCenter = FMath::RandRange(CurrentTargetZoneSize * 0.5f, 1.0f - CurrentTargetZoneSize * 0.5f);
-
 		CurrentTargetZoneSize = FMath::Max(MinTargetZoneSize, CurrentTargetZoneSize * 0.5f);
 
-		UpdateWidget();
+		UpdateWidget(); // Обновляем UI после изменения зоны
 
 		return true;
 	}

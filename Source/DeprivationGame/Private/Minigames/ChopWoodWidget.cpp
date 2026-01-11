@@ -19,36 +19,59 @@ void UChopWoodWidget::NativeConstruct()
 
 void UChopWoodWidget::UpdateVisuals(float InTargetZoneCenter, float InTargetZoneSize, float InIndicatorPosition)
 {
-	if (!BackgroundImage || !TargetZoneImage || !IndicatorImage) return;
-
-	FGeometry BackgroundGeom = BackgroundImage->GetCachedGeometry();
-	FVector2D BackgroundPos = BackgroundGeom.GetAbsolutePosition();
-	FVector2D BackgroundSize = BackgroundGeom.GetAbsoluteSize();
-
-	float UsableWidth = BackgroundSize.X;
-	float CenterY = BackgroundPos.Y + (BackgroundSize.Y * 0.5f);
-
-	if (UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(TargetZoneImage->Slot))
+	if (!TargetZoneImage || !IndicatorImage)
 	{
-		float ZoneWidth = FMath::Max(1.0f, InTargetZoneSize * UsableWidth);
-		float ZoneHeight = 45.0f;
-		float ZoneX = BackgroundPos.X + (InTargetZoneCenter * UsableWidth) - (ZoneWidth * 0.5f);
-
-		ZoneSlot->SetPosition(FVector2D(ZoneX, CenterY));
-		ZoneSlot->SetSize(FVector2D(ZoneWidth, ZoneHeight));
-		ZoneSlot->SetZOrder(1);
-		TargetZoneImage->InvalidateLayoutAndVolatility();
+		UE_LOG(LogTemp, Warning, TEXT("Widgets not bound!"));
+		return;
 	}
 
+	UCanvasPanel* RootPanel = Cast<UCanvasPanel>(GetRootWidget());
+	if (!RootPanel)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Root panel is not CanvasPanel!"));
+		return;
+	}
+
+	FVector2D PanelSize = RootPanel->GetDesiredSize();
+	if (PanelSize.IsZero())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Panel size is zero. Waiting..."));
+		return;
+	}
+
+	// Определяем отступы
+	const float PaddingLeft = 120.0f;
+	const float PaddingRight = 0.0f;
+	const float PaddingTop = 0.0f;
+	const float PaddingBottom = 50.0f;
+
+	float WorkAreaWidth = PanelSize.X - PaddingLeft - PaddingRight;
+	float WorkAreaHeight = PanelSize.Y - PaddingTop - PaddingBottom;
+
+	float WorkAreaX = PaddingLeft;
+	float WorkAreaY = PaddingTop;
+	float WorkAreaCenterY = WorkAreaY + WorkAreaHeight * 0.5f;
+
+	// Обновляем TargetZone
+	if (UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(TargetZoneImage->Slot))
+	{
+		float ZoneWidth = FMath::Max(1.0f, InTargetZoneSize * WorkAreaWidth);
+		float ZoneX = WorkAreaX + InTargetZoneCenter * WorkAreaWidth - ZoneWidth * 0.5f;
+
+		ZoneSlot->SetPosition(FVector2D(ZoneX, WorkAreaCenterY - 22.5f));
+		ZoneSlot->SetSize(FVector2D(ZoneWidth, 45.0f));
+		ZoneSlot->SetZOrder(1);
+	}
+
+	// Обновляем Indicator
 	if (UCanvasPanelSlot* IndicatorSlot = Cast<UCanvasPanelSlot>(IndicatorImage->Slot))
 	{
-		float IndicatorWidth = 50.0f;
-		float IndicatorHeight = 45.0f;
-		float IndicatorX = BackgroundPos.X + (InIndicatorPosition * UsableWidth) - (IndicatorWidth * 0.5f);
+		const float IndicatorWidth = 50.0f;
+		const float IndicatorHeight = 45.0f;
+		float IndicatorX = WorkAreaX + InIndicatorPosition * WorkAreaWidth - IndicatorWidth * 0.5f;
 
-		IndicatorSlot->SetPosition(FVector2D(IndicatorX, CenterY));
+		IndicatorSlot->SetPosition(FVector2D(IndicatorX, WorkAreaCenterY - IndicatorHeight * 0.5f));
 		IndicatorSlot->SetSize(FVector2D(IndicatorWidth, IndicatorHeight));
 		IndicatorSlot->SetZOrder(2);
-		IndicatorImage->InvalidateLayoutAndVolatility();
 	}
 }

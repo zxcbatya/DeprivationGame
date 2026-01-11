@@ -9,16 +9,9 @@ struct FMessageData
     GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Message Data")
     FString SenderID;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Message Data")
     FString Content;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Message Data")
     FDateTime Timestamp;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Message Data")
     bool bIsUnread;
 
     FMessageData()
@@ -44,28 +37,13 @@ struct FChatData
     GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     int32 ChatId;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     FString ContactName;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     FString LastMessage;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     FDateTime LastMessageTime;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     FLinearColor ContactIconColor;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     FString ContactInitial;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     TArray<FMessageData> Messages;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat Data")
     int32 UnreadCount;
 
     FChatData()

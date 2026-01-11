@@ -8,22 +8,6 @@ void UChatManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	Chats.Empty();
-
-	FChatData TestChat;
-	TestChat.ChatId = 1000;
-	TestChat.ContactName = "Test Contact";
-	TestChat.LastMessage = "Hello, this is a test message!";
-	TestChat.UnreadCount = 0;
-	TestChat.LastMessageTime = FDateTime::Now();
-
-	FMessageData TestMessage;
-	TestMessage.SenderID = "1000";
-	TestMessage.Content = "Hello, this is a test message!";
-	TestMessage.Timestamp = FDateTime::Now();
-	TestMessage.bIsUnread = true;
-
-	TestChat.Messages.Add(TestMessage);
-	Chats.Add(1000, TestChat);
 }
 
 

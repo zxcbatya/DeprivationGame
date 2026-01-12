@@ -15,6 +15,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Monologue")
 	FText DisplayName;
+	
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Monologue")
+	FString CharacterName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Monologue")
 	FString AudioPath;

@@ -1,27 +1,88 @@
 #include "UI/MonologueDisplayWidget.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
 void UMonologueDisplayWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
+	// Начальная прозрачность для анимации появления
+	SetRenderOpacity(0.0f);
+	
+	if (GetWorld())
+	{
+		// Плавное появление за 0.2 секунды
+		GetWorld()->GetTimerManager().SetTimer(
+			FadeInTimerHandle,
+			this,
+			&UMonologueDisplayWidget::FadeInWidget,
+			0.02f,
+			true
+		);
+	}
 }
 
 void UMonologueDisplayWidget::NativeDestruct()
 {
-	StopTextAnimation_Implementation();
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(AnimationTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(HideTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(FadeInTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(FadeOutTimerHandle);
+	}
 	Super::NativeDestruct();
 }
 
-void UMonologueDisplayWidget::AnimateText_Implementation(const FString& Text)
+void UMonologueDisplayWidget::FadeInWidget()
+{
+	float CurrentOpacity = GetRenderOpacity();
+	CurrentOpacity += 0.1f; // 0.2 секунды / 0.02 интервал = 10 шагов
+	
+	if (CurrentOpacity >= 1.0f)
+	{
+		SetRenderOpacity(1.0f);
+		if (GetWorld()) GetWorld()->GetTimerManager().ClearTimer(FadeInTimerHandle);
+	}
+	else
+	{
+		SetRenderOpacity(CurrentOpacity);
+	}
+}
+
+void UMonologueDisplayWidget::FadeOutWidget()
+{
+	float CurrentOpacity = GetRenderOpacity();
+	CurrentOpacity -= 0.1f;
+	
+	if (CurrentOpacity <= 0.0f)
+	{
+		SetRenderOpacity(0.0f);
+		if (GetWorld()) GetWorld()->GetTimerManager().ClearTimer(FadeOutTimerHandle);
+		RemoveFromParent();
+	}
+	else
+	{
+		SetRenderOpacity(CurrentOpacity);
+	}
+}
+
+void UMonologueDisplayWidget::AnimateText(const FString& Text, const FString& CharacterName)
 {
 	if (!MonologueText) return;
-
+	
+	// Устанавливаем имя персонажа
+	if (CharacterNameText)
+	{
+		CharacterNameText->SetText(FText::FromString(CharacterName));
+	}
+	
 	TargetText = Text;
 	CurrentCharIndex = 0;
 	MonologueText->SetText(FText::GetEmpty());
-
+	
 	if (GetWorld())
 	{
 		GetWorld()->GetTimerManager().SetTimer(
@@ -42,7 +103,7 @@ void UMonologueDisplayWidget::AnimateText_Implementation(const FString& Text)
 			AnimationSpeed,
 			true
 		);
-
+		
 		GetWorld()->GetTimerManager().SetTimer(
 			HideTimerHandle,
 			this,
@@ -53,17 +114,13 @@ void UMonologueDisplayWidget::AnimateText_Implementation(const FString& Text)
 	}
 }
 
-void UMonologueDisplayWidget::StopTextAnimation_Implementation()
+void UMonologueDisplayWidget::SetMonologueText(const FString& Text, const FString& CharacterName)
 {
-	if (GetWorld())
+	if (CharacterNameText)
 	{
-		GetWorld()->GetTimerManager().ClearTimer(AnimationTimerHandle);
-		GetWorld()->GetTimerManager().ClearTimer(HideTimerHandle);
+		CharacterNameText->SetText(FText::FromString(CharacterName));
 	}
-}
-
-void UMonologueDisplayWidget::SetMonologueText(const FString& Text)
-{
+	
 	if (MonologueText)
 	{
 		MonologueText->SetText(FText::FromString(Text));
@@ -72,6 +129,18 @@ void UMonologueDisplayWidget::SetMonologueText(const FString& Text)
 
 void UMonologueDisplayWidget::HideWidget()
 {
-	StopTextAnimation_Implementation();
-	RemoveFromParent();
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(AnimationTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(HideTimerHandle);
+		
+		// Плавное исчезновение
+		GetWorld()->GetTimerManager().SetTimer(
+			FadeOutTimerHandle,
+			this,
+			&UMonologueDisplayWidget::FadeOutWidget,
+			0.02f,
+			true
+		);
+	}
 }

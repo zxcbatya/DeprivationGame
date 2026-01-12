@@ -1,31 +1,34 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Subsystems/GameInstanceSubsystem.h"
+#include "Components/ActorComponent.h"
 #include "Engine/DataTable.h"
-#include "Components/AudioComponent.h"
-#include "Data/FMonologueData.h"
 #include "UI/MonologueDisplayWidget.h"
-#include "UMonologueManager.generated.h"
+#include "UMonologueComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMonologueStarted, FName, MonologueID);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMonologueEnded, FName, MonologueID);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSubtitleChanged, FName, MonologueID, const FString&, CurrentSubtitle);
 
-UCLASS()
-class DEPRIVATIONGAME_API UUMonologueManager : public UGameInstanceSubsystem
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class DEPRIVATIONGAME_API UUMonologueComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	virtual void Deinitialize() override;
+	UUMonologueComponent();
+
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Monologue")
 	void PlayMonologue(FName MonologueID, UDataTable* MonologueTable);
 
 	UFUNCTION(BlueprintCallable, Category = "Monologue")
 	void StopCurrentMonologue();
+
+	UFUNCTION(BlueprintCallable, Category = "Monologue")
+	void SetDisplayWidget(UMonologueDisplayWidget* Widget);
 
 	UFUNCTION(BlueprintPure, Category = "Monologue")
 	bool IsPlayingMonologue() const { return bIsPlaying; }
@@ -47,9 +50,6 @@ private:
 	UAudioComponent* AudioComponent;
 
 	UPROPERTY()
-	TSubclassOf<UMonologueDisplayWidget> MonologueWidgetClass;
-
-	UPROPERTY()
 	UMonologueDisplayWidget* ActiveWidget;
 
 	bool bIsPlaying = false;
@@ -63,6 +63,4 @@ private:
 	void AdvanceToNextSubtitle();
 	void FinishMonologue();
 	void HandleAudioFinished();
-	void CreateDisplayWidget();
 };
-

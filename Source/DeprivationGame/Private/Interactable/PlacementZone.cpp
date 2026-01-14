@@ -1,5 +1,6 @@
 #include "Interactable/PlacementZone.h"
 #include "Interactable/PickableItemActor.h"
+#include "Interactable/BackpackActor.h"
 #include "BaseCharacter.h"
 #include "GameFramework/Pawn.h"
 
@@ -95,6 +96,20 @@ bool APlacementZone::PlaceItem(APickableItemActor* ItemToPlace)
 	// Сохраняем новую позицию как исходную для предмета
 	ItemToPlace->SaveOriginalTransform();
 
+	// Для рюкзаков устанавливаем флаг контейнера, для других предметов блокируем подбор
+	if (ItemToPlace->IsA(ABackpackActor::StaticClass()))
+	{
+		ABackpackActor* Backpack = Cast<ABackpackActor>(ItemToPlace);
+		if (Backpack)
+		{
+			Backpack->SetPlacedAsContainer(true);
+		}
+	}
+	else
+	{
+		ItemToPlace->SetCannotBePickedUpAgain(true);
+	}
+
 	OnItemPlaced(ItemToPlace);
 	return true;
 }
@@ -115,6 +130,12 @@ bool APlacementZone::CanPlaceItem(APickableItemActor* ItemToPlace) const
 
 	// Если зона позволяет только один предмет и уже есть другой предмет
 	if (bSingleItemOnly && PlacedItem && PlacedItem != ItemToPlace)
+	{
+		return false;
+	}
+
+	// Проверяем, может ли предмет быть размещен в этой зоне
+	if (!ItemToPlace->IsValidPlacementZone(const_cast<APlacementZone*>(this)))
 	{
 		return false;
 	}

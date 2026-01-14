@@ -1,5 +1,6 @@
 #include "Narrative/UMonologueComponent.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/AudioComponent.h"
 #include "Data/FMonologueData.h"
@@ -12,15 +13,14 @@ UUMonologueComponent::UUMonologueComponent(): AudioComponent(nullptr), ActiveWid
 void UUMonologueComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	APlayerController* PC = Cast<APlayerController>(GetOwner());
 	if (PC)
 	{
-		AudioComponent = PC->GetComponentByClass<UAudioComponent>();
+		AudioComponent = PC->FindComponentByClass<UAudioComponent>();
 		if (!AudioComponent)
 		{
 			AudioComponent = NewObject<UAudioComponent>(PC);
-			AudioComponent->SetupAttachment(PC->GetRootComponent());
 			AudioComponent->RegisterComponent();
 		}
 	}
@@ -35,17 +35,46 @@ void UUMonologueComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void UUMonologueComponent::PlayMonologue(FName MonologueID, UDataTable* MonologueTable)
 {
 	if (!MonologueTable || bIsPlaying) StopCurrentMonologue();
-
+	
 	FMonologueData* MonologueData = MonologueTable->FindRow<FMonologueData>(MonologueID, TEXT(""));
 	if (!MonologueData) return;
-
+	
 	CurrentMonologueID = MonologueID;
 	bIsPlaying = true;
 	CurrentSubtitleIndex = 0;
 	CurrentSubtitles = MonologueData->Subtitles;
-
+	
 	OnMonologueStarted.Broadcast(CurrentMonologueID);
 	StartSubtitleSequence();
+}
+
+void UUMonologueComponent::StopCurrentMonologue()
+{
+	if (!bIsPlaying) return;
+	
+	bIsPlaying = false;
+	CurrentMonologueID = NAME_None;
+	CurrentSubtitles.Empty();
+	CurrentSubtitleIndex = 0;
+	
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(SubtitleTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(HideTimerHandle);
+	}
+	
+	if (AudioComponent && AudioComponent->IsPlaying())
+	{
+		AudioComponent->Stop();
+	}
+	
+	if (ActiveWidget)
+	{
+		ActiveWidget->HideWidget();
+		ActiveWidget = nullptr;
+	}
+	
+	OnMonologueEnded.Broadcast(CurrentMonologueID);
 }
 
 void UUMonologueComponent::SetDisplayWidget(UMonologueDisplayWidget* Widget)
@@ -53,38 +82,16 @@ void UUMonologueComponent::SetDisplayWidget(UMonologueDisplayWidget* Widget)
 	ActiveWidget = Widget;
 }
 
-void UUMonologueComponent::StopCurrentMonologue()
-{
-	if (!bIsPlaying) return;
-
-	bIsPlaying = false;
-	CurrentMonologueID = NAME_None;
-	CurrentSubtitles.Empty();
-	CurrentSubtitleIndex = 0;
-
-	if (GetWorld())
-	{
-		GetWorld()->GetTimerManager().ClearTimer(SubtitleTimerHandle);
-		GetWorld()->GetTimerManager().ClearTimer(HideTimerHandle);
-	}
-
-	if (AudioComponent && AudioComponent->IsPlaying())
-	{
-		AudioComponent->Stop();
-	}
-
-	if (ActiveWidget)
-	{
-		ActiveWidget->HideWidget();
-		ActiveWidget = nullptr;
-	}
-
-	OnMonologueEnded.Broadcast(CurrentMonologueID);
-}
-
 void UUMonologueComponent::StartSubtitleSequence()
 {
-	AdvanceToNextSubtitle();
+	if (CurrentSubtitles.Num() > 0)
+	{
+		AdvanceToNextSubtitle();
+	}
+	else
+	{
+		FinishMonologue();
+	}
 }
 
 void UUMonologueComponent::AdvanceToNextSubtitle()
@@ -94,16 +101,16 @@ void UUMonologueComponent::AdvanceToNextSubtitle()
 		FinishMonologue();
 		return;
 	}
-
+	
 	FString CurrentText = CurrentSubtitles[CurrentSubtitleIndex];
 	OnSubtitleChanged.Broadcast(CurrentMonologueID, CurrentText);
-
+	
 	// Получаем имя персонажа из DataTable
 	UDataTable* MonologueTable = nullptr; // Нужно сохранить ссылку на таблицу
 	FString CharacterName = "NPC"; // Дефолтное значение
-
+	
 	if (ActiveWidget) ActiveWidget->AnimateText(CurrentText, CharacterName);
-
+	
 	if (GetWorld())
 	{
 		GetWorld()->GetTimerManager().SetTimer(
@@ -114,7 +121,7 @@ void UUMonologueComponent::AdvanceToNextSubtitle()
 			false
 		);
 	}
-
+	
 	CurrentSubtitleIndex++;
 }
 
@@ -125,7 +132,7 @@ void UUMonologueComponent::FinishMonologue()
 		GetWorld()->GetTimerManager().SetTimer(
 			HideTimerHandle,
 			this,
-			&UUMonologueComponent::StopCurrentMonologue,
+			&UUMonologueComponent::HandleAudioFinished,
 			2.0f,
 			false
 		);

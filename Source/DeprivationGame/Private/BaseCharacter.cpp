@@ -16,6 +16,40 @@
 #include "Kismet/GameplayStatics.h"
 #include "Interactable/PickableItemActor.h"
 #include "Interactable/PlacementZone.h"
+#include "Interactable/BackpackActor.h"
+
+// Типы взаимодействия для event-driven архитектуры
+enum class EInteractionType
+{
+	Container,   // Контейнеры (рюкзаки)
+	Pickable,    // Подбираемые предметы
+	Standard     // Стандартные интерактивные объекты
+};
+
+// Определение типа взаимодействия
+EInteractionType DetermineInteractionType(AActor* Interactable)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Determining interaction type for: %s"), *Interactable->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("Class: %s"), *Interactable->GetClass()->GetName());
+	
+	// Контейнеры (рюкзаки) - проверяем через иерархию
+	if (Interactable->GetClass()->IsChildOf(ABackpackActor::StaticClass()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("-> DETECTED AS CONTAINER")); 
+		return EInteractionType::Container;
+	}
+	
+	// Подбираемые предметы
+	if (Interactable->GetClass()->IsChildOf(APickableItemActor::StaticClass()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("-> DETECTED AS PICKABLE")); 
+		return EInteractionType::Pickable;
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("-> DETECTED AS STANDARD")); 
+	// Все остальное
+	return EInteractionType::Standard;
+}
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -129,7 +163,14 @@ void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
 	
 	HoldItem->SetIsHeld(true);
 	HoldItem->SetActorEnableCollision(false);
+	
+	// Прикрепляем к общему сокету руки
 	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	
+	// Применяем индивидуальное смещение и ротацию для каждого предмета
+	HoldItem->SetActorRelativeLocation(HoldItem->GetHandOffset());
+	HoldItem->SetActorRelativeRotation(HoldItem->GetHandRotation());
+	
 	HoldItem->SetActorHiddenInGame(false);
 }
 
@@ -300,21 +341,45 @@ void ABaseCharacter::Interact()
 
 	AActor* Interactable = GetInteractableActor();
 	
-	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
+	UE_LOG(LogTemp, Warning, TEXT("Interact pressed, found actor: %s"), 
+		Interactable ? *Interactable->GetName() : TEXT("None"));
+	
+	if (Interactable)
 	{
+		// Проверяем интерфейс через Cast (работает с Blueprint)
+		IInteractable* InteractableInterface = Cast<IInteractable>(Interactable);
+		if (InteractableInterface)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Found interactable actor: %s"), *Interactable->GetName());
 		bCanInteract = false;
 		GetWorldTimerManager().SetTimer(InteractDebounceTimerHandle, [this]() {
 			bCanInteract = true;
 		}, 0.3f, false);
 		
-		// Проверяем тип объекта и вызываем соответствующие методы
-		if (APickableItemActor* PickableItem = Cast<APickableItemActor>(Interactable))
+		// Event-driven подход: определяем тип взаимодействия
+		EInteractionType InteractionType = DetermineInteractionType(Interactable);
+		
+		switch (InteractionType)
 		{
-			PickUpItem(PickableItem);
-		}
-		else
-		{
+		case EInteractionType::Container:  // Рюкзаки и другие контейнеры
+			UE_LOG(LogTemp, Warning, TEXT("EXECUTING OnInteract for CONTAINER")); 
+			
+			// Вызываем родительский метод - Blueprint может его переопределить
 			IInteractable::Execute_OnInteract(Interactable, this);
+			break;
+			
+		case EInteractionType::Pickable:  // Обычные подбираемые предметы
+			if (APickableItemActor* PickableItem = Cast<APickableItemActor>(Interactable))
+			{
+				PickUpItem(PickableItem);
+			}
+			break;
+			
+		case EInteractionType::Standard:  // Двери, топоры и т.д.
+		default:
+			IInteractable::Execute_OnInteract(Interactable, this);
+			break;
+		}
 		}
 	}
 }

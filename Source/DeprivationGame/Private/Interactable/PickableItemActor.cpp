@@ -1,4 +1,5 @@
 #include "Interactable/PickableItemActor.h"
+#include "Interactable/PlacementZone.h"
 #include "GameFramework/Pawn.h"
 #include "BaseCharacter.h"
 
@@ -8,6 +9,7 @@ APickableItemActor::APickableItemActor()
 	InteractionDistance = 200.0f;
 	bCanInteract = true;
 	bIsHeld = false;
+	bCannotBePickedUpAgain = false;
 }
 
 void APickableItemActor::BeginPlay()
@@ -30,8 +32,11 @@ bool APickableItemActor::CanInteract_Implementation(APawn* InteractingPawn) cons
 		return false;
 	}
 
-	// Проверяем, не держит ли персонаж уже другой предмет (если нужно)
-	// Это проверка опциональна, так как PickUpItem уже возвращает предыдущий предмет
+	// Проверяем флаг невозможности повторного подбора
+	if (bCannotBePickedUpAgain)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -80,3 +85,21 @@ void APickableItemActor::ReturnToOriginalPosition()
 	bIsHeld = false;
 }
 
+bool APickableItemActor::IsValidPlacementZone(APlacementZone* Zone) const
+{
+	if (!Zone || ValidPlacementZones.Num() == 0)
+	{
+		return true; // Если список пуст, разрешаем везде
+	}
+	
+	// Проверяем, есть ли зона в списке валидных
+	for (TSubclassOf<APlacementZone> ValidZoneClass : ValidPlacementZones)
+	{
+		if (Zone->IsA(ValidZoneClass))
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}

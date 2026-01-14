@@ -3,6 +3,8 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Engine/DataTable.h"
+#include "Components/AudioComponent.h"
+#include "Data/FMonologueData.h"
 #include "UI/MonologueDisplayWidget.h"
 #include "UMonologueComponent.generated.h"
 

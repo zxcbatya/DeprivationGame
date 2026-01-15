@@ -29,25 +29,17 @@ enum class EInteractionType
 // Определение типа взаимодействия
 EInteractionType DetermineInteractionType(AActor* Interactable)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Determining interaction type for: %s"), *Interactable->GetName());
-	UE_LOG(LogTemp, Warning, TEXT("Class: %s"), *Interactable->GetClass()->GetName());
-	
-	// Контейнеры (рюкзаки) - проверяем через иерархию
 	if (Interactable->GetClass()->IsChildOf(ABackpackActor::StaticClass()))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("-> DETECTED AS CONTAINER")); 
 		return EInteractionType::Container;
 	}
 	
 	// Подбираемые предметы
 	if (Interactable->GetClass()->IsChildOf(APickableItemActor::StaticClass()))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("-> DETECTED AS PICKABLE")); 
 		return EInteractionType::Pickable;
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("-> DETECTED AS STANDARD")); 
-	// Все остальное
 	return EInteractionType::Standard;
 }
 
@@ -150,36 +142,36 @@ void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
 {
 	if (!ItemToPick) return;
 
-	if (HoldItem)
+	if (blsHoldItem)
 	{
-		HoldItem->ReturnToOriginalPosition();
-		HoldItem = nullptr;
+		blsHoldItem->ReturnToOriginalPosition();
+		blsHoldItem = nullptr;
 	}
 
-	HoldItem = ItemToPick;
+	blsHoldItem = ItemToPick;
 	
 	// ВСЕГДА сохраняем трансформ при поднятии
-	HoldItem->SaveOriginalTransform();
+	blsHoldItem->SaveOriginalTransform();
 	
-	HoldItem->SetIsHeld(true);
-	HoldItem->SetActorEnableCollision(false);
+	blsHoldItem->SetIsHeld(true);
+	blsHoldItem->SetActorEnableCollision(false);
 	
 	// Прикрепляем к общему сокету руки
-	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	blsHoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 	
 	// Применяем индивидуальное смещение и ротацию для каждого предмета
-	HoldItem->SetActorRelativeLocation(HoldItem->GetHandOffset());
-	HoldItem->SetActorRelativeRotation(HoldItem->GetHandRotation());
+	blsHoldItem->SetActorRelativeLocation(blsHoldItem->GetHandOffset());
+	blsHoldItem->SetActorRelativeRotation(blsHoldItem->GetHandRotation());
 	
-	HoldItem->SetActorHiddenInGame(false);
+	blsHoldItem->SetActorHiddenInGame(false);
 }
 
 void ABaseCharacter::DropItem()
 {
-	if (!HoldItem) return;
+	if (!blsHoldItem) return;
 
-	HoldItem->ReturnToOriginalPosition();
-	HoldItem = nullptr;
+	blsHoldItem->ReturnToOriginalPosition();
+	blsHoldItem = nullptr;
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -20,24 +20,6 @@ void APickableItemActor::BeginPlay()
 
 bool APickableItemActor::CanInteract_Implementation(APawn* InteractingPawn) const
 {
-	// Базовая проверка
-	if (!Super::CanInteract_Implementation(InteractingPawn))
-	{
-		return false;
-	}
-
-	// Нельзя взять предмет, если он уже в руке
-	if (bIsHeld)
-	{
-		return false;
-	}
-
-	// Проверяем флаг невозможности повторного подбора
-	if (bCannotBePickedUpAgain)
-	{
-		return false;
-	}
-
 	return true;
 }
 
@@ -50,7 +32,6 @@ void APickableItemActor::OnInteract_Implementation(APawn* InteractingPawn)
 
 	Super::OnInteract_Implementation(InteractingPawn);
 
-	// Пытаемся взять предмет в руку через персонажа
 	if (ABaseCharacter* Character = Cast<ABaseCharacter>(InteractingPawn))
 	{
 		Character->PickUpItem(this);
@@ -69,17 +50,13 @@ void APickableItemActor::ReturnToOriginalPosition()
 {
 	if (!bIsHeld) return;
 
-	// Отключаем прикрепление
 	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	
-	// Возвращаем коллизию
 	SetActorEnableCollision(true);
 	
-	// Возвращаем предмет на исходную позицию
 	SetActorLocation(OriginalLocation);
 	SetActorRotation(OriginalRotation);
 	
-	// Показываем предмет (на случай если был скрыт)
 	SetActorHiddenInGame(false);
 	
 	bIsHeld = false;

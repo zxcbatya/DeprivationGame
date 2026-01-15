@@ -25,7 +25,6 @@ public:
 	void HideWidget();
 
 protected:
-	UPROPERTY(meta = (BindWidget))
 	UTextBlock* CharacterNameText;
 	
 	UPROPERTY(meta = (BindWidget))

@@ -16,6 +16,32 @@
 #include "Kismet/GameplayStatics.h"
 #include "Interactable/PickableItemActor.h"
 #include "Interactable/PlacementZone.h"
+#include "Interactable/BackpackActor.h"
+
+// Типы взаимодействия для event-driven архитектуры
+enum class EInteractionType
+{
+	Container,   // Контейнеры (рюкзаки)
+	Pickable,    // Подбираемые предметы
+	Standard     // Стандартные интерактивные объекты
+};
+
+// Определение типа взаимодействия
+EInteractionType DetermineInteractionType(AActor* Interactable)
+{
+	if (Interactable->GetClass()->IsChildOf(ABackpackActor::StaticClass()))
+	{
+		return EInteractionType::Container;
+	}
+	
+	// Подбираемые предметы
+	if (Interactable->GetClass()->IsChildOf(APickableItemActor::StaticClass()))
+	{
+		return EInteractionType::Pickable;
+	}
+	
+	return EInteractionType::Standard;
+}
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -116,29 +142,36 @@ void ABaseCharacter::PickUpItem(APickableItemActor* ItemToPick)
 {
 	if (!ItemToPick) return;
 
-	if (HoldItem)
+	if (blsHoldItem)
 	{
-		HoldItem->ReturnToOriginalPosition();
-		HoldItem = nullptr;
+		blsHoldItem->ReturnToOriginalPosition();
+		blsHoldItem = nullptr;
 	}
 
-	HoldItem = ItemToPick;
+	blsHoldItem = ItemToPick;
 	
 	// ВСЕГДА сохраняем трансформ при поднятии
-	HoldItem->SaveOriginalTransform();
+	blsHoldItem->SaveOriginalTransform();
 	
-	HoldItem->SetIsHeld(true);
-	HoldItem->SetActorEnableCollision(false);
-	HoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	HoldItem->SetActorHiddenInGame(false);
+	blsHoldItem->SetIsHeld(true);
+	blsHoldItem->SetActorEnableCollision(false);
+	
+	// Прикрепляем к общему сокету руки
+	blsHoldItem->AttachToComponent(ItemHoldSocket, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	
+	// Применяем индивидуальное смещение и ротацию для каждого предмета
+	blsHoldItem->SetActorRelativeLocation(blsHoldItem->GetHandOffset());
+	blsHoldItem->SetActorRelativeRotation(blsHoldItem->GetHandRotation());
+	
+	blsHoldItem->SetActorHiddenInGame(false);
 }
 
 void ABaseCharacter::DropItem()
 {
-	if (!HoldItem) return;
+	if (!blsHoldItem) return;
 
-	HoldItem->ReturnToOriginalPosition();
-	HoldItem = nullptr;
+	blsHoldItem->ReturnToOriginalPosition();
+	blsHoldItem = nullptr;
 }
 
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -300,21 +333,45 @@ void ABaseCharacter::Interact()
 
 	AActor* Interactable = GetInteractableActor();
 	
-	if (Interactable && Interactable->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
+	UE_LOG(LogTemp, Warning, TEXT("Interact pressed, found actor: %s"), 
+		Interactable ? *Interactable->GetName() : TEXT("None"));
+	
+	if (Interactable)
 	{
+		// Проверяем интерфейс через Cast (работает с Blueprint)
+		IInteractable* InteractableInterface = Cast<IInteractable>(Interactable);
+		if (InteractableInterface)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Found interactable actor: %s"), *Interactable->GetName());
 		bCanInteract = false;
 		GetWorldTimerManager().SetTimer(InteractDebounceTimerHandle, [this]() {
 			bCanInteract = true;
 		}, 0.3f, false);
 		
-		// Проверяем тип объекта и вызываем соответствующие методы
-		if (APickableItemActor* PickableItem = Cast<APickableItemActor>(Interactable))
+		// Event-driven подход: определяем тип взаимодействия
+		EInteractionType InteractionType = DetermineInteractionType(Interactable);
+		
+		switch (InteractionType)
 		{
-			PickUpItem(PickableItem);
-		}
-		else
-		{
+		case EInteractionType::Container:  // Рюкзаки и другие контейнеры
+			UE_LOG(LogTemp, Warning, TEXT("EXECUTING OnInteract for CONTAINER")); 
+			
+			// Вызываем родительский метод - Blueprint может его переопределить
 			IInteractable::Execute_OnInteract(Interactable, this);
+			break;
+			
+		case EInteractionType::Pickable:  // Обычные подбираемые предметы
+			if (APickableItemActor* PickableItem = Cast<APickableItemActor>(Interactable))
+			{
+				PickUpItem(PickableItem);
+			}
+			break;
+			
+		case EInteractionType::Standard:  // Двери, топоры и т.д.
+		default:
+			IInteractable::Execute_OnInteract(Interactable, this);
+			break;
+		}
 		}
 	}
 }

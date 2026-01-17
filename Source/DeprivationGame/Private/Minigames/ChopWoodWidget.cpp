@@ -19,27 +19,9 @@ void UChopWoodWidget::NativeConstruct()
 
 void UChopWoodWidget::UpdateVisuals(float InTargetZoneCenter, float InTargetZoneSize, float InIndicatorPosition)
 {
-	if (!TargetZoneImage || !IndicatorImage)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Widgets not bound!"));
-		return;
-	}
-
 	UCanvasPanel* RootPanel = Cast<UCanvasPanel>(GetRootWidget());
-	if (!RootPanel)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Root panel is not CanvasPanel!"));
-		return;
-	}
-
 	FVector2D PanelSize = RootPanel->GetDesiredSize();
-	if (PanelSize.IsZero())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Panel size is zero. Waiting..."));
-		return;
-	}
 
-	// Определяем отступы
 	const float PaddingLeft = 120.0f;
 	const float PaddingRight = 0.0f;
 	const float PaddingTop = 0.0f;
@@ -52,7 +34,6 @@ void UChopWoodWidget::UpdateVisuals(float InTargetZoneCenter, float InTargetZone
 	float WorkAreaY = PaddingTop;
 	float WorkAreaCenterY = WorkAreaY + WorkAreaHeight * 0.5f;
 
-	// Обновляем TargetZone
 	if (UCanvasPanelSlot* ZoneSlot = Cast<UCanvasPanelSlot>(TargetZoneImage->Slot))
 	{
 		float ZoneWidth = FMath::Max(1.0f, InTargetZoneSize * WorkAreaWidth);
@@ -63,7 +44,6 @@ void UChopWoodWidget::UpdateVisuals(float InTargetZoneCenter, float InTargetZone
 		ZoneSlot->SetZOrder(1);
 	}
 
-	// Обновляем Indicator
 	if (UCanvasPanelSlot* IndicatorSlot = Cast<UCanvasPanelSlot>(IndicatorImage->Slot))
 	{
 		const float IndicatorWidth = 50.0f;

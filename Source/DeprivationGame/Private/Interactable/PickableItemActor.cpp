@@ -1,4 +1,5 @@
 #include "Interactable/PickableItemActor.h"
+#include "Interactable/PlacementZone.h"
 #include "GameFramework/Pawn.h"
 #include "BaseCharacter.h"
 
@@ -8,6 +9,7 @@ APickableItemActor::APickableItemActor()
 	InteractionDistance = 200.0f;
 	bCanInteract = true;
 	bIsHeld = false;
+	bCannotBePickedUpAgain = false;
 }
 
 void APickableItemActor::BeginPlay()
@@ -18,21 +20,6 @@ void APickableItemActor::BeginPlay()
 
 bool APickableItemActor::CanInteract_Implementation(APawn* InteractingPawn) const
 {
-	// Базовая проверка
-	if (!Super::CanInteract_Implementation(InteractingPawn))
-	{
-		return false;
-	}
-
-	// Нельзя взять предмет, если он уже в руке
-	if (bIsHeld)
-	{
-		return false;
-	}
-
-	// Проверяем, не держит ли персонаж уже другой предмет (если нужно)
-	// Это проверка опциональна, так как PickUpItem уже возвращает предыдущий предмет
-
 	return true;
 }
 
@@ -45,7 +32,6 @@ void APickableItemActor::OnInteract_Implementation(APawn* InteractingPawn)
 
 	Super::OnInteract_Implementation(InteractingPawn);
 
-	// Пытаемся взять предмет в руку через персонажа
 	if (ABaseCharacter* Character = Cast<ABaseCharacter>(InteractingPawn))
 	{
 		Character->PickUpItem(this);
@@ -64,19 +50,33 @@ void APickableItemActor::ReturnToOriginalPosition()
 {
 	if (!bIsHeld) return;
 
-	// Отключаем прикрепление
 	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	
-	// Возвращаем коллизию
 	SetActorEnableCollision(true);
 	
-	// Возвращаем предмет на исходную позицию
 	SetActorLocation(OriginalLocation);
 	SetActorRotation(OriginalRotation);
 	
-	// Показываем предмет (на случай если был скрыт)
 	SetActorHiddenInGame(false);
 	
 	bIsHeld = false;
 }
 
+bool APickableItemActor::IsValidPlacementZone(APlacementZone* Zone) const
+{
+	if (!Zone || ValidPlacementZones.Num() == 0)
+	{
+		return true; // Если список пуст, разрешаем везде
+	}
+	
+	// Проверяем, есть ли зона в списке валидных
+	for (TSubclassOf<APlacementZone> ValidZoneClass : ValidPlacementZones)
+	{
+		if (Zone->IsA(ValidZoneClass))
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}

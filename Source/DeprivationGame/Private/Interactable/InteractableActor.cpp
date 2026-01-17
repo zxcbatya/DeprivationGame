@@ -34,6 +34,7 @@ bool AInteractableActor::CanInteract_Implementation(APawn* InteractingPawn) cons
 
 void AInteractableActor::OnInteract_Implementation(APawn* InteractingPawn)
 {
+	UE_LOG(LogTemp, Warning, TEXT("BASE InteractableActor OnInteract called for: %s"), *GetName());
 }
 
 void AInteractableActor::SetCanInteract(bool bNewCanInteract)

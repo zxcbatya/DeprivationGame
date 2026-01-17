@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Interactable/InteractableActor.h"
+#include "ItemActor.h"
 #include "PlacementZone.generated.h"
 
 class APickableItemActor;

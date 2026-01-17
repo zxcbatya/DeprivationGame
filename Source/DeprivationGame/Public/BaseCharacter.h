@@ -65,7 +65,7 @@ protected:
 	UPROPERTY()
 	USceneComponent* ItemHoldSocket;
 	UPROPERTY()
-	class APickableItemActor* HoldItem;
+	class APickableItemActor* blsHoldItem;
 
 	FTimerHandle InteractionCheckTimerHandle;
 	FTimerHandle InteractDebounceTimerHandle;
@@ -127,10 +127,10 @@ public:
 	
 	// Получить предмет, который держит персонаж
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	class APickableItemActor* GetHoldItem() const { return HoldItem; }
+	class APickableItemActor* GetHoldItem() const { return blsHoldItem; }
 	
 	// Установить предмет в руке (используется PlacementZone)
-	void SetHoldItem(class APickableItemActor* NewItem) { HoldItem = NewItem; }
+	void SetHoldItem(class APickableItemActor* NewItem) { blsHoldItem = NewItem; }
 	
 	// Проверить, находится ли персонаж в машине
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")

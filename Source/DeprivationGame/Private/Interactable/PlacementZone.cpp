@@ -3,6 +3,7 @@
 #include "Interactable/BackpackActor.h"
 #include "BaseCharacter.h"
 #include "GameFramework/Pawn.h"
+#include "Kismet/GameplayStatics.h"
 
 APlacementZone::APlacementZone()
 {
@@ -45,7 +46,7 @@ void APlacementZone::OnInteract_Implementation(APawn* InteractingPawn)
 	{
 		return;
 	}
-
+	PlaySound();
 	Super::OnInteract_Implementation(InteractingPawn);
 
 	if (ABaseCharacter* Character = Cast<ABaseCharacter>(InteractingPawn))
@@ -125,5 +126,10 @@ FText APlacementZone::GetInteractionText_Implementation() const
 
 	// Возвращаем стандартный текст для размещения
 	return InteractionText; // "Place Item"
+}
+
+void APlacementZone::PlaySound() const
+{
+	UGameplayStatics::PlaySound2D(this,DropPlaceSound);
 }
 

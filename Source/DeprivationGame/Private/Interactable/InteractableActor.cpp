@@ -3,6 +3,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/Pawn.h"
+#include "Kismet/GameplayStatics.h"
 
 AInteractableActor::AInteractableActor()
 {
@@ -20,6 +21,11 @@ AInteractableActor::AInteractableActor()
 void AInteractableActor::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AInteractableActor::PlaySound() const
+{
+	UGameplayStatics::PlaySound2D(this,InteractSound);
 }
 
 bool AInteractableActor::CanInteract_Implementation(APawn* InteractingPawn) const

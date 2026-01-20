@@ -20,7 +20,9 @@ class DEPRIVATIONGAME_API IWidgetAnimationHandler
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "UI Animation")
 	void PlayShowAnimation();
+	virtual void PlayShowAnimation_Implementation() {}
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "UI Animation")
 	void PlayHideAnimation();
+	virtual void PlayHideAnimation_Implementation() {}
 };

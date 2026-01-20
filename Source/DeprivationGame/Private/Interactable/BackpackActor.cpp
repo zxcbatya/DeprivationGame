@@ -2,6 +2,7 @@
 #include "GameFramework/Pawn.h"
 #include "BaseCharacter.h"
 #include "Interactable/PlacementZone.h"
+#include "Kismet/GameplayStatics.h"
 
 ABackpackActor::ABackpackActor(): BackpackMesh(nullptr)
 {
@@ -33,8 +34,10 @@ void ABackpackActor::HandleBackpackInteraction(APawn* InteractingPawn)
 	{
 		bIsOpened = true;
 		BackpackMesh->SetStaticMesh(BackpackMeshOpened);
+		FVector Location = GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, BackpackOpenSound, Location);
 	}
-	
+
 	if (bIsPlacedAsContainer)
 	{
 		// Проверяем, есть ли у персонажа предмет в руке
@@ -46,7 +49,7 @@ void ABackpackActor::HandleBackpackInteraction(APawn* InteractingPawn)
 				return;
 			}
 		}
-		
+
 		AItemActor* Item = GetNextItem();
 
 		if (Item && InteractingPawn)
@@ -63,20 +66,36 @@ void ABackpackActor::HandleBackpackInteraction(APawn* InteractingPawn)
 	Super::OnInteract_Implementation(InteractingPawn);
 }
 
+void ABackpackActor::RemoveItem(APawn* InteractingPawn)
+{
+	if (ABaseCharacter* Character = Cast<ABaseCharacter>(InteractingPawn))
+	{
+		Character->SetHoldItem(nullptr);
+	}
+}
+
 AItemActor* ABackpackActor::GetNextItem()
 {
 	if (CurrentItemIndex >= BackpackItems.Num())
 	{
 		return nullptr;
 	}
-	
+
 	AItemActor* Item = BackpackItems[CurrentItemIndex];
-	
+
 	if (Item)
 	{
 		Item->SetActorHiddenInGame(false);
 		Item->SetIsHeld(true);
-		CurrentItemIndex++; // Увеличиваем индекс только после успешного извлечения
+		FVector Location = GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, BackpackTakeItemSound, Location);
+		switch (CurrentItemIndex)
+		{
+			case 2: TakingVodka();
+			case 3: TakingDrugs();
+			default: break;;
+		}
+		CurrentItemIndex++; 
 	}
 
 	return Item;
@@ -101,39 +120,4 @@ void ABackpackActor::InitializeBackpackContents()
 			}
 		}
 	}
-}
-
-void ABackpackActor::AddItemToBackpack(AItemActor* Item)
-{
-	if (Item)
-	{
-		BackpackItems.Add(Item);
-		Item->SetActorHiddenInGame(true);
-		Item->SetIsHeld(false);
-	}
-}
-
-AItemActor* ABackpackActor::RemoveItemFromBackpack(int Index)
-{
-	if (Index >= 0 && Index < BackpackItems.Num())
-	{
-		AItemActor* Item = BackpackItems[Index];
-		BackpackItems.RemoveAt(Index);
-		return Item;
-	}
-	return nullptr;
-}
-
-bool ABackpackActor::IsValidPlacementSurface(APlacementZone* Zone) const
-{
-	if (!Zone) return false;
-
-	for (TSubclassOf<APlacementZone> ValidZoneClass : ValidPlacementZones)
-	{
-		if (Zone->GetClass()->IsChildOf(ValidZoneClass))
-		{
-			return true;
-		}
-	}
-	return false;
 }

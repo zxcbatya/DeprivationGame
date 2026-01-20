@@ -33,6 +33,7 @@ protected:
 	// Разрешен ли только один предмет за раз
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Placement")
 	bool bSingleItemOnly = true;
+	
 
 public:
 	virtual bool CanInteract_Implementation(APawn* InteractingPawn) const override;
@@ -45,7 +46,6 @@ public:
 	// Убирает предмет из зоны (если есть)
 	UFUNCTION(BlueprintCallable, Category = "Placement")
 	void RemoveItem();
-
 	// Проверяет, можно ли разместить предмет в этой зоне
 	UFUNCTION(BlueprintCallable, Category = "Placement")
 	bool CanPlaceItem(APickableItemActor* ItemToPlace) const;
@@ -62,5 +62,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Placement")
 	void OnItemRemoved(APickableItemActor* ItemRemoved);
+private:
+	void PlaySound() const;
 };
 

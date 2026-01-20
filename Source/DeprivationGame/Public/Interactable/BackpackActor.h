@@ -29,22 +29,17 @@ protected:
 	UStaticMesh* BackpackMeshOpened;
 	UPROPERTY(EditAnywhere, Category = "Backpack")
 	UStaticMeshComponent* BackpackMesh;
-
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Sound")
+	USoundBase* BackpackOpenSound;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Sound")
+	USoundBase* BackpackTakeItemSound;
 public:
+	UFUNCTION(BlueprintImplementableEvent, Category="Custom")
+	void TakingVodka();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Custom")
+	void TakingDrugs();
 	UFUNCTION(BlueprintCallable, Category = "Backpack")
 	void InitializeBackpackContents();
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	TArray<AItemActor*> GetBackpackContents() const { return BackpackItems; }
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	AItemActor* RemoveItemFromBackpack(int32 Index);
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	void AddItemToBackpack(AItemActor* Item);
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	bool IsValidPlacementSurface(class APlacementZone* Zone) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Backpack")
 	int32 GetItemCount() const { return BackpackItems.Num(); }
@@ -56,19 +51,9 @@ public:
 	bool HasMoreItems() const { return CurrentItemIndex < BackpackItems.Num(); }
 
 	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	void SetItemsLocked(bool bLocked) { bItemsLocked = bLocked; }
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	bool IsItemsLocked() const { return bItemsLocked; }
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	void ResetItemIndex() { CurrentItemIndex = 0; }
-
-	UFUNCTION(BlueprintCallable, Category = "Backpack")
 	void SetPlacedAsContainer(bool bPlaced) { bIsPlacedAsContainer = bPlaced; }
-
 	UFUNCTION(BlueprintCallable, Category = "Backpack")
-	bool IsPlacedAsContainer() const { return bIsPlacedAsContainer; }
+	void RemoveItem(APawn* InteractingPawn);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Backpack")
 	void OnBackpackOpened(APawn* InteractingPawn);
@@ -84,7 +69,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Backpack")
 	void OnItemRemovedFromBackpack(AItemActor* Item, APawn* InteractingPawn);
-
+	
 	void HandleBackpackInteraction(APawn* InteractingPawn);
 
 private:

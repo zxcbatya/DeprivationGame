@@ -1,9 +1,10 @@
+// BaseCharacter.h
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Enums/EFatigueState.h"
-#include "Enums/EDrunkState.h"
+#include "PlayerComponent/StateComponent.h"
+#include "PlayerComponent/InteractableComponent.h"
 #include "BaseCharacter.generated.h"
 
 class UCameraComponent;
@@ -14,138 +15,103 @@ class UImage;
 class UTextBlock;
 class UInputAction;
 class UInputMappingContext;
+class APickableItemActor;
 
 UCLASS()
 class DEPRIVATIONGAME_API ABaseCharacter : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	ABaseCharacter();
+    ABaseCharacter();
 
 protected:
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+    virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	UPROPERTY(VisibleAnywhere, Category = "Tired")
-	EFatigueState TiredState;
-
-	UPROPERTY(VisibleAnywhere, Category = "Drunk")
-	EDrunkState DrunkState;
-
-	UPROPERTY(EditAnywhere, Category = "Materials")
-	UMaterialParameterCollection* StateMPC;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	UCameraComponent* CameraComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (DisplayName = "Camera Offset"))
-	FVector CameraOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction",
-		meta = (DisplayName = "Crosshair Widget Class"))
-	TSubclassOf<UUserWidget> CrosshairWidgetClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction",
-		meta = (DisplayName = "Interaction Widget Class"))
-	TSubclassOf<UUserWidget> InteractionWidgetClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Interaction Action"))
-	UInputAction* InteractionAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Character Mapping Context"))
-	UInputMappingContext* CharacterMappingContext;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = "Interaction", meta = (DisplayName = "Created Crosshair Widget"))
-	UUserWidget* CreatedCrosshairWidget;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = "Interaction",
-		meta = (DisplayName = "Created Interaction Widget"))
-	UUserWidget* CreatedInteractionWidget;
-	UPROPERTY()
-	USceneComponent* ItemHoldSocket;
-	UPROPERTY()
-	class APickableItemActor* blsHoldItem;
-
-	FTimerHandle InteractionCheckTimerHandle;
-	FTimerHandle InteractDebounceTimerHandle;
-	bool bCanInteract = true;
-
-	AActor* CurrentHoveredInteractable = nullptr;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+    UCharacterStateComponent* StateComponent;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
+    UInteractableComponent* InteractableComponent;
+    
+public:
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    UInteractableComponent* GetInteractableComponent() const { return InteractableComponent; }
+    
+    UPROPERTY(EditAnywhere, Category = "Materials")
+    UMaterialParameterCollection* StateMPC;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+    UCameraComponent* CameraComponent;
 
 public:
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    UFUNCTION(BlueprintCallable, Category = "Camera")
+    UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void CreateCrosshairWidget();
+protected:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Interaction Action"))
+    UInputAction* InteractionAction;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input", meta = (DisplayName = "Character Mapping Context"))
+    UInputMappingContext* CharacterMappingContext;
 
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void CreateInteractionWidget();
+    FTimerHandle InteractionCheckTimerHandle;
+    FTimerHandle InteractDebounceTimerHandle;
+    bool bCanInteract = true;
 
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void ShowCrosshair(bool bShow);
+public:
+    virtual void Tick(float DeltaTime) override;
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    void StartChoppingMinigame();
+    
+    UFUNCTION(BlueprintCallable, Category = "Vehicle")
+    void EnterVehicle(APawn* Vehicle);
+    
+    UFUNCTION(BlueprintCallable, Category = "Vehicle")
+    void ExitVehicle();
+    
+    UFUNCTION(BlueprintCallable, Category = "Vehicle")
+    void EnterVehicleByTag(FName VehicleTag);
 
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void ShowInteractionPrompt(bool bShow, const FText& PromptText = FText::GetEmpty());
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    AActor* LineTrace(float LineLength, bool bDrawDebug = false) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void StartChoppingMinigame();
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    void Interact();
+    
+    // Обработчики делегатов взаимодействия
+    UFUNCTION()
+    void HandleInteractionStarted(AActor* InteractableActor, ABaseCharacter* Character);
+    
+    UFUNCTION()
+    void HandleInteractionCompleted(AActor* InteractableActor, ABaseCharacter* Character);
+    
+    UFUNCTION()
+    void HandleInteractionCancelled(AActor* InteractableActor, ABaseCharacter* Character);
 
-	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	void EnterVehicle(APawn* Vehicle);
+    UPROPERTY(Transient)
+    USceneComponent* ItemHoldSocket;
+    
+    UPROPERTY(Transient)
+    APickableItemActor* blsHoldItem;
 
-	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	void ExitVehicle();
+    friend class UInteractableComponent;
+    ADeprivationCar* CurrentVehicle = nullptr;
+    AActor* CurrentHoveredInteractable = nullptr;
 
-	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	void EnterVehicleByTag(FName VehicleTag);
-
-	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	void EnterVehicleByReference(ADeprivationCar* Vehicle);
-
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	AActor* LineTrace(float LineLength, bool bDrawDebug = false) const;
-
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void Interact();
-
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	AActor* GetInteractableActor() const;
-
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	FText GetInteractionPrompt() const;
-	
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void CheckInteraction();
-	
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void PickUpItem(class APickableItemActor* ItemToPick);
-	
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void DropItem();
-	
-	// Получить предмет, который держит персонаж
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	class APickableItemActor* GetHoldItem() const { return blsHoldItem; }
-	
-	// Установить предмет в руке (используется PlacementZone)
-	void SetHoldItem(class APickableItemActor* NewItem) { blsHoldItem = NewItem; }
-	
-	// Проверить, находится ли персонаж в машине
-	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	bool IsInVehicle() const { return CurrentVehicle != nullptr; }
-	
-	// Получить текущую машину, в которой находится персонаж
-	UFUNCTION(BlueprintCallable, Category = "Vehicle")
-	ADeprivationCar* GetCurrentVehicle() const { return CurrentVehicle; }
-
-private:
-	UFUNCTION()
-	void OnFatigueStateChanged(EFatigueState State);
-
-	UFUNCTION()
-	void OnDrunkStateChanged(EDrunkState State);
-
-	ADeprivationCar* CurrentVehicle = nullptr;
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    void PickUpItem(APickableItemActor* ItemToPick);
+    
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    APickableItemActor* GetHoldItem() const { return blsHoldItem; }
+    
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    void SetHoldItem(APickableItemActor* NewItem) { blsHoldItem = NewItem; }
+    
+    UFUNCTION(BlueprintCallable, Category = "Vehicle")
+    bool IsInVehicle() const { return CurrentVehicle != nullptr; }
+    
 };

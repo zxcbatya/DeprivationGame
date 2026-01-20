@@ -10,6 +10,8 @@ enum class EItemType : uint8
 	TOOTHBRUSHANDPASTE UMETA(DisplayName = "Toothbrush"),
 	CLOTHES UMETA(DisplayName = "Clothes"),
 	BACKPACK UMETA(DisplayName = "Backpack"),
+	BOTTLE UMETA(DisplayName = "Bottle"),
+	ZIPLOCK UMETA(DisplayName = "Ziplock"),
 	NONE UMETA(DisplayName = "None")
 };
 

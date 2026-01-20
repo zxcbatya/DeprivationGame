@@ -4,34 +4,30 @@
 #include "UObject/Interface.h"
 #include "IInteractable.generated.h"
 
-class ABaseCharacter;
-class APawn;
-
-UINTERFACE(MinimalAPI, BlueprintType)
-class UInteractable : public UInterface
+UINTERFACE(BlueprintType)
+class DEPRIVATIONGAME_API UInteractable : public UInterface
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 };
 
-/**
- * Interface for interactive objects in the game
- */
 class DEPRIVATIONGAME_API IInteractable
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Interaction methods
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	bool CanInteract(APawn* InteractingPawn) const;
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interaction")
+    bool CanInteract(APawn* InteractingPawn) const;
+    virtual bool CanInteract_Implementation(APawn* InteractingPawn) const { return true; }
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void OnInteract(APawn* InteractingPawn);
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interaction")
+    void OnInteract(APawn* InteractingPawn);
+    virtual void OnInteract_Implementation(APawn* InteractingPawn) {}
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	FText GetInteractionText() const;
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interaction")
+    FText GetInteractionText() const;
+    virtual FText GetInteractionText_Implementation() const { return FText::GetEmpty(); }
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	float GetInteractionDistance() const;
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interaction")
+    float GetInteractionDistance() const;
+    virtual float GetInteractionDistance_Implementation() const { return 100.0f; }
 };
-

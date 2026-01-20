@@ -35,6 +35,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
 	bool bCanInteract;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+	USoundBase* InteractSound;
+
+	UFUNCTION()
+	void PlaySound() const;
 
 public:
 	virtual bool CanInteract_Implementation(APawn* InteractingPawn) const override;

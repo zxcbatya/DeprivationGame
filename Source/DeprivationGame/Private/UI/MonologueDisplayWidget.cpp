@@ -8,12 +8,10 @@ void UMonologueDisplayWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	// Начальная прозрачность для анимации появления
 	SetRenderOpacity(0.0f);
 	
 	if (GetWorld())
 	{
-		// Плавное появление за 0.2 секунды
 		GetWorld()->GetTimerManager().SetTimer(
 			FadeInTimerHandle,
 			this,
@@ -71,14 +69,6 @@ void UMonologueDisplayWidget::FadeOutWidget()
 
 void UMonologueDisplayWidget::AnimateText(const FString& Text, const FString& CharacterName)
 {
-	if (!MonologueText) return;
-	
-	// Устанавливаем имя персонажа
-	if (CharacterNameText)
-	{
-		CharacterNameText->SetText(FText::FromString(CharacterName));
-	}
-	
 	TargetText = Text;
 	CurrentCharIndex = 0;
 	MonologueText->SetText(FText::GetEmpty());
@@ -116,15 +106,7 @@ void UMonologueDisplayWidget::AnimateText(const FString& Text, const FString& Ch
 
 void UMonologueDisplayWidget::SetMonologueText(const FString& Text, const FString& CharacterName)
 {
-	if (CharacterNameText)
-	{
-		CharacterNameText->SetText(FText::FromString(CharacterName));
-	}
-	
-	if (MonologueText)
-	{
 		MonologueText->SetText(FText::FromString(Text));
-	}
 }
 
 void UMonologueDisplayWidget::HideWidget()

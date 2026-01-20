@@ -25,14 +25,10 @@ public:
 	void HideWidget();
 
 protected:
-	UTextBlock* CharacterNameText;
 	
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* MonologueText;
 	
-	UPROPERTY(meta = (BindWidget))
-	UImage* BackgroundImage;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	float AnimationSpeed = 0.05f;
 

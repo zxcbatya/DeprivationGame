@@ -62,7 +62,5 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Placement")
 	void OnItemRemoved(APickableItemActor* ItemRemoved);
-private:
-	void PlaySound() const;
 };
 

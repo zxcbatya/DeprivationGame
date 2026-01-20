@@ -128,8 +128,3 @@ FText APlacementZone::GetInteractionText_Implementation() const
 	return InteractionText; // "Place Item"
 }
 
-void APlacementZone::PlaySound() const
-{
-	UGameplayStatics::PlaySound2D(this,DropPlaceSound);
-}
-

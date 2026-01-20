@@ -92,6 +92,7 @@ AItemActor* ABackpackActor::GetNextItem()
 		switch (CurrentItemIndex)
 		{
 			case 2: TakingVodka();
+			UE_LOG(LogTemp, Display, TEXT("Taking Vodka"));
 			case 3: TakingDrugs();
 			default: break;;
 		}

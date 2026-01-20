@@ -34,47 +34,62 @@ void UUMonologueComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void UUMonologueComponent::PlayMonologue(FName MonologueID, UDataTable* MonologueTable)
 {
-	if (!MonologueTable || bIsPlaying) StopCurrentMonologue();
-	
+	if (!MonologueTable) return;
+ 
+	if (bIsPlaying)
+	{
+		StopCurrentMonologue();
+	}
+ 
 	FMonologueData* MonologueData = MonologueTable->FindRow<FMonologueData>(MonologueID, TEXT(""));
 	if (!MonologueData) return;
-	
+ 
 	CurrentMonologueID = MonologueID;
 	bIsPlaying = true;
 	CurrentSubtitleIndex = 0;
 	CurrentSubtitles = MonologueData->Subtitles;
-	
+ 
+	/* добилить звуки
+	if (AudioComponent && MonologueData->Sound)
+	{
+		AudioComponent->SetSound(MonologueData->Sound);
+		AudioComponent->Play();
+	}*/
+ 
 	OnMonologueStarted.Broadcast(CurrentMonologueID);
 	StartSubtitleSequence();
 }
-
+ 
 void UUMonologueComponent::StopCurrentMonologue()
 {
 	if (!bIsPlaying) return;
-	
+ 
 	bIsPlaying = false;
+ 
+	FName EndedMonologueID = CurrentMonologueID;
+ 
 	CurrentMonologueID = NAME_None;
 	CurrentSubtitles.Empty();
 	CurrentSubtitleIndex = 0;
-	
+ 
 	if (GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(SubtitleTimerHandle);
 		GetWorld()->GetTimerManager().ClearTimer(HideTimerHandle);
 	}
-	
+ 
 	if (AudioComponent && AudioComponent->IsPlaying())
 	{
 		AudioComponent->Stop();
 	}
-	
+ 
 	if (ActiveWidget)
 	{
 		ActiveWidget->HideWidget();
 		ActiveWidget = nullptr;
 	}
-	
-	OnMonologueEnded.Broadcast(CurrentMonologueID);
+ 
+	OnMonologueEnded.Broadcast(EndedMonologueID); 
 }
 
 void UUMonologueComponent::SetDisplayWidget(UMonologueDisplayWidget* Widget)

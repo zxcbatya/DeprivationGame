@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "WheeledVehiclePawn.h"
 #include "InputActionValue.h"
+#include "Camera/CameraComponent.h"
 #include "Interfaces/IInteractable.h"
 #include "DeprivationCar.generated.h"
 
@@ -42,6 +43,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* ExitAction;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* LockAction;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
@@ -88,4 +91,17 @@ private:
 	bool bCanExitVehicle = true;
 	bool bIgnoreNextExit = false;
 	bool bControlsLocked = false;
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Camera")
+	UCameraComponent* CameraComponent;
+
+	float CameraPitch;
+	float CameraYaw;
+	
+	const float MaxPitchUp = 80.f;
+	const float MaxPitchDown = -80.f;
+	
+	void Look(const FInputActionValue& Value);
+	void UpdateCameraRotation() const;
+	
 };

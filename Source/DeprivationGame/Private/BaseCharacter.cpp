@@ -97,18 +97,26 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 {
 	ADeprivationCar* Car = Cast<ADeprivationCar>(Vehicle);
 
-	CurrentVehicle = Car;
+	if (InteractableComponent)
+	{
+		InteractableComponent->ShowCrosshair(false);
+	}
+	CameraComponent->bUsePawnControlRotation = true;
 	StateComponent->SetState(ECharacterState::InVehicle);
+	CurrentVehicle = Car;
 
+	
+	
 	if (UCharacterMovementComponent* MovementComp = GetCharacterMovement())
 	{
+		MovementComp->bOrientRotationToMovement = false;
+		MovementComp->bUseControllerDesiredRotation = false;
 		MovementComp->SetMovementMode(MOVE_None);
 		MovementComp->StopMovementImmediately();
 		MovementComp->SetComponentTickEnabled(false);
 	}
 
 	SetActorEnableCollision(false);
-	SetActorHiddenInGame(true);
 	AttachToComponent(Car->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 
 	if (AController* MyController = GetController())
@@ -122,9 +130,22 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 
 void ABaseCharacter::ExitVehicle()
 {
+	if (!CurrentVehicle) return;
+	
 	Cast<ADeprivationCar>(CurrentVehicle)->ExitVehicle();
+	
+	CameraComponent->bUsePawnControlRotation = false;
+	
+	if (UCharacterMovementComponent* MovementComp = GetCharacterMovement())
+	{
+		MovementComp->bOrientRotationToMovement = true;
+		MovementComp->bUseControllerDesiredRotation = true;
+		
+	}
+	
 	CurrentVehicle = nullptr;
 	StateComponent->SetState(ECharacterState::Normal);
+	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 }
 
 void ABaseCharacter::EnterVehicleByTag(FName VehicleTag)

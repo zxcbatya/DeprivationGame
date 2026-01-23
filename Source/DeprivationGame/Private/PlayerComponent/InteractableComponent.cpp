@@ -20,7 +20,7 @@ UInteractableComponent::UInteractableComponent(): CreatedCrosshairWidget(nullptr
 	bIsCrosshairVisible = false;
 	LastLineTraceTime = 0.0f;
 	static ConstructorHelpers::FClassFinder<UUserWidget> CrosshairFinder(
-		TEXT("/Game//BluePrints/PlayerWidgets/InteractWidget/WBP_Crosshair"));
+		TEXT("/Game/BluePrints/PlayerWidgets/InteractWidget/WBP_Crosshair"));
 	if (CrosshairFinder.Succeeded())
 	{
 		CrosshairWidgetClass = CrosshairFinder.Class;
@@ -89,7 +89,7 @@ AActor* UInteractableComponent::GetInteractableActor() const
 		return reinterpret_cast<AActor*>(CharacterOwner->CurrentVehicle);
 	}
 
-	const float MaxInteractionDistance = 350.0f;
+	const float MaxInteractionDistance = 250.0f;
 	AActor* HitActor = LineTrace(MaxInteractionDistance, false);
 
 	if (HitActor && HitActor->GetClass()->ImplementsInterface(UInteractable::StaticClass()))

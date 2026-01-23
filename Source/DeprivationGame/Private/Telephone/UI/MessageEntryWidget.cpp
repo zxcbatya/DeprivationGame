@@ -3,12 +3,10 @@
 #include "DeprivationGame/Public/Telephone/UI/MessageEntryWidget.h"
 #include "DeprivationGame/Public/Data/ChatData.h"
 
-void UMessageEntryWidget::SetMessage(const FMessageData& Message)
+void UMessageEntryWidget::SetMessage(const FMessageData& Message) const
 {
-	// Implementation will depend on your UI elements
-	// For example:
-	// if (MessageTextBlock)
-	// {
-	//     MessageTextBlock->SetText(FText::FromString(Message.Content));
-	// }
+	 if (MessageTextBlock)
+	 {
+	     MessageTextBlock->SetText(FText::FromString(Message.Content));
+	 }
 }

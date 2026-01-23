@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MessageEntryWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ListView.h"
 #include "DeprivationGame/Public/Telephone/ChatManagerSubsystem.h"
@@ -22,9 +23,13 @@ public:
 	UListView* ChatListView;
 
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ChatList")
+	TSubclassOf<UUserWidget> MessageEntryClass;
+	
 	virtual void NativeConstruct() override;
 
 public:
 	UFUNCTION()
 	void RefreshChatList(int32 ContactID);
+private:
 };

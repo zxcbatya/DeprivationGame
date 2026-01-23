@@ -8,6 +8,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "BaseCharacter.h"
+#include "Kismet/KismetMathLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogDeprivationCar);
 
@@ -21,7 +22,8 @@ void ADeprivationCar::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetComponentTickEnabled(true);
 	}
@@ -41,7 +43,8 @@ void ADeprivationCar::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetComponentTickEnabled(true);
 	}
@@ -53,7 +56,8 @@ void ADeprivationCar::UnPossessed()
 
 	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
 			Subsystem->RemoveMappingContext(VehicleMappingContext);
 		}
@@ -69,6 +73,19 @@ void ADeprivationCar::EnterVehicle(APawn* Pawn)
 	bIgnoreNextExit = true;
 	CurrentDriver = Pawn;
 
+	// Отключаем контроль поворота павна контроллером для машины
+	Pawn->bUseControllerRotationYaw = false;
+	Pawn->bUseControllerRotationPitch = false;
+	Pawn->bUseControllerRotationRoll = false;
+
+	// Отключаем ориентацию движения для характерного движения
+	if (UCharacterMovementComponent* CharMove = Cast<UCharacterMovementComponent>(
+		Pawn->GetComponentByClass(UCharacterMovementComponent::StaticClass())))
+	{
+		CharMove->bOrientRotationToMovement = false;
+		CharMove->bUseControllerDesiredRotation = false;
+	}
+
 	FTimerHandle ExitIgnoreTimerHandle;
 	FTimerHandle CanExitTimerHandle;
 
@@ -76,7 +93,8 @@ void ADeprivationCar::EnterVehicle(APawn* Pawn)
 	{
 		GetWorldTimerManager().SetTimerForNextTick([this, PC]()
 		{
-			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+				UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 			{
 				Subsystem->AddMappingContext(VehicleMappingContext, 0);
 			}
@@ -93,7 +111,8 @@ void ADeprivationCar::EnterVehicle(APawn* Pawn)
 		}, 0.3f, false);
 	}
 
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetComponentTickEnabled(true);
 	}
@@ -106,12 +125,21 @@ void ADeprivationCar::EnterVehicle(APawn* Pawn)
 
 void ADeprivationCar::ExitVehicle()
 {
-	if (bIgnoreNextExit || !CurrentDriver || !bCanExitVehicle)
-		return;
+	CurrentDriver->bUseControllerRotationYaw = true;
+	CurrentDriver->bUseControllerRotationPitch = true;
+	CurrentDriver->bUseControllerRotationRoll = true;
+
+	if (UCharacterMovementComponent* CharMove = Cast<UCharacterMovementComponent>(
+		CurrentDriver->GetComponentByClass(UCharacterMovementComponent::StaticClass())))
+	{
+		CharMove->bOrientRotationToMovement = true;
+		CharMove->bUseControllerDesiredRotation = true;
+	}
 
 	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
 			Subsystem->RemoveMappingContext(VehicleMappingContext);
 		}
@@ -140,41 +168,39 @@ void ADeprivationCar::ExitVehicle()
 
 void ADeprivationCar::BindInputActions(UEnhancedInputComponent* EnhancedInput)
 {
-	if (AccelerateAction)
-	{
-		EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Accelerate);
-		EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopAccelerate);
-	}
+	EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Accelerate);
+	EnhancedInput->BindAction(AccelerateAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopAccelerate);
+	EnhancedInput->BindAction(SteerAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Steer);
+	EnhancedInput->BindAction(SteerAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopSteer);
+	EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::HandbrakePressed);
+	EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::HandbrakeReleased);
+	EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Brake);
+	EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopBrake);
+	EnhancedInput->BindAction(ExitAction, ETriggerEvent::Triggered, this, &ADeprivationCar::ExitVehicle);
+	EnhancedInput->BindAction(LockAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Look);
+}
 
-	if (SteerAction)
-	{
-		EnhancedInput->BindAction(SteerAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Steer);
-		EnhancedInput->BindAction(SteerAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopSteer);
-	}
+void ADeprivationCar::Look(const FInputActionValue& Value)
+{
+	float PitchInput = Value.Get<float>();
+	float YawInput = Value.Get<float>();
+	CameraYaw += YawInput;
+	CameraYaw = UKismetMathLibrary::NormalizeAxis(CameraYaw);
+	CameraPitch = FMath::Clamp(CameraPitch + PitchInput, MaxPitchDown, MaxPitchUp);
+	UpdateCameraRotation();
+}
 
-	if (HandbrakeAction)
-	{
-		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::HandbrakePressed);
-		EnhancedInput->BindAction(HandbrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::HandbrakeReleased);
-	}
-
-	if (BrakeAction)
-	{
-		EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Brake);
-		EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopBrake);
-	}
-
-	if (ExitAction)
-	{
-		EnhancedInput->BindAction(ExitAction, ETriggerEvent::Triggered, this, &ADeprivationCar::ExitVehicle);
-	}
+void ADeprivationCar::UpdateCameraRotation() const
+{
+	CameraComponent->SetRelativeRotation(FRotator(CameraPitch, CameraYaw, 0.f));
 }
 
 void ADeprivationCar::Accelerate(const FInputActionValue& Value)
 {
 	if (bControlsLocked) return;
-	
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetThrottleInput(Value.Get<float>());
 	}
@@ -182,7 +208,8 @@ void ADeprivationCar::Accelerate(const FInputActionValue& Value)
 
 void ADeprivationCar::StopAccelerate()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetThrottleInput(0.0f);
 		VehicleMovement->SetBrakeInput(0.0f);
@@ -192,8 +219,9 @@ void ADeprivationCar::StopAccelerate()
 void ADeprivationCar::Steer(const FInputActionValue& Value)
 {
 	if (bControlsLocked) return;
-	
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetSteeringInput(Value.Get<float>());
 	}
@@ -201,7 +229,8 @@ void ADeprivationCar::Steer(const FInputActionValue& Value)
 
 void ADeprivationCar::StopSteer()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetSteeringInput(0.0f);
 	}
@@ -209,7 +238,8 @@ void ADeprivationCar::StopSteer()
 
 void ADeprivationCar::HandbrakePressed()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(true);
 	}
@@ -217,7 +247,8 @@ void ADeprivationCar::HandbrakePressed()
 
 void ADeprivationCar::HandbrakeReleased()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetHandbrakeInput(false);
 	}
@@ -226,8 +257,9 @@ void ADeprivationCar::HandbrakeReleased()
 void ADeprivationCar::Brake(const FInputActionValue& Value)
 {
 	if (bControlsLocked) return;
-	
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetBrakeInput(Value.Get<float>());
 	}
@@ -235,7 +267,8 @@ void ADeprivationCar::Brake(const FInputActionValue& Value)
 
 void ADeprivationCar::StopBrake()
 {
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetBrakeInput(0.0f);
 		VehicleMovement->SetThrottleInput(0.0f);
@@ -270,9 +303,10 @@ float ADeprivationCar::GetInteractionDistance_Implementation() const
 void ADeprivationCar::LockControls()
 {
 	bControlsLocked = true;
-	
+
 	// Останавливаем все движения при блокировке
-	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovement()))
+	if (UChaosWheeledVehicleMovementComponent* VehicleMovement = Cast<UChaosWheeledVehicleMovementComponent>(
+		GetVehicleMovement()))
 	{
 		VehicleMovement->SetThrottleInput(0.0f);
 		VehicleMovement->SetSteeringInput(0.0f);

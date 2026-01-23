@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "DeprivationGame/Public/Data/ChatData.h"
 #include "MessageEntryWidget.generated.h"
 
@@ -16,5 +17,8 @@ class DEPRIVATIONGAME_API UMessageEntryWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetMessage(const FMessageData& Message);
+	void SetMessage(const FMessageData& Message) const;
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MessageEntryWidget)
+	UTextBlock* MessageTextBlock;
 };

@@ -16,6 +16,9 @@ ADeprivationCar::ADeprivationCar()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	GetMesh()->SetCenterOfMass(FVector(0.f, 0.f, 10.f));
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("VehicleCamera"));
+	CameraComponent->SetupAttachment(GetMesh());
+	CharacterMappingContext = nullptr;
 }
 
 void ADeprivationCar::BeginPlay()
@@ -73,12 +76,19 @@ void ADeprivationCar::EnterVehicle(APawn* Pawn)
 	bIgnoreNextExit = true;
 	CurrentDriver = Pawn;
 
-	// Отключаем контроль поворота павна контроллером для машины
+	CallVehicleBlueprintExit();
+	
 	Pawn->bUseControllerRotationYaw = false;
 	Pawn->bUseControllerRotationPitch = false;
 	Pawn->bUseControllerRotationRoll = false;
 
-	// Отключаем ориентацию движения для характерного движения
+	if (ACharacter* Character = Cast<ACharacter>(Pawn))
+	{
+		Character->GetMesh()->SetOwnerNoSee(true);
+		Character->SetActorHiddenInGame(true);
+		Character->SetActorEnableCollision(false);
+	}
+
 	if (UCharacterMovementComponent* CharMove = Cast<UCharacterMovementComponent>(
 		Pawn->GetComponentByClass(UCharacterMovementComponent::StaticClass())))
 	{
@@ -129,21 +139,17 @@ void ADeprivationCar::ExitVehicle()
 	CurrentDriver->bUseControllerRotationPitch = true;
 	CurrentDriver->bUseControllerRotationRoll = true;
 
+
 	if (UCharacterMovementComponent* CharMove = Cast<UCharacterMovementComponent>(
 		CurrentDriver->GetComponentByClass(UCharacterMovementComponent::StaticClass())))
 	{
 		CharMove->bOrientRotationToMovement = true;
 		CharMove->bUseControllerDesiredRotation = true;
+
 	}
-
-	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	CallVehicleBlueprintExit();
+	if (APlayerController* PC = Cast<APlayerController>(CurrentDriver->GetController()))
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
-			UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
-		{
-			Subsystem->RemoveMappingContext(VehicleMappingContext);
-		}
-
 		PC->UnPossess();
 		PC->Possess(CurrentDriver);
 	}
@@ -177,22 +183,26 @@ void ADeprivationCar::BindInputActions(UEnhancedInputComponent* EnhancedInput)
 	EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Brake);
 	EnhancedInput->BindAction(BrakeAction, ETriggerEvent::Completed, this, &ADeprivationCar::StopBrake);
 	EnhancedInput->BindAction(ExitAction, ETriggerEvent::Triggered, this, &ADeprivationCar::ExitVehicle);
-	EnhancedInput->BindAction(LockAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Look);
+	EnhancedInput->BindAction(LoockAction, ETriggerEvent::Triggered, this, &ADeprivationCar::Look);
 }
 
 void ADeprivationCar::Look(const FInputActionValue& Value)
 {
-	float PitchInput = Value.Get<float>();
-	float YawInput = Value.Get<float>();
-	CameraYaw += YawInput;
-	CameraYaw = UKismetMathLibrary::NormalizeAxis(CameraYaw);
-	CameraPitch = FMath::Clamp(CameraPitch + PitchInput, MaxPitchDown, MaxPitchUp);
-	UpdateCameraRotation();
+	if (Value.GetValueType() == EInputActionValueType::Axis2D)
+	{
+		FVector2D LookAxis = Value.Get<FVector2D>();
+		float PitchInput = -LookAxis.Y;
+		float YawInput = LookAxis.X;
+		CameraYaw += YawInput;
+		CameraYaw = FMath::Clamp(CameraYaw, -90.0f, 90.0f);	
+		CameraPitch = FMath::Clamp(CameraPitch + PitchInput, MaxPitchDown, MaxPitchUp);
+		UpdateCameraRotation();
+	}
 }
 
 void ADeprivationCar::UpdateCameraRotation() const
 {
-	CameraComponent->SetRelativeRotation(FRotator(CameraPitch, CameraYaw, 0.f));
+		CameraComponent->SetRelativeRotation(FRotator(CameraPitch, CameraYaw, 0.f));
 }
 
 void ADeprivationCar::Accelerate(const FInputActionValue& Value)

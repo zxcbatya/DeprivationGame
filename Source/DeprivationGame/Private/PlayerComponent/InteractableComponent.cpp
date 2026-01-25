@@ -10,7 +10,7 @@
 #include "Interfaces/IWidgetAnimationHandler.h"
 #include "Kismet/GameplayStatics.h"
 
-UInteractableComponent::UInteractableComponent(): CreatedCrosshairWidget(nullptr), 
+UInteractableComponent::UInteractableComponent(): CreatedCrosshairWidget(nullptr),
                                                   CharacterOwner(nullptr),
                                                   ItemHoldSocket(nullptr), HeldItem(nullptr)
 {
@@ -25,7 +25,6 @@ UInteractableComponent::UInteractableComponent(): CreatedCrosshairWidget(nullptr
 	{
 		CrosshairWidgetClass = CrosshairFinder.Class;
 	}
-	
 }
 
 void UInteractableComponent::BeginPlay()
@@ -83,10 +82,10 @@ EInteractionType UInteractableComponent::DetermineInteractionType(AActor* Intera
 AActor* UInteractableComponent::GetInteractableActor() const
 {
 	if (!CharacterOwner) return nullptr;
-	
+
 	if (CharacterOwner->IsInVehicle())
 	{
-		return reinterpret_cast<AActor*>(CharacterOwner->CurrentVehicle);
+		return nullptr;
 	}
 
 	const float MaxInteractionDistance = 250.0f;
@@ -108,7 +107,7 @@ AActor* UInteractableComponent::GetInteractableActor() const
 void UInteractableComponent::Interact()
 {
 	if (!CharacterOwner) return;
-	
+
 	bCanInteract = false;
 
 	AActor* Interactable = GetInteractableActor();
@@ -230,15 +229,15 @@ void UInteractableComponent::SetHoldItem(APickableItemActor* NewItem)
 void UInteractableComponent::DropItem()
 {
 	if (!CharacterOwner || !HeldItem) return;
-	
+
 	HeldItem->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	HeldItem->SetActorEnableCollision(true);
 	HeldItem->SetActorHiddenInGame(false);
 	HeldItem->SetIsHeld(false);
 	HeldItem->ReturnToOriginalPosition();
-	
+
 	HeldItem = nullptr;
-	
+
 	if (CharacterOwner)
 	{
 		CharacterOwner->blsHoldItem = nullptr;
@@ -248,13 +247,13 @@ void UInteractableComponent::DropItem()
 void UInteractableComponent::ShowCrosshair(bool bShow)
 {
 	if (bShow == bIsCrosshairVisible) return;
-	
+
 	bIsCrosshairVisible = bShow;
-	
+
 	if (CreatedCrosshairWidget)
 	{
 		CreatedCrosshairWidget->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-		
+
 		if (bShow)
 		{
 			if (CreatedCrosshairWidget->GetClass()->ImplementsInterface(UWidgetAnimationHandler::StaticClass()))

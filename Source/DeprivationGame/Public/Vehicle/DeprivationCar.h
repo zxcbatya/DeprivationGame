@@ -25,9 +25,19 @@ protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void UnPossessed() override;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
+	void CallVehicleBlueprintEnter();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
+	void CallVehicleBlueprintExit();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta=(AllowPrivateAccess="true"))
+	UCameraComponent* CameraComponent;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputMappingContext* VehicleMappingContext;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputMappingContext* CharacterMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* AccelerateAction;
@@ -44,7 +54,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* ExitAction;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* LockAction;
+	UInputAction* LoockAction;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Vehicle")
@@ -92,8 +102,7 @@ private:
 	bool bIgnoreNextExit = false;
 	bool bControlsLocked = false;
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-	UCameraComponent* CameraComponent;
+
 
 	float CameraPitch;
 	float CameraYaw;

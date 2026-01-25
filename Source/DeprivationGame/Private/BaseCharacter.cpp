@@ -100,7 +100,9 @@ void ABaseCharacter::EnterVehicle(APawn* Vehicle)
 	if (InteractableComponent)
 	{
 		InteractableComponent->ShowCrosshair(false);
+		InteractableComponent->DropItem();
 	}
+	
 	CameraComponent->bUsePawnControlRotation = true;
 	StateComponent->SetState(ECharacterState::InVehicle);
 	CurrentVehicle = Car;
@@ -134,18 +136,24 @@ void ABaseCharacter::ExitVehicle()
 	
 	Cast<ADeprivationCar>(CurrentVehicle)->ExitVehicle();
 	
-	CameraComponent->bUsePawnControlRotation = false;
+	CameraComponent->bUsePawnControlRotation = true;
 	
 	if (UCharacterMovementComponent* MovementComp = GetCharacterMovement())
 	{
 		MovementComp->bOrientRotationToMovement = true;
 		MovementComp->bUseControllerDesiredRotation = true;
-		
+		MovementComp->SetComponentTickEnabled(true);
+		MovementComp->SetMovementMode(MOVE_Walking);
 	}
-	
+	if (InteractableComponent && InteractableComponent->GetHoldItem())
+	{
+		PickUpItem(InteractableComponent->GetHoldItem());
+	}
 	CurrentVehicle = nullptr;
 	StateComponent->SetState(ECharacterState::Normal);
 	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	SetActorEnableCollision(true);
+	SetActorHiddenInGame(false);
 }
 
 void ABaseCharacter::EnterVehicleByTag(FName VehicleTag)
